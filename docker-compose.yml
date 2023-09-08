@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgres://postgres:changeme@db:5432/critboard_db
+    depends_on:
+      - db
+
+  frontend:
+    image: nginx:alpine
+    volumes:
+      - ./frontend/dist:/usr/share/nginx/html
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8080:80"
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: critboard_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: changeme
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  pgdata:

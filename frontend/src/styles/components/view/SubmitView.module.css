@@ -1,0 +1,49 @@
+.hero {
+    border-radius: 8px;
+    background: #efefef;
+    text-align: center;
+    padding: 2.5em;
+    margin-top: 2.5em;
+}
+
+.hero h3 {
+    padding-bottom: 0.5em;
+}
+
+.agreement {
+    max-width: 600px;
+    margin: 0 auto;
+    margin-bottom: 1.5em;
+}
+
+.guideLinesContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 3em;
+    font-size: 20px;
+    font-weight: 300;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    margin-top: 2.5em;
+}
+
+.selectionContainer {
+    display: flex;
+    flex-direction: column;
+    margin: 2.5em 0;
+    gap: 1.5em;
+}
+
+.selectionContainer > * {
+    padding: 0 2em;
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .selectionContainer {
+        flex-direction: row;
+        justify-content: space-around;
+        gap: 0;
+    }
+}

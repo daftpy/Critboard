@@ -1,0 +1,12 @@
+.hero {
+    border-radius: 8px;
+    background: #efefef;
+    overflow: hidden;
+    padding: 1.5em;
+}
+
+.callToAction {
+    font-size: 20px;
+    line-height: 32px;
+    font-weight: 300;
+}

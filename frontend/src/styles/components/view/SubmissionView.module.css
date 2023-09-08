@@ -1,0 +1,71 @@
+.submission {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 3.5em;
+}
+
+.submissionHeader {
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.submissionMeta {
+    display: flex;
+    flex-direction: row;
+    gap: 1.25em;
+    font-family: "Montserrat", sans-serif;
+    margin-top: 0.5em;
+    font-size: 18px;
+    color: #4f4f4f;
+}
+
+.author {
+    font-weight: 700;
+}
+
+.created {
+    font-weight: 500;
+}
+
+.link {
+    font-size: 24px;
+    font-weight: 300;
+    padding: 0.5em 1em;
+    background: #efefef;
+    border-radius: 8px;
+}
+
+.link a {
+    text-decoration: none;
+    color: #525252;
+}
+
+.link a:hover {
+    color: #959595;
+}
+
+.description h4 {
+    color: #4f4f4f;
+}
+
+.description p {
+    margin-top: 0.5em;
+    padding: 0;
+    color: #383838;
+}
+
+.feedbackContainer {
+    margin-top: 1.5em;
+}
+
+.divider {
+    border: 1px solid #dedede;
+    width: 100%;
+}

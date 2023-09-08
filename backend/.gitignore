@@ -1,0 +1,27 @@
+# Compiled Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+/bin/ # if you compile your binaries to a "bin" directory
+
+# Logs and databases
+*.log
+*.sqlite
+
+# OS generated
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Go specific
+*.out
+/go/ # if using a directory for your build
+/vendor/ # if using vendor directory for dependencies
+*.test
+*.test.exe

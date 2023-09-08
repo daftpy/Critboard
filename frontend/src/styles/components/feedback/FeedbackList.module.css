@@ -1,0 +1,18 @@
+.feedbackList {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.feedbackList > * .feedbackList {
+    border-left: 1px solid #dbdbdb;
+    padding-left: 2em;
+}
+
+.feedbackList > .callToAction {
+    display: block;
+}
+
+.feedbackList .callToAction {
+    display: none;
+}

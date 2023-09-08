@@ -1,0 +1,36 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+}
+
+.inputField {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.inputField label {
+    font-weight: 300;
+}
+
+.textArea {
+    border-radius: 8px;
+    border: 0;
+    outline: 1px #6b6b6b solid;
+    padding: 0.5em;
+}
+
+.textArea:focus {
+    outline: 3px #c0c0c0 solid;
+    border: 0;
+
+}
+
+.typeField {
+    border-radius: 0 8px 8px 8px;
+    background: #efefef;
+
+    padding: 2em 2.5em;
+    margin: 0;
+}

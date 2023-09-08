@@ -1,0 +1,15 @@
+# IDEs and editors
+/.idea/
+*.iml
+
+# VS Code directories
+.vscode/
+
+# Environment specific
+.env
+*.env.*
+*.pem
+*.key
+
+# Misc.
+Devnotes.txt
