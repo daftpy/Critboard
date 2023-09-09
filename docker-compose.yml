@@ -13,10 +13,9 @@ services:
       - db
 
   frontend:
-    image: nginx:alpine
-    volumes:
-      - ./frontend/dist:/usr/share/nginx/html
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "8080:80"
 
