@@ -6,6 +6,7 @@ import (
 	"critboard-backend/database/query/querySubmissions"
 	"encoding/json"
 	"net/http"
+	"strconv"
 
 	"github.com/go-chi/chi"
 	"github.com/jackc/pgx/v5"
@@ -50,5 +51,34 @@ func Get(db *pgxpool.Pool) http.HandlerFunc {
 		}
 
 		w.WriteHeader(http.StatusOK)
+	}
+}
+
+func GetRecent(db *pgxpool.Pool) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+
+		countStr := chi.URLParam(r, "count")
+		count, err := strconv.Atoi(countStr)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			json.NewEncoder(w).Encode(map[string]string{"error": "invalid count value"})
+			return
+		}
+
+		submissions, err := querySubmissions.GetRecentSubmissions(r.Context(), db, count)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
+			return
+		}
+
+		if len(submissions) == 0 {
+			w.WriteHeader(http.StatusNoContent)
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(submissions)
 	}
 }

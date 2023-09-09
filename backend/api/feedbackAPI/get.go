@@ -11,7 +11,7 @@ import (
 
 func Get(db *pgxpool.Pool) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		parentID := chi.URLParam(r, "parentID")
+		parentID := chi.URLParam(r, "id")
 
 		feedbacks, err := queryFeedback.GetByParentID(r.Context(), db, parentID)
 		if err != nil {

@@ -8,10 +8,10 @@ interface IFeedbackFormProps {
   commentId: string;
   text?: string;
   addFeedback: (feedback: IFeedback) => void;
-  
+  replyForm?: boolean;
 }
 
-export default function FeedbackForm({ commentId, text, addFeedback }: IFeedbackFormProps) {
+export default function FeedbackForm({ commentId, text, addFeedback, replyForm }: IFeedbackFormProps) {
   const initialData: IFormData = {
     feedbackText: text || "",
     commentId: commentId
@@ -21,7 +21,7 @@ export default function FeedbackForm({ commentId, text, addFeedback }: IFeedback
     formData,
     handleChange,
     handleSubmit
-  } = useFeedbackForm(initialData, addFeedback);
+  } = useFeedbackForm(initialData, addFeedback, replyForm);
 
   return (
     <form style={{overflow: "hidden"}} className={styles.feedbackForm} onSubmit={handleSubmit}>

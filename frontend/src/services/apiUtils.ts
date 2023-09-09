@@ -48,7 +48,7 @@ export async function createSubmission(submissionData: IFormData): Promise<Submi
 
 export async function getSubmission(commentId: string) {
   try {
-    const response = await fetch(`http://localhost:3000/submissions/id/${commentId}`);
+    const response = await fetch(`http://localhost:3000/submissions/${commentId}`);
 
     const clonedResponse = response.clone();
 

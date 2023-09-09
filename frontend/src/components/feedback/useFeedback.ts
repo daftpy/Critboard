@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getFeedback } from "../../services/feedback/getFeedback";
+import { getReplies } from "../../services/feedback/getFeedback";
 import { IFeedback } from "./Feedback";
 import { useFeedbackData } from "./useFeedbackData";
 
@@ -18,7 +18,7 @@ export function useFeedback(feedback: IFeedback) {
 
   const toggleReplies = (id: string) => {
     async function fetchReplies(id: string) {
-      const result = await getFeedback(id);
+      const result = await getReplies(id);
 
       if (result.type === "success") {
         console.log(result);
@@ -43,6 +43,7 @@ export function useFeedback(feedback: IFeedback) {
   const addFeedbackData = (newFeedback: IFeedback) => {
     feedback.replies += 1;
     setFeedbackData([...feedbackData, newFeedback]);
+    setShowForm(false);
   }
 
   return {

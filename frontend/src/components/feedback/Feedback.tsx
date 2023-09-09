@@ -51,7 +51,7 @@ export default function Feedback({ feedback }: IFeedbackProps) {
       </div>
 
       <div className={`${styles.replyForm} ${showForm ? styles.show : null}`}>
-        <FeedbackForm commentId={feedback.commentId} addFeedback={addFeedbackData} />
+        <FeedbackForm commentId={feedback.commentId} addFeedback={addFeedbackData} replyForm={true} />
       </div>
 
       <div className={`${styles.replies} ${showReplies ? styles.show : null}`}>

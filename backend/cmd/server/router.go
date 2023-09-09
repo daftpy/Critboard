@@ -23,9 +23,12 @@ func InitializeRouter(db *pgxpool.Pool) *chi.Mux {
 
 	// Routes
 	r.Post("/submissions/", submissionsAPI.Create(db))
-	r.Get("/submissions/id/{id}", submissionsAPI.Get(db))
-	r.Get("/feedback/{parentID}", feedbackAPI.Get(db))
-	r.Post("/submissions/{id}", feedbackAPI.Create(db))
+	r.Get("/submissions/recent/{count}", submissionsAPI.GetRecent(db))
+	r.Get("/submissions/{id}", submissionsAPI.Get(db))
+	r.Get("/submissions/{id}/feedback", feedbackAPI.Get(db))
+	r.Post("/submissions/{id}/feedback", feedbackAPI.Create(db))
 
+	r.Get("/feedback/{id}/replies", feedbackAPI.Get(db))
+	r.Post("/feedback/{id}/replies", feedbackAPI.Create(db))
 	return r
 }
