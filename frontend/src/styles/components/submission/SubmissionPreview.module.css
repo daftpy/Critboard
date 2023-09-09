@@ -1,0 +1,16 @@
+.preview {
+    display: flex;
+    flex-direction: column;
+}
+
+.preview > * {
+    margin: 0;
+    padding: 0;
+}
+
+.meta {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    margin: 0.25em 0 0.75em 0;
+}
