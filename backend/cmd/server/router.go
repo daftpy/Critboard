@@ -18,6 +18,7 @@ func InitializeRouter(db *pgxpool.Pool) *chi.Mux {
 	r.Use(cors.New(cors.Options{
 		AllowedOrigins:   []string{"*"},
 		AllowCredentials: true,
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "PATCH"},
 		Debug:            true,
 	}).Handler)
 
@@ -28,6 +29,7 @@ func InitializeRouter(db *pgxpool.Pool) *chi.Mux {
 	r.Get("/submissions/{id}/feedback", feedbackAPI.Get(db))
 	r.Post("/submissions/{id}/feedback", feedbackAPI.Create(db))
 
+	r.Patch("/feedback/{id}", feedbackAPI.Update(db))
 	r.Get("/feedback/{id}/replies", feedbackAPI.Get(db))
 	r.Post("/feedback/{id}/replies", feedbackAPI.Create(db))
 	return r

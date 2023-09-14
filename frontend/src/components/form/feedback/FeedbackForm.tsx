@@ -11,9 +11,11 @@ interface IFeedbackFormProps {
   addFeedback: (feedback: IFeedback) => void;
   replyForm?: boolean;
   buttonText?: string;
+  actionType?: "POST" | "UPDATE";
+  updateText?: (text: string) => void;
 }
 
-export default function FeedbackForm({ commentId, text, addFeedback, replyForm, buttonText }: IFeedbackFormProps) {
+export default function FeedbackForm({ commentId, text, addFeedback, replyForm, buttonText, actionType = "POST", updateText }: IFeedbackFormProps) {
   const initialData: IFormData = {
     feedbackText: text || "",
     commentId: commentId
@@ -24,7 +26,7 @@ export default function FeedbackForm({ commentId, text, addFeedback, replyForm, 
     setFormData,
     handleChange,
     handleSubmit
-  } = useFeedbackForm(initialData, addFeedback, replyForm);
+  } = useFeedbackForm({initialData, addFeedback, replyForm, actionType, updateText});
 
 
   useEffect(() => {

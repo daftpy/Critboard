@@ -5,6 +5,7 @@ import { useFeedback } from "./useFeedback";
 import FeedbackList from "./FeedbackList";
 import ReplyButton from "./ReplyButton";
 import Button from "../ui/Button";
+import { useState } from "react";
 
 export interface IFeedback {
     feedbackText: string;
@@ -19,6 +20,7 @@ interface IProps {
 }
 
 export default function Feedback({ feedback }: IProps) {
+  const [feedbackText, setText] = useState<string>(feedback.feedbackText);
 
   const {
     showReplies,
@@ -40,13 +42,15 @@ export default function Feedback({ feedback }: IProps) {
             commentId={feedback.commentId}
             addFeedback={addFeedbackData}
             replyForm={false}
-            text={feedback.feedbackText}
+            text={feedbackText}
             buttonText="Save Edit"
+            actionType="UPDATE"
+            updateText={setText}
           />
         </div>
 
         <div className={`${styles.collapsable} ${editMode ? null : styles.show}`}>
-          <p className={styles.feedbackText}>{feedback.feedbackText}</p>
+          <p className={styles.feedbackText}>{feedbackText}</p>
         </div>
 
       {/* Feedback meta */}

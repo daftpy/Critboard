@@ -7,6 +7,7 @@ export function useFeedback(feedback: IFeedback) {
   const [showReplies, setShowReplies] = useState<boolean>(false);
   const [showForm, setShowForm] = useState<boolean>(false);
   const [editMode, setEditMode] = useState<boolean>(false);
+  
 
   const {
     feedbackData,
@@ -46,10 +47,15 @@ export function useFeedback(feedback: IFeedback) {
   }
 
   const addFeedbackData = (newFeedback: IFeedback) => {
-    feedback.replies += 1;
-    setFeedbackData([...feedbackData, newFeedback]);
-    setShowReplies(true);
-    setShowForm(false);
+    if (editMode) {
+      setEditMode(false);
+      console.log('closing edit form');
+    } else {
+      feedback.replies += 1;
+      setFeedbackData([...feedbackData, newFeedback]);
+      toggleReplies(feedback.commentId);
+      setShowForm(false);
+    }
   }
 
   return {
