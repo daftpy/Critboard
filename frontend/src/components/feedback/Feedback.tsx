@@ -83,7 +83,7 @@ export default function Feedback({ feedback }: IProps) {
       </div>
 
       {/* Replies */}
-      <div>
+      <div className={`${styles.collapsable} ${showReplies ? styles.show : null}`}>
           <FeedbackList feedbacks={feedbackData} />
       </div>
 
