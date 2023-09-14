@@ -39,6 +39,7 @@ export function useFeedbackForm(initialData: IFormData, addFeedback: (feedback: 
 
   return {
     formData,
+    setFormData,
     handleChange,
     handleSubmit
   }

@@ -4,6 +4,7 @@ import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { useFeedback } from "./useFeedback";
 import FeedbackList from "./FeedbackList";
 import ReplyButton from "./ReplyButton";
+import Button from "../ui/Button";
 
 export interface IFeedback {
     feedbackText: string;
@@ -13,16 +14,18 @@ export interface IFeedback {
     commentId: string;
   }
 
-interface IFeedbackProps {
+interface IProps {
   feedback: IFeedback;
 }
-  
-export default function Feedback({ feedback }: IFeedbackProps) {
+
+export default function Feedback({ feedback }: IProps) {
 
   const {
     showReplies,
     showForm,
+    editMode,
     feedbackData,
+    toggleEditMode,
     toggleForm,
     toggleReplies,
     addFeedbackData
@@ -31,14 +34,34 @@ export default function Feedback({ feedback }: IFeedbackProps) {
   return (
     <li className={styles.feedback}>
 
-      <p>{feedback.feedbackText}</p>
+        {/* Feedback and Edit Form */}
+        <div className={`${styles.edit} ${styles.collapsable} ${editMode ? styles.show : null}`}>
+          <FeedbackForm
+            commentId={feedback.commentId}
+            addFeedback={addFeedbackData}
+            replyForm={false}
+            text={feedback.feedbackText}
+            buttonText="Save Edit"
+          />
+        </div>
 
+        <div className={`${styles.collapsable} ${editMode ? null : styles.show}`}>
+          <p className={styles.feedbackText}>{feedback.feedbackText}</p>
+        </div>
+
+      {/* Feedback meta */}
       <div className={styles.meta}>
         <div className={styles.innerMeta}>
           <div className={styles.author}>Author</div>
           <div className={styles.createdAt}>
             {formatDistanceToNow(new Date(feedback.createdAt), { addSuffix: true })}
           </div>
+          <Button
+            message={editMode ? "Cancel" : "Edit"}
+            onClick={toggleEditMode}
+            size="xsmall"
+            style={editMode ? {backgroundColor: "#676767", color: '#f0f0f0'} : {}}
+          />
         </div>
 
         <ReplyButton
@@ -50,14 +73,18 @@ export default function Feedback({ feedback }: IFeedbackProps) {
         />
       </div>
 
-      <div className={`${styles.replyForm} ${showForm ? styles.show : null}`}>
-        <FeedbackForm commentId={feedback.commentId} addFeedback={addFeedbackData} replyForm={true} />
+      {/* Reply Form */}
+      <div className={`${styles.collapsable} ${showForm ? styles.show : null}`}>
+        <FeedbackForm
+          commentId={feedback.commentId}
+          addFeedback={addFeedbackData}
+          replyForm={true}
+        />
       </div>
 
-      <div className={`${styles.replies} ${showReplies ? styles.show : null}`}>
-        <div style={{overflow: "hidden"}}>
+      {/* Replies */}
+      <div>
           <FeedbackList feedbacks={feedbackData} />
-        </div>
       </div>
 
     </li>

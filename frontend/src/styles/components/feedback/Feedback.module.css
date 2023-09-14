@@ -1,13 +1,8 @@
 .feedback {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto auto;
     padding: 1.5em 0 0.5em 0;
     gap: 10px;
-}
-
-.feedback p {
-    margin: 0;
 }
 
 .meta {
@@ -26,24 +21,39 @@
     display: flex;
     flex-direction: row;
     gap: 1em;
+    align-items: center;
 }
 
 .author {
     font-weight: 600;    
 }
 
-.replyForm {
+.collapsable {
     display: grid;
     grid-template-rows: 0fr;
     transition: grid-template-rows 0.5s ease-out;
 }
 
-.replies {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows 0.5s ease-out;
+/* For the grid animation to work, the child must have overflow: hidden; */
+.collapsable > * {
+    overflow: hidden;
 }
 
-.replies.show, .replyForm.show {
+.collapsable.show {
     grid-template-rows: 1fr;
+}
+
+.edit textarea {
+    background: #f0f0f0;
+    color: #505050;
+}
+
+.text {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.5s ease-out;
+}
+
+.feedbackText {
+    margin: 0;
 }

@@ -4,8 +4,9 @@ import { IFeedback } from "./Feedback";
 import { useFeedbackData } from "./useFeedbackData";
 
 export function useFeedback(feedback: IFeedback) {
-  const [showReplies, setShowReplies] = useState(false);
-  const [showForm, setShowForm] = useState(false);
+  const [showReplies, setShowReplies] = useState<boolean>(false);
+  const [showForm, setShowForm] = useState<boolean>(false);
+  const [editMode, setEditMode] = useState<boolean>(false);
 
   const {
     feedbackData,
@@ -14,6 +15,10 @@ export function useFeedback(feedback: IFeedback) {
 
   const toggleForm = () => {
     setShowForm(!showForm);
+  }
+
+  const toggleEditMode = () => {
+    setEditMode(!editMode);
   }
 
   const toggleReplies = (id: string) => {
@@ -43,13 +48,16 @@ export function useFeedback(feedback: IFeedback) {
   const addFeedbackData = (newFeedback: IFeedback) => {
     feedback.replies += 1;
     setFeedbackData([...feedbackData, newFeedback]);
+    setShowReplies(true);
     setShowForm(false);
   }
 
   return {
     showReplies,
     showForm,
+    editMode,
     feedbackData,
+    toggleEditMode,
     toggleForm,
     toggleReplies,
     addFeedbackData

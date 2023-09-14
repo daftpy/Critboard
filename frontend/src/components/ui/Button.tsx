@@ -4,7 +4,7 @@ import styles from "../../styles/components/ui/Button.module.css"
 interface ButtonProps {
   onClick?: () => void;
   message?: string;
-  size?: 'small' | 'large';
+  size?: 'xsmall' | 'small' | 'large';
   style?: React.CSSProperties;
 }
 
