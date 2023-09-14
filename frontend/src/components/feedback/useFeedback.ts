@@ -53,7 +53,9 @@ export function useFeedback(feedback: IFeedback) {
     } else {
       feedback.replies += 1;
       setFeedbackData([...feedbackData, newFeedback]);
-      toggleReplies(feedback.commentId);
+      if (!showReplies) {
+        toggleReplies(feedback.commentId);
+      }
       setShowForm(false);
     }
   }
