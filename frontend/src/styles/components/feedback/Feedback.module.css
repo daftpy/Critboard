@@ -1,11 +1,8 @@
 .feedback {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 10px;
-}
-
-.feedback .feedback {
     padding: 1.5em 0 0.5em 0;
+    gap: 10px;
 }
 
 .meta {
