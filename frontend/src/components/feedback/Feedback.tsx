@@ -6,6 +6,7 @@ import FeedbackList from "./FeedbackList";
 import ReplyButton from "./ReplyButton";
 import Button from "../ui/Button";
 import { useState } from "react";
+import DeleteButton from "./DeleteButton";
 
 export interface IFeedback {
     feedbackText: string;
@@ -66,6 +67,7 @@ export default function Feedback({ feedback }: IProps) {
             size="xsmall"
             style={editMode ? {backgroundColor: "#676767", color: '#f0f0f0'} : {}}
           />
+          <DeleteButton  removeFeedback={() => null} />
         </div>
 
         <ReplyButton
