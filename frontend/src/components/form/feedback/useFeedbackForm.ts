@@ -24,7 +24,6 @@ export function useFeedbackForm({
     const { name, value } = e.target;
     console.log("Handling change");
 
-    // Update formData based on the input name and value.
     setFormData(prevState => ({
       ...prevState,
       [name]: value
@@ -43,20 +42,12 @@ export function useFeedbackForm({
 
     if (response.type === "success") {
       console.log(response.message, response.feedback);
-      let newText = response.feedback.feedbackText;
-      console.log('update response', newText);
       onSubmit(response.feedback);
-      if (replyForm) {
-        setFormData(prevState => ({
-          ...prevState,
-          feedbackText: ""
-        }))
-      } else {
-        setFormData(prevState => ({
-          ...prevState,
-          feedbackText: newText
-        }))
-      }
+
+      setFormData(prevState => ({
+        ...prevState,
+        feedbackText: ""
+      }));
     } else {
       console.log(response.errors);
     }
