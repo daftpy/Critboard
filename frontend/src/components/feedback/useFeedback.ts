@@ -7,7 +7,16 @@ import { MetaProps } from "./FeedbackMeta";
 import { DeleteButtonProps } from "../ui/feedback/DeleteButton";
 import { EditButtonProps } from "../ui/feedback/EditButton";
 
-export function useFeedback(feedback: FeedbackData) {
+type EditFormProps = {
+  commentId: string;
+  text: string;
+  replyForm: false;
+  buttonText: string;
+  actionType: "POST" | "UPDATE";
+  onSubmit: (updatedFeedback: FeedbackData) => void;
+}
+
+export function useFeedback(feedback: FeedbackData, updateFeedback: (updatedFeedback: FeedbackData) => void) {
   const [showReplies, setShowReplies] = useState<boolean>(false);
   const [showForm, setShowForm] = useState<boolean>(false);
   const [editMode, setEditMode] = useState<boolean>(false);
@@ -109,6 +118,17 @@ export function useFeedback(feedback: FeedbackData) {
     }
   }
 
+  const getEditFormProps = (): EditFormProps => {
+    return {
+      commentId: feedback.commentId,
+      text: feedback.feedbackText,
+      replyForm: false,
+      buttonText: "Save Edit",
+      actionType: "UPDATE",
+      onSubmit: updateFeedback
+    }
+  }
+
   return {
     showReplies,
     showForm,
@@ -119,5 +139,6 @@ export function useFeedback(feedback: FeedbackData) {
     toggleReplies,
     addFeedback,
     getMetaProps,
+    getEditFormProps
   }
 }

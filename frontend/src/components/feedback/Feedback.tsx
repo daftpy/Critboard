@@ -27,21 +27,15 @@ export default function Feedback({ feedback, updateFeedback }: Props) {
     addFeedback,
     updateFeedbackData,
     getMetaProps,
-  } = useFeedback(feedback);
+    getEditFormProps
+  } = useFeedback(feedback, updateFeedback);
 
   return (
     <li className={styles.feedback}>
 
         {/* Feedback and Edit Form */}
         <div className={`${styles.edit} ${styles.collapsable} ${editMode ? styles.show : null}`}>
-          <FeedbackForm
-            commentId={feedback.commentId}
-            onSubmit={updateFeedback}
-            replyForm={false}
-            text={feedback.feedbackText}
-            buttonText="Save Edit"
-            actionType="UPDATE"
-          />
+          <FeedbackForm {...getEditFormProps()}          />
         </div>
 
         <div className={`${styles.collapsable} ${editMode ? null : styles.show}`}>
