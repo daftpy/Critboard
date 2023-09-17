@@ -1,10 +1,10 @@
-import { IFeedback } from "./Feedback"
+import { FeedbackData } from "./Feedback"
 import { useState } from "react";
 
 export function useFeedbackData() {
-  const [feedbackData, setFeedbackData] = useState<IFeedback[]>([]);
+  const [feedbackData, setFeedbackData] = useState<FeedbackData[]>([]);
 
-  const addFeedbackData = (newFeedback: IFeedback | IFeedback[]) => {
+  const addFeedbackData = (newFeedback: FeedbackData | FeedbackData[]) => {
     console.log("adding to state")
     if (Array.isArray(newFeedback)) {
       setFeedbackData([...feedbackData, ...newFeedback]);
@@ -13,7 +13,7 @@ export function useFeedbackData() {
     }
   }
 
-  const updateFeedbackData = (updatedFeedback: IFeedback) => {
+  const updateFeedbackData = (updatedFeedback: FeedbackData) => {
     console.log("updating state");
     setFeedbackData(prevFeedbacks =>
       prevFeedbacks.map(feedback => 

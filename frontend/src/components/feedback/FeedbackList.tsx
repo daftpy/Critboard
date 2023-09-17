@@ -1,10 +1,10 @@
-import Feedback, { IFeedback } from "./Feedback";
+import Feedback, { FeedbackData } from "./Feedback";
 import styles from "../../styles/components/feedback/FeedbackList.module.css"
 import { compareDesc, parseISO } from "date-fns";
 
 interface IFeedbackListProps {
-  feedbacks?: IFeedback[];
-  updateFeedback: (updatedFeedback: IFeedback) => void;
+  feedbacks?: FeedbackData[];
+  updateFeedback: (updatedFeedback: FeedbackData) => void;
 }
 
 export default function FeedbackList({ feedbacks, updateFeedback }: IFeedbackListProps) {
@@ -16,7 +16,7 @@ export default function FeedbackList({ feedbacks, updateFeedback }: IFeedbackLis
     <>
       {feedbacks && feedbacks.length > 0 ? (
         <ul className={styles.feedbackList}>
-          {sortedFeedbacks.map((feedback: IFeedback) => (
+          {sortedFeedbacks.map((feedback: FeedbackData) => (
             <Feedback key={feedback.commentId} feedback={feedback} updateFeedback={updateFeedback} />
           ))}
         </ul>

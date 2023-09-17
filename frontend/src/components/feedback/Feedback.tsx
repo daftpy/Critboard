@@ -4,7 +4,7 @@ import { useFeedback } from "./useFeedback";
 import FeedbackList from "./FeedbackList";
 import FeedbackMeta from "./FeedbackMeta";
 
-export interface IFeedback {
+export type FeedbackData = {
     feedbackText: string;
     createdAt: string;
     updatedAt: string;
@@ -12,12 +12,12 @@ export interface IFeedback {
     commentId: string;
   }
 
-interface IProps {
-  feedback: IFeedback;
-  updateFeedback: (updatedFeedback: IFeedback) => void;
+type Props = {
+  feedback: FeedbackData;
+  updateFeedback: (updatedFeedback: FeedbackData) => void;
 }
 
-export default function Feedback({ feedback, updateFeedback }: IProps) {
+export default function Feedback({ feedback, updateFeedback }: Props) {
 
   const {
     showReplies,

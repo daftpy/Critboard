@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { getReplies } from "../../services/feedback/getFeedback";
-import { IFeedback } from "./Feedback";
+import { FeedbackData } from "./Feedback";
 import { useFeedbackData } from "./useFeedbackData";
 import { ReplyButtonProps } from "../ui/feedback/ReplyButton";
 import { MetaProps } from "./FeedbackMeta";
 import { DeleteButtonProps } from "../ui/feedback/DeleteButton";
 import { EditButtonProps } from "../ui/feedback/EditButton";
 
-export function useFeedback(feedback: IFeedback) {
+export function useFeedback(feedback: FeedbackData) {
   const [showReplies, setShowReplies] = useState<boolean>(false);
   const [showForm, setShowForm] = useState<boolean>(false);
   const [editMode, setEditMode] = useState<boolean>(false);
@@ -52,7 +52,7 @@ export function useFeedback(feedback: IFeedback) {
     }
   }
 
-  const addFeedback = (newFeedback: IFeedback) => {
+  const addFeedback = (newFeedback: FeedbackData) => {
     if (editMode) {
       setEditMode(false);
       console.log('closing edit form');

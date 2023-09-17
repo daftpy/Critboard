@@ -1,13 +1,13 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { IFormData, createFeedback, createReply } from "../../../services/feedback/createFeedback";
-import { IFeedback } from "../../feedback/Feedback";
+import { FeedbackData } from "../../feedback/Feedback";
 import { updateFeedback } from "../../../services/feedback/updateFeedback";
 
 type ActionType = "POST" | "UPDATE" | "DELETE";
 
 interface IProps {
   initialData: IFormData,
-  onSubmit: (feedback: IFeedback) => void;
+  onSubmit: (feedback: FeedbackData) => void;
   replyForm?: boolean;
   actionType?: ActionType;
 }
