@@ -1,6 +1,6 @@
-import styles from "../../styles/components/feedback/ReplyButton.module.css"
+import styles from "../../../styles/components/feedback/ReplyButton.module.css"
 
-interface IReplyButtonProps {
+export type ReplyButtonProps = {
   toggleReplies: () => void;
   toggleForm: () => void;
   replyCount: number;
@@ -8,7 +8,7 @@ interface IReplyButtonProps {
   showReplies: boolean;
 }
 
-export default function ReplyButton({ toggleReplies, toggleForm, replyCount, showForm, showReplies}: IReplyButtonProps) {
+export default function ReplyButton({ toggleReplies, toggleForm, replyCount, showForm, showReplies}: ReplyButtonProps) {
   return (
     <>
     {showReplies ? (

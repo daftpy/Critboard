@@ -1,6 +1,7 @@
 .wrapper {
     width: fit-content;
     font-size: 11px;
+    white-space: nowrap;
 }
 
 .wrapper button {

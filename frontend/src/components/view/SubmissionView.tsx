@@ -15,7 +15,6 @@ export default function SubmissionView() {
   const [submissionData, setSubmissionData] = useState(location.state?.submissionData);
   const {
     feedbackData,
-    setFeedbackData,
     addFeedbackData
   } = useFeedbackData();
 
@@ -27,7 +26,8 @@ export default function SubmissionView() {
         console.log(result);
         setSubmissionData(result.submission);
         if (result.feedback) {
-          setFeedbackData(result.feedback);
+          console.log("adding feeedbacks");
+          addFeedbackData(result.feedback);
         }
       });
     }

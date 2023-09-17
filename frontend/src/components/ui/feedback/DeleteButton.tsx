@@ -1,12 +1,13 @@
-import { useState } from "react";
-import Button from "../ui/Button";
+import Button from "../Button";
 
-interface IProps {
-  removeFeedback?: () => void;
+export type DeleteButtonProps = {
+  onClick: () => void;
+  confirm: boolean;
+  setConfirm: (confirm: boolean) => void;
 }
 
-export default function DeleteButton({ removeFeedback }: IProps) {
-  const [confirm, setConfirm] = useState<boolean>(false);
+export default function DeleteButton({ onClick, confirm, setConfirm }: DeleteButtonProps) {
+
   return (
     <>
       {confirm ? (
@@ -17,7 +18,7 @@ export default function DeleteButton({ removeFeedback }: IProps) {
           <Button
             message="Yes"
             size="xsmall"
-            onClick={() => setConfirm(true)}
+            onClick={onClick}
           />
           <Button
             message="Cancel"

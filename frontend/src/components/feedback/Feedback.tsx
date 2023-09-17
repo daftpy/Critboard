@@ -1,12 +1,9 @@
 import styles from "../../styles/components/feedback/Feedback.module.css"
 import FeedbackForm from "../form/feedback/FeedbackForm";
-import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { useFeedback } from "./useFeedback";
 import FeedbackList from "./FeedbackList";
-import ReplyButton from "./ReplyButton";
-import Button from "../ui/Button";
 import { useState } from "react";
-import DeleteButton from "./DeleteButton";
+import FeedbackMeta from "./FeedbackMeta";
 
 export interface IFeedback {
     feedbackText: string;
@@ -28,10 +25,8 @@ export default function Feedback({ feedback }: IProps) {
     showForm,
     editMode,
     feedbackData,
-    toggleEditMode,
-    toggleForm,
-    toggleReplies,
-    addFeedbackData
+    addFeedback,
+    getMetaProps,
   } = useFeedback(feedback);
 
   return (
@@ -41,7 +36,7 @@ export default function Feedback({ feedback }: IProps) {
         <div className={`${styles.edit} ${styles.collapsable} ${editMode ? styles.show : null}`}>
           <FeedbackForm
             commentId={feedback.commentId}
-            addFeedback={addFeedbackData}
+            addFeedback={addFeedback}
             replyForm={false}
             text={feedbackText}
             buttonText="Save Edit"
@@ -55,35 +50,13 @@ export default function Feedback({ feedback }: IProps) {
         </div>
 
       {/* Feedback meta */}
-      <div className={styles.meta}>
-        <div className={styles.innerMeta}>
-          <div className={styles.author}>Author</div>
-          <div className={styles.createdAt}>
-            {formatDistanceToNow(new Date(feedback.createdAt), { addSuffix: true })}
-          </div>
-          <Button
-            message={editMode ? "Cancel" : "Edit"}
-            onClick={toggleEditMode}
-            size="xsmall"
-            style={editMode ? {backgroundColor: "#676767", color: '#f0f0f0'} : {}}
-          />
-          <DeleteButton  removeFeedback={() => null} />
-        </div>
-
-        <ReplyButton
-          toggleForm={toggleForm}
-          replyCount={feedback.replies}
-          showForm={showForm}
-          toggleReplies={() => toggleReplies(feedback.commentId)}
-          showReplies={showReplies}
-        />
-      </div>
+      <FeedbackMeta {...getMetaProps()} />
 
       {/* Reply Form */}
       <div className={`${styles.collapsable} ${showForm ? styles.show : null}`}>
         <FeedbackForm
           commentId={feedback.commentId}
-          addFeedback={addFeedbackData}
+          addFeedback={addFeedback}
           replyForm={true}
         />
       </div>

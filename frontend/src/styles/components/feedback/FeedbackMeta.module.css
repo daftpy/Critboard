@@ -1,0 +1,57 @@
+.meta {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 1.25em 0 0.5em 0;
+
+    font-family: "Montserrat", sans-serif;
+    font-size: 12px;
+    color: #565656;
+}
+
+.innerMeta {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    align-items: center;
+    flex-wrap: wrap;
+    padding-right: 1em;
+}
+
+.author {
+    font-weight: 600;
+}
+
+.createdAt {
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.collapsable {
+    display: grid;
+    grid-template-columns: 1fr;
+    transition: grid-template-columns 0.5s ease-out;  
+}
+
+.author > * {
+    overflow: hidden;
+}
+
+.collapse {
+    grid-template-columns: 0fr;
+}
+
+.collapseWrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1em;
+    overflow: hidden;
+}

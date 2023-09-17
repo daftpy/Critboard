@@ -1,3 +1,5 @@
+import { IFeedback } from "../../components/feedback/Feedback";
+
 export async function getSubmissionFeedback(commentId: string) {
   try {
     const response = await fetch(`http://localhost:3000/submission/${commentId}/feedback`, {
@@ -24,7 +26,19 @@ export async function getSubmissionFeedback(commentId: string) {
   }
 }
 
-export async function getReplies(commentId: string) {
+type SuccessResponse = {
+  type: "success";
+  feedback: IFeedback[];
+}
+
+type ErrorResponse = {
+  type: "error";
+  errors: string[]
+}
+
+type GetResponse = SuccessResponse | ErrorResponse;
+
+export async function getReplies(commentId: string): Promise<GetResponse> {
   try {
     const response = await fetch(`http://localhost:3000/feedback/${commentId}/replies`, {
       method: "GET",
