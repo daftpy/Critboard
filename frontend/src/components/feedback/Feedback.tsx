@@ -34,11 +34,11 @@ export default function Feedback({ feedback, updateFeedback }: Props) {
     <li className={styles.feedback}>
 
         {/* Feedback and Edit Form */}
-        <div className={`${styles.edit} ${styles.collapsable} ${editMode ? styles.show : null}`}>
+        <div className={`${styles.edit} ${styles.collapsable} ${editMode && styles.show}`}>
           <FeedbackForm {...getEditFormProps()} />
         </div>
 
-        <div className={`${styles.collapsable} ${editMode ? null : styles.show}`}>
+        <div className={`${styles.collapsable} ${!editMode && styles.show}`}>
           <p className={styles.feedbackText}>{feedback.feedbackText}</p>
         </div>
 
@@ -46,7 +46,7 @@ export default function Feedback({ feedback, updateFeedback }: Props) {
       <FeedbackMeta {...getMetaProps()} />
 
       {/* Reply Form */}
-      <div className={`${styles.collapsable} ${showForm ? styles.show : null}`}>
+      <div className={`${styles.collapsable} ${showForm && styles.show}`}>
         <FeedbackForm
           commentId={feedback.commentId}
           onSubmit={addFeedback}
@@ -55,7 +55,7 @@ export default function Feedback({ feedback, updateFeedback }: Props) {
       </div>
 
       {/* Replies */}
-      <div className={`${styles.collapsable} ${showReplies ? styles.show : null}`}>
+      <div className={`${styles.collapsable} ${showReplies && styles.show}`}>
           <FeedbackList feedbacks={feedbackData} updateFeedback={updateFeedbackData} />
       </div>
 
