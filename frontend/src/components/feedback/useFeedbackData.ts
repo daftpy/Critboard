@@ -17,7 +17,9 @@ export function useFeedbackData() {
     console.log("updating state");
     setFeedbackData(prevFeedbacks =>
       prevFeedbacks.map(feedback => 
-        feedback.commentId === updatedFeedback.commentId ? updatedFeedback : feedback
+        feedback.commentId === updatedFeedback.commentId 
+          ? { ...feedback, ...updatedFeedback, replies: feedback.replies }
+          : feedback
       )
     );
   }

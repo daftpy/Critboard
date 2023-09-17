@@ -3,7 +3,7 @@ import { IFormData, createFeedback, createReply } from "../../../services/feedba
 import { FeedbackData } from "../../feedback/Feedback";
 import { updateFeedback } from "../../../services/feedback/updateFeedback";
 
-type ActionType = "POST" | "UPDATE" | "DELETE";
+export type ActionType = "POST" | "UPDATE" | "DELETE";
 
 interface IProps {
   initialData: IFormData,

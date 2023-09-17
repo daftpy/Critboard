@@ -6,13 +6,13 @@ import { ReplyButtonProps } from "../ui/feedback/ReplyButton";
 import { MetaProps } from "./FeedbackMeta";
 import { DeleteButtonProps } from "../ui/feedback/DeleteButton";
 import { EditButtonProps } from "../ui/feedback/EditButton";
+import { ActionType } from "../form/feedback/useFeedbackForm";
 
 type EditFormProps = {
   commentId: string;
   text: string;
-  replyForm: false;
   buttonText: string;
-  actionType: "POST" | "UPDATE";
+  actionType: ActionType;
   onSubmit: (updatedFeedback: FeedbackData) => void;
 }
 
@@ -122,10 +122,12 @@ export function useFeedback(feedback: FeedbackData, updateFeedback: (updatedFeed
     return {
       commentId: feedback.commentId,
       text: feedback.feedbackText,
-      replyForm: false,
       buttonText: "Save Edit",
       actionType: "UPDATE",
-      onSubmit: updateFeedback
+      onSubmit: (data: FeedbackData) => {
+        updateFeedback(data);
+        toggleEditMode();
+      }
     }
   }
 

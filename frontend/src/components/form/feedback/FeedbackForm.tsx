@@ -1,4 +1,4 @@
-import { useFeedbackForm } from "./useFeedbackForm";
+import { ActionType, useFeedbackForm } from "./useFeedbackForm";
 import { IFormData } from "../../../services/feedback/createFeedback";
 import styles from "../../../styles/components/form/feedback/FeedbackForm.module.css"
 import Button from "../../ui/Button";
@@ -11,7 +11,7 @@ interface IFeedbackFormProps {
   onSubmit: (feedback: FeedbackData) => void;
   replyForm?: boolean;
   buttonText?: string;
-  actionType?: "POST" | "UPDATE";
+  actionType?: ActionType;
 }
 
 export default function FeedbackForm({ commentId, text, onSubmit, replyForm, buttonText, actionType = "POST"}: IFeedbackFormProps) {

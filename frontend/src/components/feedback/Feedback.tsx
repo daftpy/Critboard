@@ -35,7 +35,7 @@ export default function Feedback({ feedback, updateFeedback }: Props) {
 
         {/* Feedback and Edit Form */}
         <div className={`${styles.edit} ${styles.collapsable} ${editMode ? styles.show : null}`}>
-          <FeedbackForm {...getEditFormProps()}          />
+          <FeedbackForm {...getEditFormProps()} />
         </div>
 
         <div className={`${styles.collapsable} ${editMode ? null : styles.show}`}>
