@@ -16,7 +16,8 @@ export function useFeedback(feedback: IFeedback) {
   const {
     feedbackData,
     setFeedbackData,
-    addFeedbackData
+    addFeedbackData,
+    updateFeedbackData
   } = useFeedbackData();
 
   const toggleForm = () => {
@@ -113,6 +114,7 @@ export function useFeedback(feedback: IFeedback) {
     showForm,
     editMode,
     feedbackData,
+    updateFeedbackData,
     toggleForm,
     toggleReplies,
     addFeedback,

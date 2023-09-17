@@ -7,18 +7,16 @@ type ActionType = "POST" | "UPDATE" | "DELETE";
 
 interface IProps {
   initialData: IFormData,
-  addFeedback: (feedback: IFeedback) => void;
+  onSubmit: (feedback: IFeedback) => void;
   replyForm?: boolean;
   actionType?: ActionType;
-  updateText?: (text: string) => void;
 }
 
 export function useFeedbackForm({
   initialData,
-  addFeedback,
+  onSubmit,
   replyForm = false,
   actionType = "POST",
-  updateText
 }: IProps) {
   const [formData, setFormData] = useState<IFormData>(initialData);
 
@@ -46,9 +44,8 @@ export function useFeedbackForm({
     if (response.type === "success") {
       console.log(response.message, response.feedback);
       let newText = response.feedback.feedbackText;
-      updateText ? updateText(newText): null;
       console.log('update response', newText);
-      addFeedback(response.feedback);
+      onSubmit(response.feedback);
       if (replyForm) {
         setFormData(prevState => ({
           ...prevState,

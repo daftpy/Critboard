@@ -8,14 +8,13 @@ import { useEffect } from "react";
 interface IFeedbackFormProps {
   commentId: string;
   text?: string;
-  addFeedback: (feedback: IFeedback) => void;
+  onSubmit: (feedback: IFeedback) => void;
   replyForm?: boolean;
   buttonText?: string;
   actionType?: "POST" | "UPDATE";
-  updateText?: (text: string) => void;
 }
 
-export default function FeedbackForm({ commentId, text, addFeedback, replyForm, buttonText, actionType = "POST", updateText }: IFeedbackFormProps) {
+export default function FeedbackForm({ commentId, text, onSubmit, replyForm, buttonText, actionType = "POST"}: IFeedbackFormProps) {
   const initialData: IFormData = {
     feedbackText: text || "",
     commentId: commentId
@@ -26,7 +25,7 @@ export default function FeedbackForm({ commentId, text, addFeedback, replyForm, 
     setFormData,
     handleChange,
     handleSubmit
-  } = useFeedbackForm({initialData, addFeedback, replyForm, actionType, updateText});
+  } = useFeedbackForm({initialData, onSubmit, replyForm, actionType});
 
 
   useEffect(() => {
