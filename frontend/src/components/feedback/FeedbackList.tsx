@@ -5,9 +5,10 @@ import { compareDesc, parseISO } from "date-fns";
 interface IFeedbackListProps {
   feedbacks?: FeedbackData[];
   updateFeedback: (updatedFeedback: FeedbackData) => void;
+  incrementReply: (commentId: string) => void;
 }
 
-export default function FeedbackList({ feedbacks, updateFeedback }: IFeedbackListProps) {
+export default function FeedbackList({ feedbacks, updateFeedback, incrementReply }: IFeedbackListProps) {
   const sortedFeedbacks = feedbacks ? [...feedbacks].sort((a, b) => {
     return compareDesc(parseISO(a.createdAt), parseISO(b.createdAt));
   }) : [];
@@ -17,7 +18,7 @@ export default function FeedbackList({ feedbacks, updateFeedback }: IFeedbackLis
       {feedbacks && feedbacks.length > 0 ? (
         <ul className={styles.feedbackList}>
           {sortedFeedbacks.map((feedback: FeedbackData) => (
-            <Feedback key={feedback.commentId} feedback={feedback} updateFeedback={updateFeedback} />
+            <Feedback key={feedback.commentId} feedback={feedback} updateFeedback={updateFeedback} incrementReply={incrementReply} />
           ))}
         </ul>
       ) : (

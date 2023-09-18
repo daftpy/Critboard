@@ -16,7 +16,7 @@ type EditFormProps = {
   onSubmit: (updatedFeedback: FeedbackData) => void;
 }
 
-export function useFeedback(feedback: FeedbackData, updateFeedback: (updatedFeedback: FeedbackData) => void) {
+export function useFeedback(feedback: FeedbackData, updateFeedback: (updatedFeedback: FeedbackData) => void, incrementReply: (commentId: string) => void) {
   const [showReplies, setShowReplies] = useState<boolean>(false);
   const [showForm, setShowForm] = useState<boolean>(false);
   const [editMode, setEditMode] = useState<boolean>(false);
@@ -26,7 +26,8 @@ export function useFeedback(feedback: FeedbackData, updateFeedback: (updatedFeed
     feedbackData,
     setFeedbackData,
     addFeedbackData,
-    updateFeedbackData
+    updateFeedbackData,
+    incrementReplyCount
   } = useFeedbackData();
 
   const toggleForm = () => {
@@ -66,7 +67,7 @@ export function useFeedback(feedback: FeedbackData, updateFeedback: (updatedFeed
       setEditMode(false);
       console.log('closing edit form');
     } else {
-      feedback.replies += 1;
+      incrementReply(feedback.commentId);
       addFeedbackData(newFeedback);
       if (!showReplies) {
         toggleReplies();
@@ -137,6 +138,7 @@ export function useFeedback(feedback: FeedbackData, updateFeedback: (updatedFeed
     editMode,
     feedbackData,
     updateFeedbackData,
+    incrementReplyCount,
     toggleForm,
     toggleReplies,
     addFeedback,

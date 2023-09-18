@@ -16,7 +16,8 @@ export default function SubmissionView() {
   const {
     feedbackData,
     addFeedbackData,
-    updateFeedbackData
+    updateFeedbackData,
+    incrementReplyCount
   } = useFeedbackData();
 
   useEffect(() => {
@@ -59,9 +60,9 @@ export default function SubmissionView() {
           </div>
           <div className={styles.feedbackContainer}>
             <h2 style={{fontSize: "28px", marginBottom: "0.5em"}}>Feedback</h2>
-            <FeedbackForm commentId={submissionData.commentId} onSubmit={addFeedbackData} />
+            <FeedbackForm commentId={submissionData.commentId} onSubmit={addFeedbackData}  />
             <div style={{marginTop: "2.5em"}}>
-              <FeedbackList feedbacks={feedbackData} updateFeedback={updateFeedbackData} />
+              <FeedbackList feedbacks={feedbackData} updateFeedback={updateFeedbackData} incrementReply={incrementReplyCount} />
             </div>
           </div>
         </>

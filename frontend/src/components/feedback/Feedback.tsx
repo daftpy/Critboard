@@ -15,9 +15,10 @@ export type FeedbackData = {
 type Props = {
   feedback: FeedbackData;
   updateFeedback: (updatedFeedback: FeedbackData) => void;
+  incrementReply: (commentId: string) => void;
 }
 
-export default function Feedback({ feedback, updateFeedback }: Props) {
+export default function Feedback({ feedback, updateFeedback, incrementReply }: Props) {
 
   const {
     showReplies,
@@ -26,9 +27,10 @@ export default function Feedback({ feedback, updateFeedback }: Props) {
     feedbackData,
     addFeedback,
     updateFeedbackData,
+    incrementReplyCount,
     getMetaProps,
     getEditFormProps
-  } = useFeedback(feedback, updateFeedback);
+  } = useFeedback(feedback, updateFeedback, incrementReply);
 
   return (
     <li className={styles.feedback}>
@@ -56,7 +58,7 @@ export default function Feedback({ feedback, updateFeedback }: Props) {
 
       {/* Replies */}
       <div className={`${styles.collapsable} ${showReplies && styles.show}`}>
-          <FeedbackList feedbacks={feedbackData} updateFeedback={updateFeedbackData} />
+          <FeedbackList feedbacks={feedbackData} updateFeedback={updateFeedbackData} incrementReply={incrementReplyCount} />
       </div>
 
     </li>

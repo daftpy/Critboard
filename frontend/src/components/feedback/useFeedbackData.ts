@@ -24,10 +24,22 @@ export function useFeedbackData() {
     );
   }
 
+  const incrementReplyCount = (commentId: string) => {
+    console.log("incrementing reply count");
+    setFeedbackData(prevFeedbacks =>
+      prevFeedbacks.map(feedback => 
+        feedback.commentId === commentId 
+          ? { ...feedback, replies: feedback.replies + 1 }
+          : feedback
+      )
+    );
+  }
+
   return {
     feedbackData,
     setFeedbackData,
     addFeedbackData,
-    updateFeedbackData
+    updateFeedbackData,
+    incrementReplyCount
   }
 }
