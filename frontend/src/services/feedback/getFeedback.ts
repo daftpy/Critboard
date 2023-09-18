@@ -1,4 +1,4 @@
-import { IFeedback } from "../../components/feedback/Feedback";
+import { FeedbackData } from "../../components/feedback/Feedback";
 
 export async function getSubmissionFeedback(commentId: string) {
   try {
@@ -28,7 +28,7 @@ export async function getSubmissionFeedback(commentId: string) {
 
 type SuccessResponse = {
   type: "success";
-  feedback: IFeedback[];
+  feedback: FeedbackData[];
 }
 
 type ErrorResponse = {
