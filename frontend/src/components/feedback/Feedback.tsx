@@ -10,6 +10,7 @@ export type FeedbackData = {
     updatedAt: string;
     replies: number;
     commentId: string;
+    removed: boolean;
   }
 
 type Props = {

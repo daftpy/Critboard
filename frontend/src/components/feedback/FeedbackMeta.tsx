@@ -10,6 +10,7 @@ export type MetaProps = {
   edit: EditButtonProps;
   remove: DeleteButtonProps;
   reply: ReplyButtonProps;
+  removed: boolean;
 }
 
 export default function FeedbackMeta(props: MetaProps) {
@@ -18,10 +19,13 @@ export default function FeedbackMeta(props: MetaProps) {
     createdAt,
     edit,
     remove,
-    reply
+    reply,
+    removed
   } = props;
 
   const { confirm } = remove;
+
+  console.log('removed value? ', removed);
 
   return (
     <div className={styles.meta}>
@@ -34,10 +38,10 @@ export default function FeedbackMeta(props: MetaProps) {
             <div className={`${styles.createdAt} ${styles.ellipsis}`}>
               {formatDistanceToNow(new Date(createdAt), { addSuffix: true })}
             </div>
-            <EditButton {...edit} />
+            {!removed && <EditButton {...edit} /> }
           </div>
         </div>
-        <DeleteButton {...remove} />
+        {!removed && <DeleteButton {...remove} />}
       </div>
       <ReplyButton {...reply} />
     </div>

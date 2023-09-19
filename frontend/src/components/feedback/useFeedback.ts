@@ -108,6 +108,8 @@ export function useFeedback(feedback: FeedbackData, updateFeedback: (updatedFeed
     };
   }
 
+  console.log('hook removed value?', feedback.removed);
+
   const getMetaProps = (): MetaProps => {
     const { edit, remove, reply } = getButtonProps();
     return {
@@ -115,7 +117,8 @@ export function useFeedback(feedback: FeedbackData, updateFeedback: (updatedFeed
       remove,
       reply,
       createdAt: feedback.createdAt,
-      author: "author"
+      author: "author",
+      removed: feedback.removed
     };
   };  
 

@@ -18,7 +18,8 @@ func GetByParentID(ctx context.Context, db *pgxpool.Pool, parentID string) ([]*c
                 ELSE f1.feedback_text
             END AS feedback_text, 
             f1.created_at, 
-            COUNT(f2.commentable_id) as reply_count
+            COUNT(f2.commentable_id) as reply_count,
+			f1.deleted
         FROM feedback f1
         LEFT JOIN feedback f2 ON f1.commentable_id = f2.parent_commentable_id
         WHERE f1.parent_commentable_id = $1
@@ -35,7 +36,7 @@ func GetByParentID(ctx context.Context, db *pgxpool.Pool, parentID string) ([]*c
 		var feedback common.Feedback
 		var reply_count int
 
-		if err := rows.Scan(&feedback.CommentID, &feedback.FeedbackText, &feedback.CreatedAt, &reply_count); err != nil {
+		if err := rows.Scan(&feedback.CommentID, &feedback.FeedbackText, &feedback.CreatedAt, &reply_count, &feedback.Removed); err != nil {
 			return nil, err
 		}
 

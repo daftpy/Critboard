@@ -33,6 +33,7 @@ type Feedback struct {
 	FeedbackText string    `json:"feedbackText"`
 	CreatedAt    time.Time `json:"createdAt"`
 	Replies      int       `json:"replies"`
+	Removed      bool      `json:"removed"`
 }
 
 type FeedbackPayload struct {
