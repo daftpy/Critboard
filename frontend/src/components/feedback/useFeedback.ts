@@ -2,11 +2,11 @@ import { useState } from "react";
 import { getReplies } from "../../services/feedback/getFeedback";
 import { FeedbackData } from "./Feedback";
 import { useFeedbackData } from "./useFeedbackData";
-import { ReplyButtonProps } from "../ui/feedback/ReplyButton";
 import { MetaProps } from "./FeedbackMeta";
+import { ActionType } from "../form/feedback/useFeedbackForm";
+import { ReplyButtonProps } from "../ui/feedback/ReplyButton";
 import { DeleteButtonProps } from "../ui/feedback/DeleteButton";
 import { EditButtonProps } from "../ui/feedback/EditButton";
-import { ActionType } from "../form/feedback/useFeedbackForm";
 
 type EditFormProps = {
   commentId: string;
@@ -30,25 +30,26 @@ export function useFeedback(feedback: FeedbackData, updateFeedback: (updatedFeed
     incrementReplyCount
   } = useFeedbackData();
 
-  const toggleForm = () => {
-    setShowForm(!showForm);
+  async function fetchReplies() {
+    const result = await getReplies(feedback.commentId);
+
+    if (result.type === "success") {
+      console.log(result);
+      setFeedbackData(result.feedback || []);
+    } else {
+      console.error(result.errors);
+    }
   }
 
-  const toggleEditMode = () => {
-    setEditMode(!editMode);
-  }
+  const toggleForm = () => setShowForm(!showForm);
+
+  const toggleEditMode = () => setEditMode(!editMode);
+  
+  const setConfirm = (confirm: boolean) => setDeleteConfirm(confirm);
+
+  const deleteFeedback = () => console.log('Removed:', feedback.commentId);
 
   const toggleReplies = () => {
-    async function fetchReplies() {
-      const result = await getReplies(feedback.commentId);
-
-      if (result.type === "success") {
-        console.log(result);
-        setFeedbackData(result.feedback || []);
-      } else {
-        console.error(result.errors);
-      }
-    }
 
     if (showReplies) {
       setShowReplies(false);
@@ -76,48 +77,37 @@ export function useFeedback(feedback: FeedbackData, updateFeedback: (updatedFeed
     }
   }
 
-  const setConfirm = (confirm: boolean) => {
-    setDeleteConfirm(confirm);
-  }
-
-  const deleteFeedback = () => {
-    console.log('Removed:', feedback.commentId);
-  }
-
-  const getEditProps = (): EditButtonProps => {
+  function getButtonProps() {
     return {
-      editMode: editMode,
-      onClick: toggleEditMode
-    }
-  }
-
-  const getDeleteProps = (): DeleteButtonProps => {
-    return {
-      onClick: deleteFeedback,
-      confirm: deleteConfirm,
-      setConfirm: setConfirm
-    }
-  }
-
-  const getReplyProps = (): ReplyButtonProps => {
-    return {
-      toggleReplies: toggleReplies,
-      toggleForm: toggleForm,
-      replyCount: feedback.replies,
-      showForm: showForm,
-      showReplies: showReplies
-    }
+      edit: <EditButtonProps> {
+        editMode: editMode,
+        onClick: toggleEditMode
+      },
+      remove: <DeleteButtonProps> {
+        onClick: deleteFeedback,
+        confirm: deleteConfirm,
+        setConfirm: setConfirm
+      },
+      reply: <ReplyButtonProps> {
+        toggleReplies: toggleReplies,
+        toggleForm: toggleForm,
+        replyCount: feedback.replies,
+        showForm: showForm,
+        showReplies: showReplies
+      }
+    };
   }
 
   const getMetaProps = (): MetaProps => {
+    const { edit, remove, reply } = getButtonProps();
     return {
-      edit: getEditProps(),
-      remove: getDeleteProps(),
-      reply: getReplyProps(),
+      edit,
+      remove,
+      reply,
       createdAt: feedback.createdAt,
       author: "author"
-    }
-  }
+    };
+  };  
 
   const getEditFormProps = (): EditFormProps => {
     return {
