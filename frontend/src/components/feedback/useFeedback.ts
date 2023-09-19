@@ -7,6 +7,7 @@ import { ActionType } from "../form/feedback/useFeedbackForm";
 import { ReplyButtonProps } from "../ui/feedback/ReplyButton";
 import { DeleteButtonProps } from "../ui/feedback/DeleteButton";
 import { EditButtonProps } from "../ui/feedback/EditButton";
+import { removeFeedback } from "../../services/feedback/removeFeedback";
 
 type EditFormProps = {
   commentId: string;
@@ -47,7 +48,16 @@ export function useFeedback(feedback: FeedbackData, updateFeedback: (updatedFeed
   
   const setConfirm = (confirm: boolean) => setDeleteConfirm(confirm);
 
-  const deleteFeedback = () => console.log('Removed:', feedback.commentId);
+  const deleteFeedback = async () => {
+    try {
+      const removedFeedback = await removeFeedback(feedback.commentId);
+      console.log('Removed', removedFeedback);
+      updateFeedback(removedFeedback.feedback);
+      setConfirm(false);
+    } catch (error) {
+      console.log("Error removing feedback:", error);
+    }
+  }
 
   const toggleReplies = () => {
 

@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS feedback (
     feedback_text VARCHAR(1000) NOT NULL CHECK (feedback_text <> ''),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    deleted BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (commentable_id) REFERENCES commentables(id),
     FOREIGN KEY (parent_commentable_id) REFERENCES commentables(id)
 );

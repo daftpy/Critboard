@@ -30,6 +30,7 @@ func InitializeRouter(db *pgxpool.Pool) *chi.Mux {
 	r.Post("/submissions/{id}/feedback", feedbackAPI.Create(db))
 
 	r.Patch("/feedback/{id}", feedbackAPI.Update(db))
+	r.Patch("/feedback/{id}/remove", feedbackAPI.Remove(db))
 	r.Get("/feedback/{id}/replies", feedbackAPI.Get(db))
 	r.Post("/feedback/{id}/replies", feedbackAPI.Create(db))
 	return r
