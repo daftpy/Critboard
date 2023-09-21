@@ -1,49 +1,49 @@
 .preview {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .previewContent {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .previewContent > * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .previewContent h3 {
-    font-size: 14px;
-    font-weight: 700;
+  font-size: 14px;
+  font-weight: 700;
 }
 
 .link {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .meta {
-    display: flex;
-    flex-direction: row;
-    gap: 1em;
-    margin: 0.25em 0 0.75em 0;
-    font-family: "Montserrat", sans-serif;
-    font-size: 12px;
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  margin: 0.25em 0 0.75em 0;
+  font-family: "Montserrat", sans-serif;
+  font-size: 12px;
 }
 
 .description {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 .author {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 .previewMeta {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    font-size: 12px;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  font-size: 12px;
+  align-items: center;
 }

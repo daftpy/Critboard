@@ -1,20 +1,19 @@
 .feedbackForm {
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
 }
 
 .textArea {
-    border-radius: 8px;
-    border: 0;
-    outline: 1px #6b6b6b solid;
-    padding: 0.5em;
-    outline-offset: -1px;
-
+  border-radius: 8px;
+  border: 0;
+  outline: 1px #6b6b6b solid;
+  padding: 0.5em;
+  outline-offset: -1px;
 }
 
 .textArea:focus {
-    outline: 3px #c0c0c0 solid;
-    border: 0;
-    outline-offset: -3px;
+  outline: 3px #c0c0c0 solid;
+  border: 0;
+  outline-offset: -3px;
 }

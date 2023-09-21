@@ -3,24 +3,24 @@ import { createSubmission } from "../../../services/apiUtils";
 import { NavigateFunction } from "react-router-dom";
 
 export interface IFormData {
-    title: string;
-    description: string;
-    type: 'LINK' | 'FILE';
-    link: string;
+  title: string;
+  description: string;
+  type: "LINK" | "FILE";
+  link: string;
 }
 
 interface ISuccessResponse {
-  type: "success",
-  message: string,
+  type: "success";
+  message: string;
   submission: {
     commentId: string;
     title: string;
     description: string;
-    type: 'LINK' | 'FILE';
+    type: "LINK" | "FILE";
     link: string;
     createdAt: string;
     updatedAt: string;
-  }
+  };
 }
 
 interface IErrorResponse {
@@ -30,26 +30,31 @@ interface IErrorResponse {
 
 type SubmissionResponse = ISuccessResponse | IErrorResponse;
 
-export function useSubmissionForm(initialData: IFormData, navigate: NavigateFunction) {
-    const [formData, setFormData] = useState<IFormData>(initialData);
+export function useSubmissionForm(
+  initialData: IFormData,
+  navigate: NavigateFunction,
+) {
+  const [formData, setFormData] = useState<IFormData>(initialData);
 
-    // Holds the submission type of the form: either "LINK" or "FILE"
-    const [currentType, setType] = useState<string>("LINK");
+  // Holds the submission type of the form: either "LINK" or "FILE"
+  const [currentType, setType] = useState<string>("LINK");
 
-    const changeType = (type: string) => {
-      setType(type);
-    }
+  const changeType = (type: string) => {
+    setType(type);
+  };
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-      const { name, value } = e.target;
-      console.log("Handling change");
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+  ) => {
+    const { name, value } = e.target;
+    console.log("Handling change");
 
-      // Update formData based on the input name and value.
-      setFormData(prevState => ({
-        ...prevState,
-        [name]: value
-      }));
-  }
+    // Update formData based on the input name and value.
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -58,20 +63,19 @@ export function useSubmissionForm(initialData: IFormData, navigate: NavigateFunc
       console.log(response.message);
       console.log(response.submission);
       navigate(`/submission/${response.submission.commentId}`, {
-        state: { submissionData: response.submission }
+        state: { submissionData: response.submission },
       });
-
     } else {
       console.log(response.errors);
     }
-  }
+  };
 
-    return {
-      formData,
-      setFormData,
-      currentType,
-      changeType,
-      handleChange,
-      handleSubmit
-    }
+  return {
+    formData,
+    setFormData,
+    currentType,
+    changeType,
+    handleChange,
+    handleSubmit,
+  };
 }

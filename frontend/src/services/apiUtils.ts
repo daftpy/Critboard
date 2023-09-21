@@ -14,12 +14,14 @@ interface ErrorResonse {
 
 type SubmissionResponse = SuccessResponse | ErrorResonse;
 
-export async function createSubmission(submissionData: IFormData): Promise<SubmissionResponse> {
+export async function createSubmission(
+  submissionData: IFormData,
+): Promise<SubmissionResponse> {
   try {
     const response = await fetch("http://localhost:3000/submissions/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(submissionData)
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(submissionData),
     });
 
     const clonedResponse = response.clone();
@@ -32,23 +34,28 @@ export async function createSubmission(submissionData: IFormData): Promise<Submi
 
     if (response.ok) {
       return {
-        type: "success", message: data.message, submission: data.submission
+        type: "success",
+        message: data.message,
+        submission: data.submission,
       };
     } else {
       return {
-        type: "error", errors: data.errors
+        type: "error",
+        errors: data.errors,
       };
     }
   } catch (error) {
     const errorMessage = (error as Error).message;
     console.log("There was a problem: ", errorMessage);
-    return { type: "error", errors: [errorMessage]};
+    return { type: "error", errors: [errorMessage] };
   }
 }
 
 export async function getSubmission(commentId: string) {
   try {
-    const response = await fetch(`http://localhost:3000/submissions/${commentId}`);
+    const response = await fetch(
+      `http://localhost:3000/submissions/${commentId}`,
+    );
 
     const clonedResponse = response.clone();
 
@@ -58,13 +65,17 @@ export async function getSubmission(commentId: string) {
     const data = await response.json();
 
     if (response.ok) {
-      return { type: "success", submission: data.submission, feedback: data.feedback };
+      return {
+        type: "success",
+        submission: data.submission,
+        feedback: data.feedback,
+      };
     } else {
-      return { type: "error", errors: data.errors};
+      return { type: "error", errors: data.errors };
     }
   } catch (error) {
     const errorMessage = (error as Error).message;
     console.log("There was a problem: ", errorMessage);
-    return { type: "error", errors: [errorMessage]};
+    return { type: "error", errors: [errorMessage] };
   }
 }

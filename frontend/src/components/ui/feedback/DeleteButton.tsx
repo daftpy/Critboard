@@ -4,22 +4,19 @@ export type DeleteButtonProps = {
   onClick: () => void;
   confirm: boolean;
   setConfirm: (confirm: boolean) => void;
-}
+};
 
-export default function DeleteButton({ onClick, confirm, setConfirm }: DeleteButtonProps) {
-
+export default function DeleteButton({
+  onClick,
+  confirm,
+  setConfirm,
+}: DeleteButtonProps) {
   return (
     <>
       {confirm ? (
         <>
-          <div>
-            Are you Sure?
-          </div>
-          <Button
-            message="Yes"
-            size="xsmall"
-            onClick={onClick}
-          />
+          <div>Are you Sure?</div>
+          <Button message="Yes" size="xsmall" onClick={onClick} />
           <Button
             message="Cancel"
             size="xsmall"
@@ -34,5 +31,5 @@ export default function DeleteButton({ onClick, confirm, setConfirm }: DeleteBut
         />
       )}
     </>
-  )
+  );
 }

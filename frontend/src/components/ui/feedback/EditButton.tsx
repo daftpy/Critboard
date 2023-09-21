@@ -3,7 +3,7 @@ import Button from "../Button";
 export type EditButtonProps = {
   editMode: boolean;
   onClick: () => void;
-}
+};
 
 export default function EditButton({ editMode, onClick }: EditButtonProps) {
   return (
@@ -11,7 +11,7 @@ export default function EditButton({ editMode, onClick }: EditButtonProps) {
       message={editMode ? "Cancel" : "Edit"}
       onClick={onClick}
       size="xsmall"
-      style={editMode ? {backgroundColor: "#676767", color: '#f0f0f0'} : {}}
+      style={editMode ? { backgroundColor: "#676767", color: "#f0f0f0" } : {}}
     />
-  )
+  );
 }

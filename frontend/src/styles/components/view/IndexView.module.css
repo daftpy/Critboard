@@ -1,39 +1,39 @@
 .hero {
-    border-radius: 8px;
-    background: #efefef;
-    overflow: hidden;
-    padding: 1.5em;
+  border-radius: 8px;
+  background: #efefef;
+  overflow: hidden;
+  padding: 1.5em;
 }
 
 .callToAction {
-    font-size: 20px;
-    line-height: 32px;
-    font-weight: 300;
+  font-size: 20px;
+  line-height: 32px;
+  font-weight: 300;
 }
 
 .recent {
-    margin-top: 2.5em;
+  margin-top: 2.5em;
 }
 
 .recent h2 {
-    font-weight: 700;
+  font-weight: 700;
 }
 
 .previews {
-    display: flex;
-    flex-direction: column;
-    margin-top: 1em;
+  display: flex;
+  flex-direction: column;
+  margin-top: 1em;
 }
 
 .previews > * {
-    padding: 0.75em 0;
-    border-bottom: 1px solid #dedede;
+  padding: 0.75em 0;
+  border-bottom: 1px solid #dedede;
 }
 
 .previews > *:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .description {
-    margin-top: 0.75em;
+  margin-top: 0.75em;
 }

@@ -1,6 +1,6 @@
 import { ActionType, useFeedbackForm } from "./useFeedbackForm";
 import { IFormData } from "../../../services/feedback/createFeedback";
-import styles from "../../../styles/components/form/feedback/FeedbackForm.module.css"
+import styles from "../../../styles/components/form/feedback/FeedbackForm.module.css";
 import Button from "../../ui/Button";
 import { FeedbackData } from "../../feedback/Feedback";
 import { useEffect } from "react";
@@ -14,30 +14,33 @@ interface IFeedbackFormProps {
   actionType?: ActionType;
 }
 
-export default function FeedbackForm({ commentId, text, onSubmit, replyForm, buttonText, actionType = "POST"}: IFeedbackFormProps) {
+export default function FeedbackForm({
+  commentId,
+  text,
+  onSubmit,
+  replyForm,
+  buttonText,
+  actionType = "POST",
+}: IFeedbackFormProps) {
   const initialData: IFormData = {
     feedbackText: text || "",
-    commentId: commentId
-  }
+    commentId: commentId,
+  };
 
-  const {
-    formData,
-    setFormData,
-    handleChange,
-    handleSubmit
-  } = useFeedbackForm({initialData, onSubmit, replyForm, actionType});
-
+  const { formData, setFormData, handleChange, handleSubmit } = useFeedbackForm(
+    { initialData, onSubmit, replyForm, actionType },
+  );
 
   useEffect(() => {
-    setFormData(prevData => ({
+    setFormData((prevData) => ({
       ...prevData,
-      feedbackText: text || ""
+      feedbackText: text || "",
     }));
   }, [text]);
 
   return (
     <form
-      style={{overflow: "hidden"}}
+      style={{ overflow: "hidden" }}
       className={styles.feedbackForm}
       onSubmit={handleSubmit}
     >
@@ -49,5 +52,5 @@ export default function FeedbackForm({ commentId, text, onSubmit, replyForm, but
       />
       <Button message={buttonText ? buttonText : "Submit"} />
     </form>
-  )
+  );
 }

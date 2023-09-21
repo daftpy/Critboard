@@ -15,9 +15,13 @@ type EditFormProps = {
   buttonText: string;
   actionType: ActionType;
   onSubmit: (updatedFeedback: FeedbackData) => void;
-}
+};
 
-export function useFeedback(feedback: FeedbackData, updateFeedback: (updatedFeedback: FeedbackData) => void, incrementReply: (commentId: string) => void) {
+export function useFeedback(
+  feedback: FeedbackData,
+  updateFeedback: (updatedFeedback: FeedbackData) => void,
+  incrementReply: (commentId: string) => void,
+) {
   const [showReplies, setShowReplies] = useState<boolean>(false);
   const [showForm, setShowForm] = useState<boolean>(false);
   const [editMode, setEditMode] = useState<boolean>(false);
@@ -28,7 +32,7 @@ export function useFeedback(feedback: FeedbackData, updateFeedback: (updatedFeed
     setFeedbackData,
     addFeedbackData,
     updateFeedbackData,
-    incrementReplyCount
+    incrementReplyCount,
   } = useFeedbackData();
 
   async function fetchReplies() {
@@ -45,22 +49,21 @@ export function useFeedback(feedback: FeedbackData, updateFeedback: (updatedFeed
   const toggleForm = () => setShowForm(!showForm);
 
   const toggleEditMode = () => setEditMode(!editMode);
-  
+
   const setConfirm = (confirm: boolean) => setDeleteConfirm(confirm);
 
   const deleteFeedback = async () => {
     try {
       const removedFeedback = await removeFeedback(feedback.commentId);
-      console.log('Removed', removedFeedback);
+      console.log("Removed", removedFeedback);
       updateFeedback(removedFeedback.feedback);
       setConfirm(false);
     } catch (error) {
       console.log("Error removing feedback:", error);
     }
-  }
+  };
 
   const toggleReplies = () => {
-
     if (showReplies) {
       setShowReplies(false);
     } else {
@@ -69,14 +72,14 @@ export function useFeedback(feedback: FeedbackData, updateFeedback: (updatedFeed
         if (feedback.replies === 0) {
           setShowForm(true);
         }
-      })
+      });
     }
-  }
+  };
 
   const addFeedback = (newFeedback: FeedbackData) => {
     if (editMode) {
       setEditMode(false);
-      console.log('closing edit form');
+      console.log("closing edit form");
     } else {
       incrementReply(feedback.commentId);
       addFeedbackData(newFeedback);
@@ -85,30 +88,30 @@ export function useFeedback(feedback: FeedbackData, updateFeedback: (updatedFeed
       }
       setShowForm(false);
     }
-  }
+  };
 
   function getButtonProps() {
     return {
-      edit: <EditButtonProps> {
+      edit: <EditButtonProps>{
         editMode: editMode,
-        onClick: toggleEditMode
+        onClick: toggleEditMode,
       },
-      remove: <DeleteButtonProps> {
+      remove: <DeleteButtonProps>{
         onClick: deleteFeedback,
         confirm: deleteConfirm,
-        setConfirm: setConfirm
+        setConfirm: setConfirm,
       },
-      reply: <ReplyButtonProps> {
+      reply: <ReplyButtonProps>{
         toggleReplies: toggleReplies,
         toggleForm: toggleForm,
         replyCount: feedback.replies,
         showForm: showForm,
-        showReplies: showReplies
-      }
+        showReplies: showReplies,
+      },
     };
   }
 
-  console.log('hook removed value?', feedback.removed);
+  console.log("hook removed value?", feedback.removed);
 
   const getMetaProps = (): MetaProps => {
     const { edit, remove, reply } = getButtonProps();
@@ -118,9 +121,9 @@ export function useFeedback(feedback: FeedbackData, updateFeedback: (updatedFeed
       reply,
       createdAt: feedback.createdAt,
       author: "author",
-      removed: feedback.removed
+      removed: feedback.removed,
     };
-  };  
+  };
 
   const getEditFormProps = (): EditFormProps => {
     return {
@@ -131,9 +134,9 @@ export function useFeedback(feedback: FeedbackData, updateFeedback: (updatedFeed
       onSubmit: (data: FeedbackData) => {
         updateFeedback(data);
         toggleEditMode();
-      }
-    }
-  }
+      },
+    };
+  };
 
   return {
     showReplies,
@@ -146,6 +149,6 @@ export function useFeedback(feedback: FeedbackData, updateFeedback: (updatedFeed
     toggleReplies,
     addFeedback,
     getMetaProps,
-    getEditFormProps
-  }
+    getEditFormProps,
+  };
 }

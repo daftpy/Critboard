@@ -1,11 +1,11 @@
 .textInput {
-    border-radius: 9px;
-    border: 0;
-    outline: 1px #6b6b6b solid;
-    padding: .5em;
+  border-radius: 9px;
+  border: 0;
+  outline: 1px #6b6b6b solid;
+  padding: 0.5em;
 }
 
 .textInput:focus {
-    outline: 3px #c0c0c0 solid;
-    border: 0;
+  outline: 3px #c0c0c0 solid;
+  border: 0;
 }

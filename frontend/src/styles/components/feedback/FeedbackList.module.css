@@ -1,25 +1,25 @@
 .feedbackList {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .feedbackList .feedbackList {
-    gap: 0;
+  gap: 0;
 }
 
 .feedbackList > * .feedbackList {
-    border-left: 1px solid #dbdbdb;
-    padding-left: 2em;
+  border-left: 1px solid #dbdbdb;
+  padding-left: 2em;
 }
 
 .feedbackList > .callToAction {
-    display: block;
+  display: block;
 }
 
 .feedbackList .callToAction {
-    display: none;
+  display: none;
 }

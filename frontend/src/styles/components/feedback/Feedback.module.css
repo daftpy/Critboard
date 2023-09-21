@@ -1,36 +1,36 @@
 .feedback {
-    display: grid;
-    grid-template-columns: 1fr;
-    padding: 1.5em 0 0.5em 0;
-    gap: 10px;
+  display: grid;
+  grid-template-columns: 1fr;
+  padding: 1.5em 0 0.5em 0;
+  gap: 10px;
 }
 
 .collapsable {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows 0.5s ease-out;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.5s ease-out;
 }
 
 /* For the grid animation to work, the child must have overflow: hidden; */
 .collapsable > * {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 .collapsable.show {
-    grid-template-rows: 1fr;
+  grid-template-rows: 1fr;
 }
 
 .edit textarea {
-    background: #f0f0f0;
-    color: #505050;
+  background: #f0f0f0;
+  color: #505050;
 }
 
 .text {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows 0.5s ease-out;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.5s ease-out;
 }
 
 .feedbackText {
-    margin: 0;
+  margin: 0;
 }
