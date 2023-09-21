@@ -50,7 +50,7 @@ func CreateLink(ctx context.Context,
 		Title:       title,
 		Description: description,
 		Type:        submissionType,
-		Link:        link,
+		LinkDetail:  &common.LinkSubmission{Link: link},
 		CreatedAt:   createdAt,
 		UpdatedAt:   updatedAt,
 	}, nil

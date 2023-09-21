@@ -9,17 +9,28 @@ import (
 
 func GetByID(ctx context.Context, db *pgxpool.Pool, submissionID string) (common.Submission, error) {
 	var submission common.Submission
+	var link string
 
 	err := db.QueryRow(ctx, `
         SELECT s.commentable_id, s.title, s.description, s.type, s.created_at, s.updated_at, l.link
         FROM submissions s
         LEFT JOIN link_submissions l ON s.commentable_id = l.id
         WHERE s.commentable_id = $1
-    `, submissionID).Scan(&submission.CommentID, &submission.Title, &submission.Description, &submission.Type, &submission.CreatedAt, &submission.UpdatedAt, &submission.Link)
+    `, submissionID).Scan(
+		&submission.CommentID,
+		&submission.Title,
+		&submission.Description,
+		&submission.Type,
+		&submission.CreatedAt,
+		&submission.UpdatedAt,
+		&link,
+	)
 
 	if err != nil {
 		return common.Submission{}, err
 	}
+
+	submission.LinkDetail = &common.LinkSubmission{Link: link}
 
 	return submission, nil
 }
@@ -49,10 +60,22 @@ func GetRecentSubmissions(ctx context.Context, db *pgxpool.Pool, count int) ([]c
 	// Iterate through the rows
 	for rows.Next() {
 		var submission common.Submission
-		err := rows.Scan(&submission.CommentID, &submission.Title, &submission.Description, &submission.Type, &submission.CreatedAt, &submission.UpdatedAt, &submission.Link, &submission.FeedbackCount)
+		var link string
+		err := rows.Scan(
+			&submission.CommentID,
+			&submission.Title,
+			&submission.Description,
+			&submission.Type,
+			&submission.CreatedAt,
+			&submission.UpdatedAt,
+			&link,
+			&submission.FeedbackCount,
+		)
 		if err != nil {
 			return nil, err
 		}
+
+		submission.LinkDetail = &common.LinkSubmission{Link: link}
 
 		// Append each submission to the slice
 		submissions = append(submissions, submission)

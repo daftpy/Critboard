@@ -10,6 +10,7 @@ export interface IFormData {
 }
 
 type SubmissionData = {
+  linkDetail: {link: string};
   commentId: string;
   title: string;
   description: string;

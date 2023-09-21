@@ -10,14 +10,22 @@ const (
 )
 
 type Submission struct {
-	CommentID     string         `json:"commentId"`
-	Title         string         `json:"title"`
-	Description   string         `json:"description"`
-	Type          SubmissionType `json:"type"`
-	Link          string         `json:"link"`
-	CreatedAt     time.Time      `json:"createdAt"`
-	UpdatedAt     time.Time      `json:"updatedAt"`
-	FeedbackCount *int           `json:"feedbackCount,omitempty"`
+	CommentID     string          `json:"commentId"`
+	Title         string          `json:"title"`
+	Description   string          `json:"description"`
+	Type          SubmissionType  `json:"type"`
+	LinkDetail    *LinkSubmission `json:"linkDetail,omitempty"`
+	CreatedAt     time.Time       `json:"createdAt"`
+	UpdatedAt     time.Time       `json:"updatedAt"`
+	FeedbackCount *int            `json:"feedbackCount,omitempty"`
+}
+
+type LinkSubmission struct {
+	Link string `json:"link"`
+}
+
+type FileSubmission struct {
+	Link string `json:"file"`
 }
 
 type SubmissionPayload struct {
