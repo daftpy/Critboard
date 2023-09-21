@@ -20,14 +20,18 @@ export default function DeleteButton({
           <Button
             message="Cancel"
             size="xsmall"
-            onClick={() => {confirm && toggleConfirm();}}
+            onClick={() => {
+              confirm && toggleConfirm();
+            }}
           />
         </>
       ) : (
         <Button
           message="Delete"
           size="xsmall"
-          onClick={() => {!confirm && toggleConfirm();}}
+          onClick={() => {
+            !confirm && toggleConfirm();
+          }}
         />
       )}
     </>

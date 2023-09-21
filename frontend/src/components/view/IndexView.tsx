@@ -40,7 +40,10 @@ export default function IndexView() {
         <div className={styles.previews}>
           {recentSubmissions
             ? recentSubmissions.map((submission: IPreview) => (
-                <SubmissionPreview submission={submission} />
+                <SubmissionPreview
+                  key={submission.commentId}
+                  submission={submission}
+                />
               ))
             : null}
         </div>

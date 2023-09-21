@@ -7,7 +7,7 @@ import { ReplyButtonProps } from "../ui/feedback/ReplyButton";
 import { DeleteButtonProps } from "../ui/feedback/DeleteButton";
 import { EditButtonProps } from "../ui/feedback/EditButton";
 import { removeFeedback } from "../../services/feedback/removeFeedback";
-import {useFeedbackDisplay} from "./useFeedbackDisplay.tsx";
+import { useFeedbackDisplay } from "./useFeedbackDisplay.tsx";
 
 type EditFormProps = {
   commentId: string;
@@ -22,7 +22,6 @@ export function useFeedback(
   updateFeedback: (updatedFeedback: FeedbackData) => void,
   incrementReply: (commentId: string) => void,
 ) {
-
   const {
     toggleForm,
     toggleShowReplies,
@@ -31,7 +30,7 @@ export function useFeedback(
     showReplies,
     editMode,
     showForm,
-    showConfirmation
+    showConfirmation,
   } = useFeedbackDisplay();
 
   const {
@@ -72,9 +71,9 @@ export function useFeedback(
       fetchReplies().then(() => {
         !showReplies && toggleShowReplies();
         feedback.replies === 0 && toggleShowReplies();
-      })
+      });
     }
-  }
+  };
 
   const addFeedback = (newFeedback: FeedbackData) => {
     editMode && toggleEditMode();

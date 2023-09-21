@@ -1,7 +1,7 @@
 export async function getRecent(count: number) {
   try {
     const response = await fetch(
-      `http://localhost:3000/submissions/recent/${count}`,
+      `${import.meta.env.VITE_URL}/submissions/recent/${count}`,
     );
 
     const clonedResponse = response.clone();

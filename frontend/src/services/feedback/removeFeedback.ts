@@ -1,7 +1,7 @@
 export async function removeFeedback(commentId: string) {
   try {
     const response = await fetch(
-      `http://localhost:3000/feedback/${commentId}/remove`,
+      `${import.meta.env.VITE_URL}/feedback/${commentId}/remove`,
       {
         method: "PATCH", // Using PATCH method for soft-delete
         headers: { "Content-Type": "application/json" },

@@ -6,7 +6,7 @@ export interface IFormData {
 export async function createFeedback(formData: IFormData) {
   try {
     const response = await fetch(
-      `http://localhost:3000/submissions/${formData.commentId}/feedback`,
+      `${import.meta.env.VITE_URL}/submissions/${formData.commentId}/feedback`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -40,7 +40,7 @@ export async function createFeedback(formData: IFormData) {
 export async function createReply(formData: IFormData) {
   try {
     const response = await fetch(
-      `http://localhost:3000/feedback/${formData.commentId}/replies`,
+      `${import.meta.env.VITE_URL}/feedback/${formData.commentId}/replies`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

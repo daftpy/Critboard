@@ -3,7 +3,7 @@ import { IFormData } from "./createFeedback";
 export async function updateFeedback(formData: IFormData) {
   try {
     const response = await fetch(
-      `http://localhost:3000/feedback/${formData.commentId}`,
+      `${import.meta.env.VITE_URL}/feedback/${formData.commentId}`,
       {
         method: "PATCH", // Using PATCH method for partial update
         headers: { "Content-Type": "application/json" },
