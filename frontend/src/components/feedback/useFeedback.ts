@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { getReplies } from "../../services/feedback/getFeedback";
 import { FeedbackData } from "./Feedback";
 import { useFeedbackData } from "./useFeedbackData";
@@ -8,6 +7,7 @@ import { ReplyButtonProps } from "../ui/feedback/ReplyButton";
 import { DeleteButtonProps } from "../ui/feedback/DeleteButton";
 import { EditButtonProps } from "../ui/feedback/EditButton";
 import { removeFeedback } from "../../services/feedback/removeFeedback";
+import {useFeedbackDisplay} from "./useFeedbackDisplay.tsx";
 
 type EditFormProps = {
   commentId: string;
@@ -22,10 +22,17 @@ export function useFeedback(
   updateFeedback: (updatedFeedback: FeedbackData) => void,
   incrementReply: (commentId: string) => void,
 ) {
-  const [showReplies, setShowReplies] = useState<boolean>(false);
-  const [showForm, setShowForm] = useState<boolean>(false);
-  const [editMode, setEditMode] = useState<boolean>(false);
-  const [deleteConfirm, setDeleteConfirm] = useState<boolean>(false);
+
+  const {
+    toggleForm,
+    toggleShowReplies,
+    toggleConfirmation,
+    toggleEditMode,
+    showReplies,
+    editMode,
+    showForm,
+    showConfirmation
+  } = useFeedbackDisplay();
 
   const {
     feedbackData,
@@ -46,18 +53,13 @@ export function useFeedback(
     }
   }
 
-  const toggleForm = () => setShowForm(!showForm);
-
-  const toggleEditMode = () => setEditMode(!editMode);
-
-  const setConfirm = (confirm: boolean) => setDeleteConfirm(confirm);
-
   const deleteFeedback = async () => {
     try {
       const removedFeedback = await removeFeedback(feedback.commentId);
+      removedFeedback.feedback.removed = true;
       console.log("Removed", removedFeedback);
       updateFeedback(removedFeedback.feedback);
-      setConfirm(false);
+      showConfirmation && toggleConfirmation();
     } catch (error) {
       console.log("Error removing feedback:", error);
     }
@@ -65,29 +67,21 @@ export function useFeedback(
 
   const toggleReplies = () => {
     if (showReplies) {
-      setShowReplies(false);
+      toggleShowReplies();
     } else {
       fetchReplies().then(() => {
-        setShowReplies(true);
-        if (feedback.replies === 0) {
-          setShowForm(true);
-        }
-      });
+        !showReplies && toggleShowReplies();
+        feedback.replies === 0 && toggleShowReplies();
+      })
     }
-  };
+  }
 
   const addFeedback = (newFeedback: FeedbackData) => {
-    if (editMode) {
-      setEditMode(false);
-      console.log("closing edit form");
-    } else {
-      incrementReply(feedback.commentId);
-      addFeedbackData(newFeedback);
-      if (!showReplies) {
-        toggleReplies();
-      }
-      setShowForm(false);
-    }
+    editMode && toggleEditMode();
+    incrementReply(feedback.commentId);
+    addFeedbackData(newFeedback);
+    !showReplies && toggleReplies();
+    showForm && toggleForm();
   };
 
   function getButtonProps() {
@@ -98,8 +92,8 @@ export function useFeedback(
       },
       remove: <DeleteButtonProps>{
         onClick: deleteFeedback,
-        confirm: deleteConfirm,
-        setConfirm: setConfirm,
+        confirm: showConfirmation,
+        toggleConfirm: toggleConfirmation,
       },
       reply: <ReplyButtonProps>{
         toggleReplies: toggleReplies,

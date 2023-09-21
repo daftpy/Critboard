@@ -3,13 +3,13 @@ import Button from "../Button";
 export type DeleteButtonProps = {
   onClick: () => void;
   confirm: boolean;
-  setConfirm: (confirm: boolean) => void;
+  toggleConfirm: () => void;
 };
 
 export default function DeleteButton({
   onClick,
   confirm,
-  setConfirm,
+  toggleConfirm,
 }: DeleteButtonProps) {
   return (
     <>
@@ -20,14 +20,14 @@ export default function DeleteButton({
           <Button
             message="Cancel"
             size="xsmall"
-            onClick={() => setConfirm(false)}
+            onClick={() => {confirm && toggleConfirm();}}
           />
         </>
       ) : (
         <Button
           message="Delete"
           size="xsmall"
-          onClick={() => setConfirm(true)}
+          onClick={() => {!confirm && toggleConfirm();}}
         />
       )}
     </>
