@@ -2,7 +2,7 @@ import Template from "./Template";
 import styles from "../../styles/components/view/SubmissionView.module.css";
 import { useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getSubmission } from "../../services/apiUtils";
+import { getSubmission } from "../../services/submission/getSubmission.ts";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import FeedbackList from "../feedback/FeedbackList";
 import FeedbackForm from "../form/feedback/FeedbackForm";
@@ -10,7 +10,7 @@ import { useFeedbackData } from "../feedback/useFeedbackData";
 
 export default function SubmissionView() {
   const location = useLocation();
-  let { commentId } = useParams();
+  const { commentId } = useParams();
 
   const [submissionData, setSubmissionData] = useState(
     location.state?.submissionData,

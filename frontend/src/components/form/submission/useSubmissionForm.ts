@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import { createSubmission } from "../../../services/apiUtils";
+import { createSubmission } from "../../../services/submission/createLinkSubmission.ts";
 import { NavigateFunction } from "react-router-dom";
 
 export interface IFormData {

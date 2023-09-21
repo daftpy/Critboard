@@ -30,7 +30,7 @@ export default function SubmissionForm() {
         />
       </>
     ) : (
-      <p>File</p>
+      <input type="file" name="uploadfile" />
     );
 
   return (
