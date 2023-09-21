@@ -24,13 +24,18 @@ export default function SubmissionForm() {
         <label>Link</label>
         <TextInput
           name="link"
-          value={formData.link}
+          value={formData.link ? formData.link : ""}
           placeholder="https://example.com"
           onChange={handleChange}
         />
       </>
     ) : (
-      <input type="file" name="uploadfile" />
+        <TextInput
+            name="file"
+            value={formData.file ? formData.file : ""}
+            placeholder="https://example.com"
+            onChange={handleChange}
+        />
     );
 
   return (

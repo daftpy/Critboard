@@ -61,7 +61,8 @@ export default function SubmissionView() {
                 href={submissionData.link}
                 className={styles.submissionLink}
               >
-                {submissionData.linkDetail.link}
+                {submissionData.linkDetail && submissionData.linkDetail.link}
+                {submissionData.fileDetail && submissionData.fileDetail.file}
               </a>
             </div>
             <div className={styles.description}>

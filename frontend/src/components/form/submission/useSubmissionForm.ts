@@ -6,11 +6,13 @@ export interface IFormData {
   title: string;
   description: string;
   type: "LINK" | "FILE";
-  link: string;
+  link?: string;
+  file?: string;
 }
 
 type SubmissionData = {
-  linkDetail: {link: string};
+  fileDetail?: {file: string};
+  linkDetail?: {link: string};
   commentId: string;
   title: string;
   description: string;
@@ -43,6 +45,10 @@ export function useSubmissionForm(
 
   const changeType = (type: string) => {
     setType(type);
+    setFormData(prevState => ({
+      ...prevState,
+      type: type as "LINK" | "FILE",
+    }));
   };
 
   const handleChange = (
