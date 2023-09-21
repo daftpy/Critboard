@@ -9,21 +9,22 @@ export interface IFormData {
   link: string;
 }
 
-interface ISuccessResponse {
-  type: "success";
-  message: string;
-  submission: {
-    commentId: string;
-    title: string;
-    description: string;
-    type: "LINK" | "FILE";
-    link: string;
-    createdAt: string;
-    updatedAt: string;
-  };
+type SubmissionData = {
+  commentId: string;
+  title: string;
+  description: string;
+  type: "FILE" | "LINK";
+  createdAt: string;
+  updatedAt: string;
 }
 
-interface IErrorResponse {
+type ISuccessResponse = {
+  type: "success";
+  message: string;
+  submission: SubmissionData;
+}
+
+type IErrorResponse = {
   type: "error";
   errors: string[];
 }
