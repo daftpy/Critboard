@@ -15,6 +15,7 @@ type Submission struct {
 	Description   string          `json:"description"`
 	Type          SubmissionType  `json:"type"`
 	LinkDetail    *LinkSubmission `json:"linkDetail,omitempty"`
+	FileDetail    *FileSubmission `json:"fileDetail,omitempty"`
 	CreatedAt     time.Time       `json:"createdAt"`
 	UpdatedAt     time.Time       `json:"updatedAt"`
 	FeedbackCount *int            `json:"feedbackCount,omitempty"`
@@ -25,7 +26,7 @@ type LinkSubmission struct {
 }
 
 type FileSubmission struct {
-	Link string `json:"file"`
+	File string `json:"file"`
 }
 
 type SubmissionPayload struct {

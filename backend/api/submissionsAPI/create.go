@@ -25,16 +25,17 @@ func Create(db *pgxpool.Pool) http.HandlerFunc {
 			log.Println("Error decoding payload", err)
 		}
 
+		// Validate title and description
+		if len(payload.Title) < 5 {
+			errors = append(errors, "Title too short")
+		}
+
+		if len(payload.Description) < 16 {
+			errors = append(errors, "Description too short")
+		}
+
 		switch payload.Type {
 		case "LINK":
-
-			if len(payload.Title) < 5 {
-				errors = append(errors, "Title too short")
-			}
-
-			if len(payload.Description) < 16 {
-				errors = append(errors, "Description too short")
-			}
 
 			// Attempt to validate the link
 			_, err := url.ParseRequestURI(payload.Link)
@@ -66,6 +67,33 @@ func Create(db *pgxpool.Pool) http.HandlerFunc {
 					}
 				}
 			}
+		case "FILE":
+			if len(payload.File) == 0 {
+				errors = append(errors, "No file selected.")
+			}
+			if len(errors) == 0 {
+				submissiion, err := querySubmissions.CreateFile(
+					r.Context(), db, payload.Title, payload.Description, payload.Type, payload.File,
+				)
+				if err != nil {
+					errors = append(errors, "Error adding submission")
+					log.Println("Error adding submission:", err)
+				} else {
+					response := responsesAPI.SubmissionPostResponse{
+						Submission: submissiion,
+						Message:    "Succesfully created",
+					}
+
+					// Send the response
+					w.Header().Set("Coontent-Type", "application/json")
+					w.WriteHeader(http.StatusCreated)
+					if err := json.NewEncoder(w).Encode(response); err != nil {
+						errors = append(errors, "Failed to encode response")
+						log.Println("Failed to encode response:", err)
+					}
+				}
+			}
+
 		default:
 			errors = append(errors, "Invalid submission type")
 		}
