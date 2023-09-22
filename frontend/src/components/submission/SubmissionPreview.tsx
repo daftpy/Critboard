@@ -1,7 +1,6 @@
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import styles from "../../styles/components/submission/SubmissionPreview.module.css";
 import { Link } from "react-router-dom";
-import Button from "../ui/Button";
 
 export interface IPreview {
   commentId: string;
@@ -42,13 +41,8 @@ export function SubmissionPreview({ submission }: IPreviewProps) {
         <p className={styles.description}>{submission.description}</p>
       </div>
       <div className={styles.previewMeta}>
-        <Button
-          message={`${submission.type.charAt(0).toUpperCase()}${submission.type
-            .slice(1)
-            .toLowerCase()}`}
-          size="small"
-        />
-        <div>Replies: x</div>
+        <div>{submission.type}</div>
+        {/*<div>Replies: {submission.replyCount}</div>*/}
       </div>
     </div>
   );

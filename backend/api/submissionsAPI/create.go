@@ -72,7 +72,7 @@ func Create(db *pgxpool.Pool) http.HandlerFunc {
 				errors = append(errors, "No file selected.")
 			}
 			if len(errors) == 0 {
-				submissiion, err := querySubmissions.CreateFile(
+				submission, err := querySubmissions.CreateFile(
 					r.Context(), db, payload.Title, payload.Description, payload.Type, payload.File,
 				)
 				if err != nil {
@@ -80,7 +80,7 @@ func Create(db *pgxpool.Pool) http.HandlerFunc {
 					log.Println("Error adding submission:", err)
 				} else {
 					response := responsesAPI.SubmissionPostResponse{
-						Submission: submissiion,
+						Submission: submission,
 						Message:    "Succesfully created",
 					}
 
