@@ -14,12 +14,12 @@ interface ErrorResonse {
 
 type SubmissionResponse = SuccessResponse | ErrorResonse;
 
-export async function createLinkSubmission(
+export async function createFileSubmission(
   submissionData: IFormData,
 ): Promise<SubmissionResponse> {
   try {
     const response = await fetch(
-      `${import.meta.env.VITE_URL}/submissions/link/create`,
+      `${import.meta.env.VITE_URL}/submissions/file/create`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

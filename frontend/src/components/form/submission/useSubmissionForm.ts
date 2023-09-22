@@ -1,6 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import { createSubmission } from "../../../services/submission/createLinkSubmission.ts";
+import { createLinkSubmission } from "../../../services/submission/createLinkSubmission.ts";
 import { NavigateFunction } from "react-router-dom";
+import { createFileSubmission } from "../../../services/submission/createFileSubmission.ts";
 
 export interface IFormData {
   title: string;
@@ -11,26 +12,26 @@ export interface IFormData {
 }
 
 type SubmissionData = {
-  fileDetail?: {file: string};
-  linkDetail?: {link: string};
+  fileDetail?: { file: string };
+  linkDetail?: { link: string };
   commentId: string;
   title: string;
   description: string;
   type: "FILE" | "LINK";
   createdAt: string;
   updatedAt: string;
-}
+};
 
 type ISuccessResponse = {
   type: "success";
   message: string;
   submission: SubmissionData;
-}
+};
 
 type IErrorResponse = {
   type: "error";
   errors: string[];
-}
+};
 
 type SubmissionResponse = ISuccessResponse | IErrorResponse;
 
@@ -45,7 +46,7 @@ export function useSubmissionForm(
 
   const changeType = (type: string) => {
     setType(type);
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
       type: type as "LINK" | "FILE",
     }));
@@ -66,7 +67,11 @@ export function useSubmissionForm(
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response: SubmissionResponse = await createSubmission(formData);
+    const response: SubmissionResponse =
+      formData.type == "LINK"
+        ? await createLinkSubmission(formData)
+        : await createFileSubmission(formData);
+
     if (response.type === "success") {
       console.log(response.message);
       console.log(response.submission);
