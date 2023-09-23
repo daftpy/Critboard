@@ -45,7 +45,7 @@ func UploadFile(db *pgxpool.Pool) http.HandlerFunc {
 
 		// Generate a filename using current time + random number
 		rand.Seed(time.Now().UnixNano())
-		filename := fmt.Sprintf("%d_%d%s", time.Now().Unix(), rand.Intn(1000), ext)
+		filename := fmt.Sprintf("%d_%d", time.Now().Unix(), rand.Intn(1000))
 		fullPath := filepath.Join(uploadBasePath, filename)
 
 		// TROUBLE SHOOTING
@@ -72,7 +72,7 @@ func UploadFile(db *pgxpool.Pool) http.HandlerFunc {
 		}
 
 		// Insert the file_path into the database and get the UUID.
-		fileUpload, err := queryFileUpload.CreateFileUpload(db, fullPath)
+		fileUpload, err := queryFileUpload.CreateFileUpload(db, uploadBasePath, filename, ext)
 		if err != nil {
 			http.Error(w, "Error storing file information", http.StatusInternalServerError)
 			return
@@ -81,8 +81,10 @@ func UploadFile(db *pgxpool.Pool) http.HandlerFunc {
 		// Send back the UUID and file path
 		w.Header().Set("Content-Type", "application/json")
 		response := map[string]string{
-			"id":        fileUpload.ID,
-			"file_path": fullPath,
+			"id":             fileUpload.UploadID,
+			"file_path":      fileUpload.FilePath,
+			"file_name":      fileUpload.FileName,
+			"file_extension": fileUpload.FileExt,
 		}
 		if err := json.NewEncoder(w).Encode(response); err != nil {
 			log.Println("Failed to encode response:", err)

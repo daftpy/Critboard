@@ -32,14 +32,12 @@ func CreateFile(db *pgxpool.Pool) http.HandlerFunc {
 			errors = append(errors, "Description too short")
 		}
 
-		// Validate file_path exists
-		if len(payload.File) == 0 {
-			errors = append(errors, "No file selected.")
-		}
+		// Validate upload entry exists
+		/////////////////////////////////
 
 		if len(errors) == 0 {
 			submission, err := querySubmissions.CreateFile(
-				r.Context(), db, payload.Title, payload.Description, payload.Type, payload.File,
+				r.Context(), db, payload.Title, payload.Description, payload.Type, payload.UploadData,
 			)
 			if err != nil {
 				errors = append(errors, "Error adding submission")

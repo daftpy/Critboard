@@ -15,7 +15,7 @@ type Submission struct {
 	Description   string          `json:"description"`
 	Type          SubmissionType  `json:"type"`
 	LinkDetail    *LinkSubmission `json:"linkDetail,omitempty"`
-	FileDetail    *FileSubmission `json:"fileDetail,omitempty"`
+	FileDetail    *UploadData     `json:"fileDetail,omitempty"`
 	CreatedAt     time.Time       `json:"createdAt"`
 	UpdatedAt     time.Time       `json:"updatedAt"`
 	FeedbackCount *int            `json:"feedbackCount,omitempty"`
@@ -25,8 +25,11 @@ type LinkSubmission struct {
 	Link string `json:"link"`
 }
 
-type FileSubmission struct {
-	File string `json:"file"`
+type UploadData struct {
+	FileName string `json:"file_name"`
+	FilePath string `json:"file_path"`
+	FileExt  string `json:"file_extension"`
+	UploadID string `json:"id"`
 }
 
 type SubmissionPayload struct {
@@ -34,7 +37,7 @@ type SubmissionPayload struct {
 	Description string         `json:"description"`
 	Type        SubmissionType `json:"type"`
 	Link        string         `json:"link,omitempty"`
-	File        string         `json:"file,omitempty"`
+	UploadData  UploadData     `json:"upload_data,omitempty"`
 }
 
 type Feedback struct {

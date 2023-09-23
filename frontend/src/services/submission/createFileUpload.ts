@@ -1,7 +1,12 @@
 interface UploadResponse {
   type: "success" | "error";
-  id?: string; // Assuming the server returns the id of the uploaded file
-  file_path?: string; // Assuming the server returns the file path of the uploaded file
+  id?: string;
+  upload?: {
+    id: string;
+    file_name: string;
+    file_path: string;
+    file_extension: string;
+  };
   errors?: string[];
 }
 
@@ -27,8 +32,12 @@ export async function uploadFile(file: File): Promise<UploadResponse> {
     if (response.ok) {
       return {
         type: "success",
-        id: data.id,
-        file_path: data.file_path,
+        upload: {
+          id: data.id,
+          file_path: data.file_path,
+          file_name: data.file_name,
+          file_extension: data.file_extension,
+        },
       };
     } else {
       return {

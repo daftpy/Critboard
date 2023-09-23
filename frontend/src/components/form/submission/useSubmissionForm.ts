@@ -9,12 +9,14 @@ export interface IFormData {
   description: string;
   type: "LINK" | "FILE";
   link?: string;
-  file?: FileResponse;
+  upload_data?: FileResponse;
 }
 
 type FileResponse = {
   id: string;
   filePath: string;
+  fileName: string;
+  fileExt: string;
 };
 
 type SubmissionData = {
@@ -83,7 +85,24 @@ export function useSubmissionForm(
   const handleSubmitFile = async () => {
     console.log("uploading", selectedFile);
     // upload file to server, get response, set formdata with FileResponse
-    selectedFile && uploadFile(selectedFile);
+    if (selectedFile) {
+      const response = await uploadFile(selectedFile);
+      response.type === "success" && console.log(response.upload);
+      if (response.upload) {
+        const upload = response.upload;
+        setFormData((prevState) => ({
+          ...prevState,
+          upload_data: {
+            id: upload.id,
+            filePath: upload.file_path,
+            fileName: upload.file_name,
+            fileExt: upload.file_extension,
+          },
+        }));
+      }
+    } else {
+      console.error("No file selected.");
+    }
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {

@@ -13,7 +13,7 @@ func CreateFile(ctx context.Context,
 	title string,
 	description string,
 	submissionType common.SubmissionType,
-	file string,
+	uploadData common.UploadData,
 ) (common.Submission, error) {
 	var commentableID string
 	var createdAt, updatedAt time.Time
@@ -37,11 +37,12 @@ func CreateFile(ctx context.Context,
 		return common.Submission{}, err
 	}
 
-	// Then create the link submission
+	println("TRYING UPLOAD_ID:", uploadData.UploadID)
+	// Then create the file submission
 	_, err = db.Exec(ctx, `
-			INSERT INTO file_submissions (id, file_path)
+			INSERT INTO file_submissions (id, data)
 			VALUES ($1, $2)
-		`, commentableID, file)
+		`, commentableID, uploadData.UploadID)
 	if err != nil {
 		return common.Submission{}, err
 	}
@@ -50,8 +51,13 @@ func CreateFile(ctx context.Context,
 		Title:       title,
 		Description: description,
 		Type:        submissionType,
-		FileDetail:  &common.FileSubmission{File: file},
-		CreatedAt:   createdAt,
-		UpdatedAt:   updatedAt,
+		FileDetail: &common.UploadData{
+			UploadID: uploadData.UploadID,
+			FilePath: uploadData.FilePath,
+			FileName: uploadData.FileName,
+			FileExt:  uploadData.FileExt,
+		},
+		CreatedAt: createdAt,
+		UpdatedAt: updatedAt,
 	}, nil
 }
