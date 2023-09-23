@@ -2,14 +2,20 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { createLinkSubmission } from "../../../services/submission/createLinkSubmission.ts";
 import { NavigateFunction } from "react-router-dom";
 import { createFileSubmission } from "../../../services/submission/createFileSubmission.ts";
+import { uploadFile } from "../../../services/submission/createFileUpload.ts";
 
 export interface IFormData {
   title: string;
   description: string;
   type: "LINK" | "FILE";
   link?: string;
-  file?: string;
+  file?: FileResponse;
 }
+
+type FileResponse = {
+  id: string;
+  filePath: string;
+};
 
 type SubmissionData = {
   fileDetail?: { file: string };
@@ -41,6 +47,8 @@ export function useSubmissionForm(
 ) {
   const [formData, setFormData] = useState<IFormData>(initialData);
 
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
   // Holds the submission type of the form: either "LINK" or "FILE"
   const [currentType, setType] = useState<string>("LINK");
 
@@ -63,6 +71,19 @@ export function useSubmissionForm(
       ...prevState,
       [name]: value,
     }));
+  };
+
+  function handleChangeFile(event: ChangeEvent<HTMLInputElement>) {
+    if (event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+      setSelectedFile(file);
+    }
+  }
+
+  const handleSubmitFile = async () => {
+    console.log("uploading", selectedFile);
+    // upload file to server, get response, set formdata with FileResponse
+    selectedFile && uploadFile(selectedFile);
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -90,5 +111,7 @@ export function useSubmissionForm(
     changeType,
     handleChange,
     handleSubmit,
+    handleChangeFile,
+    handleSubmitFile,
   };
 }

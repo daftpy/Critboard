@@ -5,6 +5,7 @@ go 1.21.0
 require (
 	github.com/go-chi/chi v1.5.4
 	github.com/jackc/pgx/v5 v5.4.3
+	github.com/pkg/errors v0.9.1
 	github.com/rs/cors v1.9.0
 )
 

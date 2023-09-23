@@ -38,7 +38,16 @@ CREATE TABLE IF NOT EXISTS link_submissions (
 CREATE TABLE IF NOT EXISTS file_submissions (
     id UUID PRIMARY KEY,
     file_path VARCHAR(2048) NOT NULL,
-    FOREIGN KEY (id) REFERENCES submissions(commentable_id)
+    DATA UUID NOT NULL,
+    FOREIGN KEY (id) REFERENCES submissions(commentable_id),
+    FOREIGN KEY (data) REFERENCES file_uploads(id)
+);
+
+-- Create file_uploads table if it doesn't exist
+CREATE TABLE IF NOT EXISTS file_uploads (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    file_path VARCHAR(2048) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 -- Create feedback table if it doesn't exist

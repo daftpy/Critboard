@@ -11,6 +11,8 @@ services:
       - DATABASE_URL=postgres://postgres:changeme@db:5432/critboard_db
     depends_on:
       - db
+    volumes:
+      - ./uploads:/app/uploads
 
   frontend:
     build:

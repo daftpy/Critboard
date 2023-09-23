@@ -15,8 +15,15 @@ export default function SubmissionForm() {
     link: "",
   };
 
-  const { formData, currentType, changeType, handleChange, handleSubmit } =
-    useSubmissionForm(inititalData, navigate);
+  const {
+    formData,
+    currentType,
+    changeType,
+    handleChange,
+    handleSubmit,
+    handleChangeFile,
+    handleSubmitFile,
+  } = useSubmissionForm(inititalData, navigate);
 
   const typeField =
     currentType === "LINK" ? (
@@ -30,12 +37,15 @@ export default function SubmissionForm() {
         />
       </>
     ) : (
-        <TextInput
-            name="file"
-            value={formData.file ? formData.file : ""}
-            placeholder="https://example.com"
-            onChange={handleChange}
+      <>
+        <label>File</label>
+        <input
+          type="file"
+          name="file"
+          onChange={handleChangeFile} // This needs a special handler
         />
+        <button onClick={handleSubmitFile}>upload</button>
+      </>
     );
 
   return (
