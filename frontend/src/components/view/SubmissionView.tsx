@@ -63,7 +63,9 @@ export default function SubmissionView() {
                 ) ? (
                   <div className={styles.imageContainer}>
                     <img
-                      src={`http://localhost:8080/uploads/${submissionData.fileDetail.file_name}${submissionData.fileDetail.file_extension}`}
+                      src={`${import.meta.env.VITE_UPLOADS_URL}/uploads/${
+                        submissionData.fileDetail.file_name
+                      }${submissionData.fileDetail.file_extension}`}
                       alt={submissionData.fileDetail.file_name}
                       className={styles.submissionImage}
                     />
