@@ -37,25 +37,13 @@ export function SubmissionPreview({ submission }: IPreviewProps) {
                   addSuffix: true,
                 })}
               </div>
-              <div className={styles.fileType}>
-                {submission.type == "FILE" ? (
-                  <>
-                    File
-                    <span className={`material-symbols-outlined`}>
-                      stock_media
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    Link
-                    <span
-                      className={`material-symbols-outlined ${styles.tilted}`}
-                    >
-                      link
-                    </span>
-                  </>
-                )}
-              </div>
+              {submission.type == "FILE" ? (
+                <span className={`material-symbols-outlined`}>stock_media</span>
+              ) : (
+                <span className={`material-symbols-outlined ${styles.tilted}`}>
+                  link
+                </span>
+              )}
             </div>
           </div>
         </div>
