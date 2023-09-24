@@ -17,6 +17,7 @@ func CreateFile(ctx context.Context,
 ) (common.Submission, error) {
 	var commentableID string
 	var createdAt, updatedAt time.Time
+	println("TRYING UPLOAD_ID_AND_NAME:", uploadData.UploadID, uploadData.FileName)
 
 	// Create the commentable entry
 	err := db.QueryRow(ctx, `

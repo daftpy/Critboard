@@ -44,7 +44,9 @@ export default function SubmissionForm() {
           name="file"
           onChange={handleChangeFile} // This needs a special handler
         />
-        <button onClick={handleSubmitFile}>upload</button>
+        <button onClick={handleSubmitFile} type="button">
+          upload
+        </button>
       </>
     );
 

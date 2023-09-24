@@ -26,6 +26,15 @@
   color: #4f4f4f;
 }
 
+.imageContainer {
+  width: 100%;
+}
+
+.submissionImage {
+  display: block;
+  margin: 0 auto;
+}
+
 .author {
   font-weight: 700;
 }

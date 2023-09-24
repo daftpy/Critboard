@@ -45,8 +45,9 @@ func UploadFile(db *pgxpool.Pool) http.HandlerFunc {
 
 		// Generate a filename using current time + random number
 		rand.Seed(time.Now().UnixNano())
-		filename := fmt.Sprintf("%d_%d", time.Now().Unix(), rand.Intn(1000))
-		fullPath := filepath.Join(uploadBasePath, filename)
+		originalFilename := fmt.Sprintf("%d_%d", time.Now().Unix(), rand.Intn(1000))
+		filenameWithExt := originalFilename + ext
+		fullPath := filepath.Join(uploadBasePath, filenameWithExt)
 
 		// TROUBLE SHOOTING
 		if _, err := os.Stat(uploadBasePath); os.IsNotExist(err) {
@@ -72,7 +73,7 @@ func UploadFile(db *pgxpool.Pool) http.HandlerFunc {
 		}
 
 		// Insert the file_path into the database and get the UUID.
-		fileUpload, err := queryFileUpload.CreateFileUpload(db, uploadBasePath, filename, ext)
+		fileUpload, err := queryFileUpload.CreateFileUpload(db, uploadBasePath, originalFilename, ext)
 		if err != nil {
 			http.Error(w, "Error storing file information", http.StatusInternalServerError)
 			return

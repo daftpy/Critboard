@@ -37,6 +37,8 @@ export default function SubmissionView() {
     }
   }, []);
 
+  const approvedExt = [".jpeg", ".jpg", ".png", ".gif"];
+
   return (
     <Template>
       {submissionData ? (
@@ -55,16 +57,37 @@ export default function SubmissionView() {
               </div>
             </div>
             <div className={styles.link}>
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href={submissionData.link}
-                className={styles.submissionLink}
-              >
-                {submissionData.linkDetail && submissionData.linkDetail.link}
-                {submissionData.fileDetail &&
-                  submissionData.fileDetail.file_name}
-              </a>
+              {submissionData.fileDetail ? (
+                approvedExt.includes(
+                  submissionData.fileDetail.file_extension,
+                ) ? (
+                  <div className={styles.imageContainer}>
+                    <img
+                      src={`http://localhost:8080/uploads/${submissionData.fileDetail.file_name}${submissionData.fileDetail.file_extension}`}
+                      alt={submissionData.fileDetail.file_name}
+                      className={styles.submissionImage}
+                    />
+                  </div>
+                ) : (
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={submissionData.link}
+                    className={styles.submissionLink}
+                  >
+                    {submissionData.fileDetail.file_name}
+                  </a>
+                )
+              ) : (
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={submissionData.link}
+                  className={styles.submissionLink}
+                >
+                  {submissionData.linkDetail && submissionData.linkDetail.link}
+                </a>
+              )}
             </div>
             <div className={styles.description}>
               <h4>Description</h4>

@@ -14,13 +14,13 @@ export interface IFormData {
 
 type FileResponse = {
   id: string;
-  filePath: string;
-  fileName: string;
-  fileExt: string;
+  file_path: string;
+  file_name: string;
+  file_extension: string;
 };
 
 type SubmissionData = {
-  fileDetail?: { file: string };
+  fileDetail?: FileResponse;
   linkDetail?: { link: string };
   commentId: string;
   title: string;
@@ -94,9 +94,9 @@ export function useSubmissionForm(
           ...prevState,
           upload_data: {
             id: upload.id,
-            filePath: upload.file_path,
-            fileName: upload.file_name,
-            fileExt: upload.file_extension,
+            file_path: upload.file_path,
+            file_name: upload.file_name,
+            file_extension: upload.file_extension,
           },
         }));
       }

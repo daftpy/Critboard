@@ -34,6 +34,7 @@ func CreateFile(db *pgxpool.Pool) http.HandlerFunc {
 
 		// Validate upload entry exists
 		/////////////////////////////////
+		println("PAYLOAD_DATA_LOOK_HERE:", payload.UploadData.UploadID, payload.UploadData.FileExt)
 
 		if len(errors) == 0 {
 			submission, err := querySubmissions.CreateFile(
