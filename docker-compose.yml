@@ -9,6 +9,8 @@ services:
       - "3000:3000"
     environment:
       - DATABASE_URL=postgres://postgres:changeme@db:5432/critboard_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=changeme
     depends_on:
       - db
     volumes:

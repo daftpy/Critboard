@@ -22,11 +22,11 @@ FROM alpine:latest
 # Set necessary environment variables for better security
 ENV CGO_ENABLED=0 GOOS=linux
 
+# Install postgresql-client
+RUN apk --no-cache add postgresql-client
+
 # Set the current directory to /root
 WORKDIR /root/
-
-# Copy the binary from the builder stage
-COPY --from=builder /app/main .
 
 # Copy the binary from the builder stage
 COPY --from=builder /app/main .
@@ -34,5 +34,14 @@ COPY --from=builder /app/main .
 # Copy the migrations directory
 COPY --from=builder /app/migrations /migrations
 
-# Command to run the application
-CMD ["./main"]
+# Copy the wait-for-postgres.sh script into the image
+COPY wait-for-postgres.sh /usr/local/bin/wait-for-postgres.sh
+
+# Set the executable permission
+RUN chmod +x /usr/local/bin/wait-for-postgres.sh
+
+# Use the script to wait for Postgres to be ready before starting your Go application
+# ...
+ENTRYPOINT ["/usr/local/bin/wait-for-postgres.sh", "db", "./main"]
+# ...
+
