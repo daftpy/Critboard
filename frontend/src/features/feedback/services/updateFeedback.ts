@@ -1,4 +1,4 @@
-import { IFormData } from "./createFeedback";
+import { IFormData } from "./createFeedback.ts";
 
 export async function updateFeedback(formData: IFormData) {
   try {

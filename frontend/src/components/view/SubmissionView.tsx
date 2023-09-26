@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { getSubmission } from "../../services/submission/getSubmission.ts";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import FeedbackList from "../../features/feedback/components/FeedbackList.tsx";
-import FeedbackForm from "../form/feedback/FeedbackForm";
+import FeedbackForm from "../../features/feedback/components/FeedbackForm.tsx";
 import { useFeedbackData } from "../../features/feedback/hooks/useFeedbackData.ts";
 
 export default function SubmissionView() {

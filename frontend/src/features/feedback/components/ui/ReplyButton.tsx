@@ -1,4 +1,4 @@
-import styles from "../../../styles/components/feedback/ReplyButton.module.css";
+import styles from "../../styles/ReplyButton.module.css";
 
 export type ReplyButtonProps = {
   toggleReplies: () => void;

@@ -3,15 +3,15 @@ import { useFeedbackData } from "./useFeedbackData.ts";
 import { useFeedbackDisplay } from "./useFeedbackDisplay.ts";
 
 // Services
-import { getReplies } from "../../../services/feedback/getFeedback.ts";
-import { removeFeedback } from "../../../services/feedback/removeFeedback.ts";
+import { getReplies } from "../services/getFeedback.ts";
+import { removeFeedback } from "../services/removeFeedback.ts";
 
 // Types
 import { FeedbackData } from "../../../types/feedback/types.ts";
 import { ActionType } from "../../../types/feedback/types.ts";
-import { ReplyButtonProps } from "../../../components/ui/feedback/ReplyButton.tsx";
-import { DeleteButtonProps } from "../../../components/ui/feedback/DeleteButton.tsx";
-import { EditButtonProps } from "../../../components/ui/feedback/EditButton.tsx";
+import { ReplyButtonProps } from "../components/ui/ReplyButton.tsx";
+import { DeleteButtonProps } from "../components/ui/DeleteButton.tsx";
+import { EditButtonProps } from "../components/ui/EditButton.tsx";
 import { FeedbackMetaProps } from "../components/FeedbackMeta.tsx";
 
 type EditFormProps = {

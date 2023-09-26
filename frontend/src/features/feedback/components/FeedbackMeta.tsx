@@ -1,12 +1,6 @@
-import EditButton, {
-  EditButtonProps,
-} from "../../../components/ui/feedback/EditButton.tsx";
-import DeleteButton, {
-  DeleteButtonProps,
-} from "../../../components/ui/feedback/DeleteButton.tsx";
-import ReplyButton, {
-  ReplyButtonProps,
-} from "../../../components/ui/feedback/ReplyButton.tsx";
+import EditButton, { EditButtonProps } from "./ui/EditButton.tsx";
+import DeleteButton, { DeleteButtonProps } from "./ui/DeleteButton.tsx";
+import ReplyButton, { ReplyButtonProps } from "./ui/ReplyButton.tsx";
 import styles from "../styles/FeedbackMeta.module.css";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 

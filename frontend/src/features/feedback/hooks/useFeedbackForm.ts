@@ -3,25 +3,25 @@ import {
   IFormData,
   createFeedback,
   createReply,
-} from "../../../services/feedback/createFeedback";
-import { FeedbackData } from "../../feedback/Feedback";
-import { updateFeedback } from "../../../services/feedback/updateFeedback";
+} from "../services/createFeedback.ts";
+import { FeedbackData } from "../../../types/feedback/types.ts";
+import { updateFeedback } from "../services/updateFeedback.ts";
 
 export type ActionType = "POST" | "UPDATE" | "DELETE";
 
-interface IProps {
+type Props = {
   initialData: IFormData;
   onSubmit: (feedback: FeedbackData) => void;
   replyForm?: boolean;
   actionType?: ActionType;
-}
+};
 
 export function useFeedbackForm({
   initialData,
   onSubmit,
   replyForm = false,
   actionType = "POST",
-}: IProps) {
+}: Props) {
   const [formData, setFormData] = useState<IFormData>(initialData);
 
   const handleChange = (

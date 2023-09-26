@@ -1,4 +1,4 @@
-import { FeedbackData } from "../../components/feedback/Feedback";
+import { FeedbackData } from "../../../types/feedback/types.ts";
 
 type SuccessResponse = {
   type: "success";

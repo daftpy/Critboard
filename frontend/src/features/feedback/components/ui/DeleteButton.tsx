@@ -1,4 +1,4 @@
-import Button from "../Button";
+import Button from "../../../../components/ui/Button.tsx";
 
 export type DeleteButtonProps = {
   onClick: () => void;
