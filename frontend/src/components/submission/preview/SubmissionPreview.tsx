@@ -1,22 +1,13 @@
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
-import styles from "../../styles/components/submission/SubmissionPreview.module.css";
+import styles from "../../../styles/components/submission/preview/SubmissionPreview.module.css";
 import { Link } from "react-router-dom";
+import { PreviewData } from "../../../types/submission/types.ts";
 
-export interface IPreview {
-  commentId: string;
-  title: string;
-  description: string;
-  type: "LINK" | "FILE";
-  createdAt: string;
-  updatedAt: string;
-  replyCount?: number;
-}
+type PreviewProps = {
+  submission: PreviewData;
+};
 
-interface IPreviewProps {
-  submission: IPreview;
-}
-
-export function SubmissionPreview({ submission }: IPreviewProps) {
+export function SubmissionPreview({ submission }: PreviewProps) {
   return (
     <div className={styles.preview}>
       <div className={styles.previewContent}>

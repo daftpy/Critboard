@@ -11,18 +11,8 @@
   font-weight: 300;
 }
 
-.recent {
-  margin-top: 2.5em;
-}
-
 .recent h2 {
   font-weight: 700;
-}
-
-.previews {
-  display: flex;
-  flex-direction: column;
-  margin-top: 1em;
 }
 
 .previews > * {

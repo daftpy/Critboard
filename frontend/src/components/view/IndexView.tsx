@@ -1,30 +1,14 @@
 import Button from "../ui/Button";
 import Template from "./Template";
-
 import styles from "../../styles/components/view/IndexView.module.css";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { getRecent } from "../../services/submission/getRecent";
-import { IPreview } from "../submission/SubmissionPreview";
-import { SubmissionPreview } from "../submission/SubmissionPreview";
+import { PreviewList } from "../submission/preview/PreviewList.tsx";
 
 export default function IndexView() {
   const navigate = useNavigate();
 
   const handleClick = () => navigate("/submit");
 
-  const [recentSubmissions, setRecent] = useState([]);
-
-  useEffect(() => {
-    const fetchSubmissions = async () => {
-      const submissions = await getRecent(10);
-      if (submissions.type === "success") {
-        setRecent(submissions.submissions);
-      }
-    };
-
-    fetchSubmissions();
-  }, []);
   return (
     <Template>
       <div className={styles.hero}>
@@ -35,19 +19,7 @@ export default function IndexView() {
         </p>
         <Button onClick={handleClick} message="Submit" size="large" />
       </div>
-      <div className={styles.recent}>
-        <h2>Recent Submissions</h2>
-        <div className={styles.previews}>
-          {recentSubmissions
-            ? recentSubmissions.map((submission: IPreview) => (
-                <SubmissionPreview
-                  key={submission.commentId}
-                  submission={submission}
-                />
-              ))
-            : null}
-        </div>
-      </div>
+      <PreviewList />
     </Template>
   );
 }
