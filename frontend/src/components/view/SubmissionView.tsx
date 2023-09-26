@@ -4,9 +4,9 @@ import { useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getSubmission } from "../../services/submission/getSubmission.ts";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
-import FeedbackList from "../feedback/FeedbackList";
+import FeedbackList from "../../features/feedback/components/FeedbackList.tsx";
 import FeedbackForm from "../form/feedback/FeedbackForm";
-import { useFeedbackData } from "../feedback/useFeedbackData";
+import { useFeedbackData } from "../../features/feedback/hooks/useFeedbackData.ts";
 
 export default function SubmissionView() {
   const location = useLocation();
@@ -108,8 +108,8 @@ export default function SubmissionView() {
             <div style={{ marginTop: "2.5em" }}>
               <FeedbackList
                 feedbacks={feedbackData}
-                updateFeedback={updateFeedbackData}
-                incrementReply={incrementReplyCount}
+                handleUpdateFeedback={updateFeedbackData}
+                handleIncrementReply={incrementReplyCount}
               />
             </div>
           </div>

@@ -1,25 +1,30 @@
-import { getReplies } from "../../services/feedback/getFeedback";
-import { FeedbackData } from "./Feedback";
-import { useFeedbackData } from "./useFeedbackData";
-import { MetaProps } from "./FeedbackMeta";
-import { ActionType } from "../form/feedback/useFeedbackForm";
-import { ReplyButtonProps } from "../ui/feedback/ReplyButton";
-import { DeleteButtonProps } from "../ui/feedback/DeleteButton";
-import { EditButtonProps } from "../ui/feedback/EditButton";
-import { removeFeedback } from "../../services/feedback/removeFeedback";
-import { useFeedbackDisplay } from "./useFeedbackDisplay.tsx";
+// Hooks
+import { useFeedbackData } from "./useFeedbackData.ts";
+import { useFeedbackDisplay } from "./useFeedbackDisplay.ts";
+
+// Services
+import { getReplies } from "../../../services/feedback/getFeedback.ts";
+import { removeFeedback } from "../../../services/feedback/removeFeedback.ts";
+
+// Types
+import { FeedbackData } from "../../../types/feedback/types.ts";
+import { ActionType } from "../../../types/feedback/types.ts";
+import { ReplyButtonProps } from "../../../components/ui/feedback/ReplyButton.tsx";
+import { DeleteButtonProps } from "../../../components/ui/feedback/DeleteButton.tsx";
+import { EditButtonProps } from "../../../components/ui/feedback/EditButton.tsx";
+import { FeedbackMetaProps } from "../components/FeedbackMeta.tsx";
 
 type EditFormProps = {
   commentId: string;
   text: string;
   buttonText: string;
   actionType: ActionType;
-  onSubmit: (updatedFeedback: FeedbackData) => void;
+  onSubmit: (updateFeedback: FeedbackData) => void;
 };
 
-export function useFeedback(
+export function useFeedbackManager(
   feedback: FeedbackData,
-  updateFeedback: (updatedFeedback: FeedbackData) => void,
+  updateFeedback: (updateFeedback: FeedbackData) => void,
   incrementReply: (commentId: string) => void,
 ) {
   const {
@@ -45,26 +50,24 @@ export function useFeedback(
     const result = await getReplies(feedback.commentId);
 
     if (result.type === "success") {
-      console.log(result);
       setFeedbackData(result.feedback || []);
     } else {
       console.error(result.errors);
     }
   }
 
-  const deleteFeedback = async () => {
+  const handleRemoveFeedback = async () => {
     try {
       const removedFeedback = await removeFeedback(feedback.commentId);
       removedFeedback.feedback.removed = true;
-      console.log("Removed", removedFeedback);
       updateFeedback(removedFeedback.feedback);
       showConfirmation && toggleConfirmation();
     } catch (error) {
-      console.log("Error removing feedback:", error);
+      console.error(error);
     }
   };
 
-  const toggleReplies = () => {
+  const handleToggleReplies = () => {
     if (showReplies) {
       toggleShowReplies();
     } else {
@@ -75,27 +78,35 @@ export function useFeedback(
     }
   };
 
-  const addFeedback = (newFeedback: FeedbackData) => {
+  const handleAddFeedback = (newFeedback: FeedbackData) => {
     editMode && toggleEditMode();
     incrementReply(feedback.commentId);
     addFeedbackData(newFeedback);
-    !showReplies && toggleReplies();
+    !showReplies && handleToggleReplies();
     showForm && toggleForm();
+  };
+
+  const handleToggleForm = () => {
+    toggleForm();
+  };
+
+  const childHandleIncrementReply = (commentId: string) => {
+    incrementReplyCount(commentId);
   };
 
   function getButtonProps() {
     return {
-      edit: <EditButtonProps>{
+      editButton: <EditButtonProps>{
         editMode: editMode,
         onClick: toggleEditMode,
       },
-      remove: <DeleteButtonProps>{
-        onClick: deleteFeedback,
+      removeButton: <DeleteButtonProps>{
+        onClick: handleRemoveFeedback,
         confirm: showConfirmation,
         toggleConfirm: toggleConfirmation,
       },
-      reply: <ReplyButtonProps>{
-        toggleReplies: toggleReplies,
+      replyButton: <ReplyButtonProps>{
+        toggleReplies: handleToggleReplies,
         toggleForm: toggleForm,
         replyCount: feedback.replies,
         showForm: showForm,
@@ -104,14 +115,12 @@ export function useFeedback(
     };
   }
 
-  console.log("hook removed value?", feedback.removed);
-
-  const getMetaProps = (): MetaProps => {
-    const { edit, remove, reply } = getButtonProps();
+  const getMetaProps = (): FeedbackMetaProps => {
+    const { editButton, removeButton, replyButton } = getButtonProps();
     return {
-      edit,
-      remove,
-      reply,
+      editButton,
+      removeButton,
+      replyButton,
       createdAt: feedback.createdAt,
       author: "author",
       removed: feedback.removed,
@@ -136,11 +145,11 @@ export function useFeedback(
     showForm,
     editMode,
     feedbackData,
-    updateFeedbackData,
-    incrementReplyCount,
-    toggleForm,
-    toggleReplies,
-    addFeedback,
+    childUpdateFeedbackData: updateFeedbackData,
+    childHandleIncrementReply,
+    handleToggleForm,
+    handleToggleReplies,
+    handleAddFeedback,
     getMetaProps,
     getEditFormProps,
   };
