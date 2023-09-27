@@ -1,5 +1,5 @@
 import { useFeedbackManager } from "../hooks/useFeedbackManager.ts";
-import { FeedbackData } from "../../../types/feedback/types.ts";
+import { FeedbackData } from "../types/feedbackTypes.ts";
 import FeedbackForm from "./FeedbackForm.tsx";
 import FeedbackMeta from "./FeedbackMeta.tsx";
 import FeedbackList from "./FeedbackList.tsx";

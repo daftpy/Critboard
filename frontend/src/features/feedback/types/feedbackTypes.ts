@@ -7,4 +7,9 @@ export type FeedbackData = {
   removed: boolean;
 };
 
+export type FeedbackFormData = {
+  feedbackText: string;
+  commentId: string;
+};
+
 export type ActionType = "POST" | "UPDATE" | "DELETE";

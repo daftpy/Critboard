@@ -1,16 +1,12 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import {
-  IFormData,
-  createFeedback,
-  createReply,
-} from "../services/createFeedback.ts";
-import { FeedbackData } from "../../../types/feedback/types.ts";
+import { FeedbackFormData } from "../types/feedbackTypes.ts";
+import { createFeedback, createReply } from "../services/createFeedback.ts";
+import { FeedbackData } from "../types/feedbackTypes.ts";
 import { updateFeedback } from "../services/updateFeedback.ts";
-
-export type ActionType = "POST" | "UPDATE" | "DELETE";
+import { ActionType } from "../types/feedbackTypes.ts";
 
 type Props = {
-  initialData: IFormData;
+  initialData: FeedbackFormData;
   onSubmit: (feedback: FeedbackData) => void;
   replyForm?: boolean;
   actionType?: ActionType;
@@ -22,7 +18,7 @@ export function useFeedbackForm({
   replyForm = false,
   actionType = "POST",
 }: Props) {
-  const [formData, setFormData] = useState<IFormData>(initialData);
+  const [formData, setFormData] = useState<FeedbackFormData>(initialData);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,

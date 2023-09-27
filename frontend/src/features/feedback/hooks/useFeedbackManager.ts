@@ -7,8 +7,8 @@ import { getReplies } from "../services/getFeedback.ts";
 import { removeFeedback } from "../services/removeFeedback.ts";
 
 // Types
-import { FeedbackData } from "../../../types/feedback/types.ts";
-import { ActionType } from "../../../types/feedback/types.ts";
+import { FeedbackData } from "../types/feedbackTypes.ts";
+import { ActionType } from "../types/feedbackTypes.ts";
 import { ReplyButtonProps } from "../components/ui/ReplyButton.tsx";
 import { DeleteButtonProps } from "../components/ui/DeleteButton.tsx";
 import { EditButtonProps } from "../components/ui/EditButton.tsx";

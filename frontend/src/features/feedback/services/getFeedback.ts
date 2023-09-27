@@ -1,18 +1,8 @@
-import { FeedbackData } from "../../../types/feedback/types.ts";
+import { GetFeedbackResponse } from "../types/serviceTypes.ts";
 
-type SuccessResponse = {
-  type: "success";
-  feedback: FeedbackData[];
-};
-
-type ErrorResponse = {
-  type: "error";
-  errors: string[];
-};
-
-type GetResponse = SuccessResponse | ErrorResponse;
-
-export async function getReplies(commentId: string): Promise<GetResponse> {
+export async function getReplies(
+  commentId: string,
+): Promise<GetFeedbackResponse> {
   try {
     const response = await fetch(
       `${import.meta.env.VITE_URL}/feedback/${commentId}/replies`,

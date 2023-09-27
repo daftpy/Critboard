@@ -1,9 +1,6 @@
-export interface IFormData {
-  feedbackText: string;
-  commentId: string;
-}
+import { FeedbackFormData } from "../types/feedbackTypes.ts";
 
-export async function createFeedback(formData: IFormData) {
+export async function createFeedback(formData: FeedbackFormData) {
   try {
     const response = await fetch(
       `${import.meta.env.VITE_URL}/submissions/${formData.commentId}/feedback`,
@@ -37,7 +34,7 @@ export async function createFeedback(formData: IFormData) {
   }
 }
 
-export async function createReply(formData: IFormData) {
+export async function createReply(formData: FeedbackFormData) {
   try {
     const response = await fetch(
       `${import.meta.env.VITE_URL}/feedback/${formData.commentId}/replies`,

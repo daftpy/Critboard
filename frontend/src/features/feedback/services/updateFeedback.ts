@@ -1,6 +1,6 @@
-import { IFormData } from "./createFeedback.ts";
+import { FeedbackFormData } from "../types/feedbackTypes.ts";
 
-export async function updateFeedback(formData: IFormData) {
+export async function updateFeedback(formData: FeedbackFormData) {
   try {
     const response = await fetch(
       `${import.meta.env.VITE_URL}/feedback/${formData.commentId}`,

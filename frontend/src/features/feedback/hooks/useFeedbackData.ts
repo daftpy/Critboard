@@ -14,7 +14,7 @@
  * - `incrementReplyCount`: A function to increment the reply count of a specific feedback item.
  */
 
-import { FeedbackData } from "../../../types/feedback/types.ts";
+import { FeedbackData } from "../types/feedbackTypes.ts";
 import { useState } from "react";
 
 export function useFeedbackData() {

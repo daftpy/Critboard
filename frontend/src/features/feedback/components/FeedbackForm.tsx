@@ -1,9 +1,10 @@
-import { ActionType, useFeedbackForm } from "../hooks/useFeedbackForm.ts";
-import { IFormData } from "../services/createFeedback.ts";
+import { useFeedbackForm } from "../hooks/useFeedbackForm.ts";
+import { FeedbackFormData } from "../types/feedbackTypes.ts";
 import styles from "../styles/FeedbackForm.module.css";
 import Button from "../../../components/ui/Button.tsx";
-import { FeedbackData } from "../../../types/feedback/types.ts";
+import { FeedbackData } from "../types/feedbackTypes.ts";
 import { useEffect } from "react";
+import { ActionType } from "../types/feedbackTypes.ts";
 
 type FeedbackFormProps = {
   commentId: string;
@@ -22,7 +23,7 @@ export default function FeedbackForm({
   buttonText,
   actionType = "POST",
 }: FeedbackFormProps) {
-  const initialData: IFormData = {
+  const initialData: FeedbackFormData = {
     feedbackText: text || "",
     commentId: commentId,
   };

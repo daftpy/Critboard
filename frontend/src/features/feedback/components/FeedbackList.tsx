@@ -1,4 +1,4 @@
-import { FeedbackData } from "../../../types/feedback/types.ts";
+import { FeedbackData } from "../types/feedbackTypes.ts";
 import { compareDesc, parseISO } from "date-fns";
 import Feedback from "./Feedback.tsx";
 import styles from "../styles/FeedbackList.module.css";
