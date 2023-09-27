@@ -1,4 +1,4 @@
-import styles from "../../../styles/components/form/submission/TypeSelector.module.css";
+import styles from "../styles/preview/TypeSelector.module.css";
 
 interface TypeSelectorProps {
   selectType: (type: string) => void;

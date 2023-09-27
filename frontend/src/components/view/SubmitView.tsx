@@ -3,7 +3,7 @@ import Template from "./Template";
 
 import styles from "../../styles/components/view/SubmitView.module.css";
 import { useState } from "react";
-import SubmissionForm from "../form/submission/SubmissionForm";
+import SubmissionForm from "../../features/submission/components/SubmissionForm.tsx";
 
 export default function SubmitView() {
   const [showForm, setShowForm] = useState(false);

@@ -2,7 +2,7 @@ import Template from "./Template";
 import styles from "../../styles/components/view/SubmissionView.module.css";
 import { useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getSubmission } from "../../services/submission/getSubmission.ts";
+import { getSubmission } from "../../features/submission/services/getSubmission.ts";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import FeedbackList from "../../features/feedback/components/FeedbackList.tsx";
 import FeedbackForm from "../../features/feedback/components/FeedbackForm.tsx";

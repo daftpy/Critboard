@@ -2,7 +2,7 @@ import Button from "../ui/Button";
 import Template from "./Template";
 import styles from "../../styles/components/view/IndexView.module.css";
 import { useNavigate } from "react-router-dom";
-import { PreviewList } from "../submission/preview/PreviewList.tsx";
+import { PreviewList } from "../../features/submission/components/PreviewList.tsx";
 
 export default function IndexView() {
   const navigate = useNavigate();

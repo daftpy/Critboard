@@ -1,4 +1,4 @@
-import { IFormData } from "../../components/form/submission/useSubmissionForm.ts";
+import { SubmissionFormData } from "../types/submissionTypes.ts";
 
 interface SuccessResponse {
   type: "success";
@@ -14,12 +14,12 @@ interface ErrorResonse {
 
 type SubmissionResponse = SuccessResponse | ErrorResonse;
 
-export async function createFileSubmission(
-  submissionData: IFormData,
+export async function createLinkSubmission(
+  submissionData: SubmissionFormData,
 ): Promise<SubmissionResponse> {
   try {
     const response = await fetch(
-      `${import.meta.env.VITE_URL}/submissions/file/create`,
+      `${import.meta.env.VITE_URL}/submissions/link/create`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

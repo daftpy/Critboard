@@ -1,14 +1,15 @@
 import { useNavigate } from "react-router-dom";
-import styles from "../../../styles/components/form/submission/SubmissionForm.module.css";
-import Button from "../../ui/Button";
-import TextInput from "../../ui/TextInput";
-import TypeSelector from "./TypeSelector";
-import { IFormData, useSubmissionForm } from "./useSubmissionForm";
+import styles from "../styles/preview/SubmissionForm.module.css";
+import Button from "../../../components/ui/Button.tsx";
+import TextInput from "../../../components/ui/TextInput.tsx";
+import TypeSelector from "./TypeSelector.tsx";
+import { useSubmissionForm } from "../hooks/useSubmissionForm.ts";
+import { SubmissionFormData } from "../types/submissionTypes.ts";
 
 export default function SubmissionForm() {
   const navigate = useNavigate();
 
-  const inititalData: IFormData = {
+  const inititalData: SubmissionFormData = {
     title: "",
     description: "",
     type: "LINK",

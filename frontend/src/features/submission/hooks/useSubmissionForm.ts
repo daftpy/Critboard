@@ -1,53 +1,16 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import { createLinkSubmission } from "../../../services/submission/createLinkSubmission.ts";
+import { createLinkSubmission } from "../services/createLinkSubmission.ts";
 import { NavigateFunction } from "react-router-dom";
-import { createFileSubmission } from "../../../services/submission/createFileSubmission.ts";
-import { uploadFile } from "../../../services/submission/createFileUpload.ts";
-
-export interface IFormData {
-  title: string;
-  description: string;
-  type: "LINK" | "FILE";
-  link?: string;
-  upload_data?: FileResponse;
-}
-
-type FileResponse = {
-  id: string;
-  file_path: string;
-  file_name: string;
-  file_extension: string;
-};
-
-type SubmissionData = {
-  fileDetail?: FileResponse;
-  linkDetail?: { link: string };
-  commentId: string;
-  title: string;
-  description: string;
-  type: "FILE" | "LINK";
-  createdAt: string;
-  updatedAt: string;
-};
-
-type ISuccessResponse = {
-  type: "success";
-  message: string;
-  submission: SubmissionData;
-};
-
-type IErrorResponse = {
-  type: "error";
-  errors: string[];
-};
-
-type SubmissionResponse = ISuccessResponse | IErrorResponse;
+import { createFileSubmission } from "../services/createFileSubmission.ts";
+import { uploadFile } from "../services/createFileUpload.ts";
+import { SubmissionFormData } from "../types/submissionTypes.ts";
+import { CreateSubmissionResponse } from "../types/serviceTypes.ts";
 
 export function useSubmissionForm(
-  initialData: IFormData,
+  initialData: SubmissionFormData,
   navigate: NavigateFunction,
 ) {
-  const [formData, setFormData] = useState<IFormData>(initialData);
+  const [formData, setFormData] = useState<SubmissionFormData>(initialData);
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
@@ -107,7 +70,7 @@ export function useSubmissionForm(
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response: SubmissionResponse =
+    const response: CreateSubmissionResponse =
       formData.type == "LINK"
         ? await createLinkSubmission(formData)
         : await createFileSubmission(formData);

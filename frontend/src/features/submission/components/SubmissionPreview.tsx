@@ -1,10 +1,10 @@
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
-import styles from "../../../styles/components/submission/preview/SubmissionPreview.module.css";
+import styles from "../styles/preview/SubmissionPreview.module.css";
 import { Link } from "react-router-dom";
-import { PreviewData } from "../../../types/submission/types.ts";
+import { SubmissionPreviewData } from "../types/submissionTypes.ts";
 
 type PreviewProps = {
-  submission: PreviewData;
+  submission: SubmissionPreviewData;
 };
 
 export function SubmissionPreview({ submission }: PreviewProps) {
