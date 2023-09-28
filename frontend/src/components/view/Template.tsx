@@ -8,13 +8,20 @@ interface TemplateProps {
 }
 
 export default function Template({ children }: TemplateProps) {
+  const handleLogin = () => {
+    window.location.href = "http://localhost:3000/auth/twitch";
+  };
   return (
     <div className={styles.container}>
       <div className={styles.brandContainer}>
         <Link to="/">
           <h1 className={styles.brand}>Critboard</h1>
         </Link>
-        <button style={{ height: "40px" }} className={buttonStyles.button}>
+        <button
+          style={{ height: "40px" }}
+          className={buttonStyles.button}
+          onClick={handleLogin}
+        >
           Login
         </button>
       </div>

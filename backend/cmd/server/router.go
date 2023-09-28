@@ -1,6 +1,7 @@
 package main
 
 import (
+	"critboard-backend/api/authAPI"
 	"critboard-backend/api/feedbackAPI"
 	"critboard-backend/api/submissionsAPI"
 	"critboard-backend/api/uploadAPI"
@@ -36,5 +37,9 @@ func InitializeRouter(db *pgxpool.Pool) *chi.Mux {
 	r.Patch("/feedback/{id}/remove", feedbackAPI.Remove(db))
 	r.Get("/feedback/{id}/replies", feedbackAPI.Get(db))
 	r.Post("/feedback/{id}/replies", feedbackAPI.Create(db))
+
+	r.Get("/auth/twitch", authAPI.TwitchAuthHandler(db))
+	r.Get("/oauth/callback", authAPI.TwitchCallbackHandler(db))
+
 	return r
 }

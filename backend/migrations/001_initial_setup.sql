@@ -11,6 +11,16 @@ BEGIN
 END
 $$;
 
+-- Create user table if it doesn't exist
+CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    twitch_id VARCHAR(255) UNIQUE NOT NULL,
+    username VARCHAR(25) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
 -- Create commentable table if it doesn't exist
 CREATE TABLE IF NOT EXISTS commentables (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid()
