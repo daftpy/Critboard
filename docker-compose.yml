@@ -2,15 +2,13 @@ version: '3'
 
 services:
   backend:
+    env_file:
+      - .env.dev
     build:
       context: ./backend
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
-    environment:
-      - DATABASE_URL=postgres://postgres:changeme@db:5432/critboard_db
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=changeme
     depends_on:
       - db
     volumes:
@@ -26,11 +24,11 @@ services:
       - uploads-volume:/usr/share/nginx/html/uploads
 
   db:
+    env_file:
+      - .env.dev
     image: postgres:13
     environment:
       POSTGRES_DB: critboard_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: changeme
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
