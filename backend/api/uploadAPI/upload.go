@@ -1,4 +1,4 @@
-package submissionsAPI
+package uploadAPI
 
 import (
 	"critboard-backend/database/query/queryFileUpload"

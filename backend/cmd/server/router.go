@@ -3,6 +3,7 @@ package main
 import (
 	"critboard-backend/api/feedbackAPI"
 	"critboard-backend/api/submissionsAPI"
+	"critboard-backend/api/uploadAPI"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
@@ -23,7 +24,7 @@ func InitializeRouter(db *pgxpool.Pool) *chi.Mux {
 	}).Handler)
 
 	// Routes
-	r.Post("/uploads", submissionsAPI.UploadFile(db))
+	r.Post("/uploads", uploadAPI.UploadFile(db))
 	r.Post("/submissions/link/create", submissionsAPI.CreateLink(db))
 	r.Post("/submissions/file/create", submissionsAPI.CreateFile(db))
 	r.Get("/submissions/recent/{count}", submissionsAPI.GetRecent(db))
