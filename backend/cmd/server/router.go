@@ -24,6 +24,8 @@ func InitializeRouter(db *pgxpool.Pool) *chi.Mux {
 		Debug:            true,
 	}).Handler)
 
+	authHandler := authAPI.NewAuthHandler(db)
+
 	// Routes
 	r.Post("/uploads", uploadAPI.UploadFile(db))
 	r.Post("/submissions/link/create", submissionsAPI.CreateLink(db))
@@ -38,8 +40,7 @@ func InitializeRouter(db *pgxpool.Pool) *chi.Mux {
 	r.Get("/feedback/{id}/replies", feedbackAPI.Get(db))
 	r.Post("/feedback/{id}/replies", feedbackAPI.Create(db))
 
-	r.Get("/auth/twitch", authAPI.TwitchAuthHandler(db))
-	r.Get("/oauth/callback", authAPI.TwitchCallbackHandler(db))
-
+	r.Get("/auth/twitch", authHandler.TwitchAuthHandler())
+	r.Get("/oauth/callback", authHandler.TwitchCallbackHandler())
 	return r
 }

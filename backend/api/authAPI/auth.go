@@ -3,32 +3,23 @@ package authAPI
 import (
 	"critboard-backend/database/query/queryUsers"
 	"encoding/json"
-	"github.com/jackc/pgx/v5/pgxpool"
 	"golang.org/x/oauth2"
-	"golang.org/x/oauth2/twitch"
 	"log"
 	"net/http"
-	"os"
 )
 
-var oauthConfig = &oauth2.Config{
-	ClientID:     os.Getenv("TWITCH_CLIENT_ID"),
-	ClientSecret: os.Getenv("TWITCH_CLIENT_SECRET"),
-	RedirectURL:  "http://localhost:3000/oauth/callback",
-	Scopes:       []string{"user:read:email"},
-	Endpoint:     twitch.Endpoint,
-}
-
-func TwitchAuthHandler(db *pgxpool.Pool) http.HandlerFunc {
+func (a *AuthHandler) TwitchAuthHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		url := oauthConfig.AuthCodeURL("state", oauth2.AccessTypeOnline)
+		url := a.oauthConfig.AuthCodeURL("state", oauth2.AccessTypeOnline)
 		http.Redirect(w, r, url, http.StatusTemporaryRedirect)
 	}
 }
 
-func TwitchCallbackHandler(db *pgxpool.Pool) http.HandlerFunc {
+func (a *AuthHandler) TwitchCallbackHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		token, err := oauthConfig.Exchange(oauth2.NoContext, r.URL.Query().Get("code"))
+		log.Println("URL:", r.URL.String())         // Log the URL
+		log.Println("Query Params:", r.URL.Query()) // Log the query parameters
+		token, err := a.oauthConfig.Exchange(oauth2.NoContext, r.URL.Query().Get("code"))
 		if err != nil {
 			log.Println("Error exchanging code for token:", err)
 			http.Error(w, "Unauthorized", http.StatusUnauthorized)
@@ -43,7 +34,7 @@ func TwitchCallbackHandler(db *pgxpool.Pool) http.HandlerFunc {
 			return
 		}
 		req.Header.Set("Authorization", "Bearer "+token.AccessToken)
-		req.Header.Set("Client-Id", oauthConfig.ClientID)
+		req.Header.Set("Client-Id", a.oauthConfig.ClientID)
 		res, err := client.Do(req)
 		if err != nil {
 			log.Println("Error fetching user info:", err)
@@ -72,7 +63,7 @@ func TwitchCallbackHandler(db *pgxpool.Pool) http.HandlerFunc {
 			return
 		}
 
-		userData, err := queryUsers.CreateUser(db, userInfo.Data[0].ID, userInfo.Data[0].Login, userInfo.Data[0].Email)
+		userData, err := queryUsers.CreateUser(a.db, userInfo.Data[0].ID, userInfo.Data[0].Login, userInfo.Data[0].Email)
 		if err != nil {
 			log.Println("Error creating user:", err)
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
