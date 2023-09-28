@@ -1,6 +1,7 @@
 package authAPI
 
 import (
+	"github.com/alexedwards/scs/v2"
 	"github.com/bradfitz/gomemcache/memcache"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"golang.org/x/oauth2"
@@ -14,9 +15,10 @@ type AuthHandler struct {
 	oauthConfig    *oauth2.Config
 	httpClient     *http.Client
 	memcacheClient *memcache.Client
+	sessionManager *scs.SessionManager
 }
 
-func NewAuthHandler(db *pgxpool.Pool, mc *memcache.Client) *AuthHandler {
+func NewAuthHandler(db *pgxpool.Pool, mc *memcache.Client, sessionManager *scs.SessionManager) *AuthHandler {
 	return &AuthHandler{
 		db: db,
 		oauthConfig: &oauth2.Config{
@@ -28,5 +30,6 @@ func NewAuthHandler(db *pgxpool.Pool, mc *memcache.Client) *AuthHandler {
 		},
 		httpClient:     &http.Client{},
 		memcacheClient: mc,
+		sessionManager: sessionManager,
 	}
 }

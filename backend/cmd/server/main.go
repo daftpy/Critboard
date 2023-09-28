@@ -4,9 +4,11 @@ import (
 	"context"
 	"critboard-backend/database"
 	"critboard-backend/migrations"
+	"github.com/alexedwards/scs/v2"
 	"github.com/bradfitz/gomemcache/memcache"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/go-chi/chi"
 )
@@ -14,13 +16,16 @@ import (
 func main() {
 	ctx := context.Background()
 
-	router := initializeServer(ctx)
+	sessionManager := scs.New()
+	sessionManager.Lifetime = 24 * time.Hour
+
+	router := initializeServer(ctx, sessionManager)
 
 	http.ListenAndServe(":3000", router)
 	log.Println("Server status: Running")
 }
 
-func initializeServer(ctx context.Context) *chi.Mux {
+func initializeServer(ctx context.Context, sessionManager *scs.SessionManager) *chi.Mux {
 	db := database.InitializeDB(ctx)
 	database.TestConn(ctx, db)
 
@@ -28,7 +33,7 @@ func initializeServer(ctx context.Context) *chi.Mux {
 
 	migrations.RunInitialMigrations(ctx, db)
 
-	r := InitializeRouter(db, mc)
+	r := InitializeRouter(db, mc, sessionManager)
 
 	return r
 }
