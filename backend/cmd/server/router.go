@@ -5,6 +5,7 @@ import (
 	"critboard-backend/api/feedbackAPI"
 	"critboard-backend/api/submissionsAPI"
 	"critboard-backend/api/uploadAPI"
+	"github.com/bradfitz/gomemcache/memcache"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
@@ -12,7 +13,7 @@ import (
 	"github.com/rs/cors"
 )
 
-func InitializeRouter(db *pgxpool.Pool) *chi.Mux {
+func InitializeRouter(db *pgxpool.Pool, mc *memcache.Client) *chi.Mux {
 	r := chi.NewRouter()
 
 	// Middleware
@@ -24,7 +25,7 @@ func InitializeRouter(db *pgxpool.Pool) *chi.Mux {
 		Debug:            true,
 	}).Handler)
 
-	authHandler := authAPI.NewAuthHandler(db)
+	authHandler := authAPI.NewAuthHandler(db, mc)
 
 	// Routes
 	r.Post("/uploads", uploadAPI.UploadFile(db))

@@ -1,6 +1,7 @@
 package authAPI
 
 import (
+	"github.com/bradfitz/gomemcache/memcache"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/twitch"
@@ -9,12 +10,13 @@ import (
 )
 
 type AuthHandler struct {
-	db          *pgxpool.Pool
-	oauthConfig *oauth2.Config
-	httpClient  *http.Client
+	db             *pgxpool.Pool
+	oauthConfig    *oauth2.Config
+	httpClient     *http.Client
+	memcacheClient *memcache.Client
 }
 
-func NewAuthHandler(db *pgxpool.Pool) *AuthHandler {
+func NewAuthHandler(db *pgxpool.Pool, mc *memcache.Client) *AuthHandler {
 	return &AuthHandler{
 		db: db,
 		oauthConfig: &oauth2.Config{
@@ -24,6 +26,7 @@ func NewAuthHandler(db *pgxpool.Pool) *AuthHandler {
 			Scopes:       []string{"user:read:email"},
 			Endpoint:     twitch.Endpoint,
 		},
-		httpClient: &http.Client{},
+		httpClient:     &http.Client{},
+		memcacheClient: mc,
 	}
 }

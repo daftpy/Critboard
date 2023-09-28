@@ -3,6 +3,7 @@ module critboard-backend
 go 1.21.0
 
 require (
+	github.com/bradfitz/gomemcache v0.0.0-20230905024940-24af94b03874
 	github.com/go-chi/chi v1.5.4
 	github.com/jackc/pgx/v5 v5.4.3
 	github.com/pkg/errors v0.9.1

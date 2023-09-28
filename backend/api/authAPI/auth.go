@@ -2,6 +2,7 @@ package authAPI
 
 import (
 	"critboard-backend/database/query/queryUsers"
+	"critboard-backend/pkg/auth"
 	"encoding/json"
 	"golang.org/x/oauth2"
 	"log"
@@ -33,6 +34,7 @@ func (a *AuthHandler) TwitchCallbackHandler() http.HandlerFunc {
 			http.Error(w, "Unauthorized", http.StatusUnauthorized)
 			return
 		}
+
 		req.Header.Set("Authorization", "Bearer "+token.AccessToken)
 		req.Header.Set("Client-Id", a.oauthConfig.ClientID)
 		res, err := client.Do(req)
@@ -60,6 +62,13 @@ func (a *AuthHandler) TwitchCallbackHandler() http.HandlerFunc {
 		if len(userInfo.Data) == 0 {
 			log.Println("No user data received")
 			http.Error(w, "Unauthorized", http.StatusUnauthorized)
+			return
+		}
+
+		err = auth.StoreOAuthTokens(a.memcacheClient, userInfo.Data[0].ID, token.AccessToken, token.RefreshToken)
+		if err != nil {
+			log.Println("Error storing OAuth tokens:", err)
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			return
 		}
 
