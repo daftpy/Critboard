@@ -1,6 +1,6 @@
 export async function getUsers() {
   try {
-    const response = await fetch(`${import.meta.env.VITE_URL}/api/users`, {
+    const response = await fetch(`${import.meta.env.VITE_URL}/users`, {
       method: "GET",
       headers: {},
       credentials: "include", // Ensure cookies are sent with the request

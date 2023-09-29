@@ -17,14 +17,13 @@ export default function IndexView() {
     const fetchUsers = async () => {
       const res = await getUsers();
       setUsername(res.user.username);
-      console.log(username);
     };
 
     fetchUsers();
   }, []);
 
   return (
-    <Template>
+    <Template username={username}>
       <div className={styles.hero}>
         <p className={styles.callToAction}>
           <span style={{ fontWeight: "500" }}>Critboard </span>

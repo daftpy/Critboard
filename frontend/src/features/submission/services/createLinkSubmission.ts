@@ -19,7 +19,7 @@ export async function createLinkSubmission(
 ): Promise<SubmissionResponse> {
   try {
     const response = await fetch(
-      `${import.meta.env.VITE_URL}/api/submissions/link/create`,
+      `${import.meta.env.VITE_URL}/submissions/link/create`,
       {
         method: "POST",
         credentials: "include",
