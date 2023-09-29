@@ -5,6 +5,7 @@ import (
 	"critboard-backend/api/feedbackAPI"
 	"critboard-backend/api/submissionsAPI"
 	"critboard-backend/api/uploadAPI"
+	"critboard-backend/api/usersAPI"
 	"critboard-backend/pkg/critMiddleware"
 	"github.com/alexedwards/scs/v2"
 	"github.com/bradfitz/gomemcache/memcache"
@@ -44,6 +45,8 @@ func InitializeRouter(db *pgxpool.Pool, mc *memcache.Client, sessionManager *scs
 	r.Patch("/feedback/{id}/remove", feedbackAPI.Remove(db))
 	r.Get("/feedback/{id}/replies", feedbackAPI.Get(db))
 	r.With(authMiddleware).Post("/feedback/{id}/replies", feedbackAPI.Create(db))
+
+	r.Get("/users", usersAPI.Get(db, sessionManager))
 
 	r.Get("/auth/twitch", authHandler.TwitchAuthHandler())
 	r.Get("/oauth/callback", authHandler.TwitchCallbackHandler())

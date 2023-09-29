@@ -48,6 +48,13 @@ type Feedback struct {
 	Removed      bool      `json:"removed"`
 }
 
+type User struct {
+	ID       int    `json:"id"`
+	TwitchID string `json:"twitchId"`
+	Username string `json:"username"`
+	Email    string `json:"email"`
+}
+
 type FeedbackPayload struct {
 	CommentID    string `json:"commentId"`
 	FeedbackText string `json:"feedbackText"`

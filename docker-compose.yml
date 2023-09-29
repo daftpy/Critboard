@@ -37,7 +37,7 @@ services:
       - "8080:80"
     depends_on:
       - backend
-      - frontend  # Added frontend dependency here
+      - frontend
     volumes:
       - app-dist:/usr/share/nginx/html
       - uploads-volume:/usr/share/nginx/html/uploads
@@ -48,7 +48,6 @@ services:
       dockerfile: Dockerfile
     volumes:
       - app-dist:/app/dist
-    # Removed the ports directive as Nginx will handle requests to frontend
 
 volumes:
   pgdata:
