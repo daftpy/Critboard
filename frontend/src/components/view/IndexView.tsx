@@ -3,27 +3,14 @@ import Template from "./Template";
 import styles from "../../styles/components/view/IndexView.module.css";
 import { useNavigate } from "react-router-dom";
 import { PreviewList } from "../../features/submission/components/PreviewList.tsx";
-import { useEffect, useState } from "react";
-import { getUsers } from "../../services/getUsers.ts";
 
 export default function IndexView() {
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState<string>("");
-
   const handleClick = () => navigate("/submit");
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const res = await getUsers();
-      setUsername(res.user.username);
-    };
-
-    fetchUsers();
-  }, []);
-
   return (
-    <Template username={username}>
+    <Template>
       <div className={styles.hero}>
         <p className={styles.callToAction}>
           <span style={{ fontWeight: "500" }}>Critboard </span>
