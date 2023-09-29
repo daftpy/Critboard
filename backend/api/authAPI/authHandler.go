@@ -24,7 +24,7 @@ func NewAuthHandler(db *pgxpool.Pool, mc *memcache.Client, sessionManager *scs.S
 		oauthConfig: &oauth2.Config{
 			ClientID:     os.Getenv("TWITCH_CLIENT_ID"),
 			ClientSecret: os.Getenv("TWITCH_CLIENT_SECRET"),
-			RedirectURL:  "http://localhost:3000/oauth/callback",
+			RedirectURL:  "http://localhost:8080/api/oauth/callback",
 			Scopes:       []string{"user:read:email"},
 			Endpoint:     twitch.Endpoint,
 		},

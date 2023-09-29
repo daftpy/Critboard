@@ -7,22 +7,11 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
     depends_on:
       - db
       - memcached
     volumes:
       - uploads-volume:/app/uploads
-
-  frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8080:80"
-    volumes:
-      - uploads-volume:/usr/share/nginx/html/uploads
 
   db:
     env_file:
@@ -40,6 +29,28 @@ services:
     ports:
       - "11211:11211"
 
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+      - frontend  # Added frontend dependency here
+    volumes:
+      - app-dist:/usr/share/nginx/html
+      - uploads-volume:/usr/share/nginx/html/uploads
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - app-dist:/app/dist
+    # Removed the ports directive as Nginx will handle requests to frontend
+
 volumes:
   pgdata:
   uploads-volume:
+  app-dist:

@@ -18,6 +18,9 @@ func main() {
 
 	sessionManager := scs.New()
 	sessionManager.Lifetime = 24 * time.Hour
+	sessionManager.Cookie.Persist = true
+	sessionManager.Cookie.SameSite = http.SameSiteNoneMode
+	sessionManager.Cookie.Secure = false
 
 	router := initializeServer(ctx, sessionManager)
 

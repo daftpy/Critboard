@@ -9,7 +9,7 @@ interface TemplateProps {
 
 export default function Template({ children }: TemplateProps) {
   const handleLogin = () => {
-    window.location.href = "http://localhost:3000/auth/twitch";
+    window.location.href = "http://localhost:8080/api/auth/twitch";
   };
   return (
     <div className={styles.container}>

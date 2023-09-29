@@ -5,6 +5,7 @@ import (
 	"critboard-backend/api/feedbackAPI"
 	"critboard-backend/api/submissionsAPI"
 	"critboard-backend/api/uploadAPI"
+	"critboard-backend/pkg/critMiddleware"
 	"github.com/alexedwards/scs/v2"
 	"github.com/bradfitz/gomemcache/memcache"
 
@@ -21,17 +22,18 @@ func InitializeRouter(db *pgxpool.Pool, mc *memcache.Client, sessionManager *scs
 	r.Use(middleware.Logger)
 	r.Use(sessionManager.LoadAndSave)
 	r.Use(cors.New(cors.Options{
-		AllowedOrigins:   []string{"*"},
+		AllowedOrigins:   []string{"http://localhost:8080"},
 		AllowCredentials: true,
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "PATCH"},
 		Debug:            true,
 	}).Handler)
 
 	authHandler := authAPI.NewAuthHandler(db, mc, sessionManager)
+	authMiddleware := critMiddleware.AuthMiddleware(sessionManager)
 
 	// Routes
 	r.Post("/uploads", uploadAPI.UploadFile(db))
-	r.Post("/submissions/link/create", submissionsAPI.CreateLink(db))
+	r.With(authMiddleware).Post("/submissions/link/create", submissionsAPI.CreateLink(db))
 	r.Post("/submissions/file/create", submissionsAPI.CreateFile(db))
 	r.Get("/submissions/recent/{count}", submissionsAPI.GetRecent(db))
 	r.Get("/submissions/{id}", submissionsAPI.Get(db))
@@ -41,7 +43,7 @@ func InitializeRouter(db *pgxpool.Pool, mc *memcache.Client, sessionManager *scs
 	r.Patch("/feedback/{id}", feedbackAPI.Update(db))
 	r.Patch("/feedback/{id}/remove", feedbackAPI.Remove(db))
 	r.Get("/feedback/{id}/replies", feedbackAPI.Get(db))
-	r.Post("/feedback/{id}/replies", feedbackAPI.Create(db))
+	r.With(authMiddleware).Post("/feedback/{id}/replies", feedbackAPI.Create(db))
 
 	r.Get("/auth/twitch", authHandler.TwitchAuthHandler())
 	r.Get("/oauth/callback", authHandler.TwitchCallbackHandler())
