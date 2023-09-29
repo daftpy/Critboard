@@ -45,7 +45,7 @@ services:
   frontend:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: frontend/Dockerfile
     volumes:
       - app-dist:/app/dist
 
