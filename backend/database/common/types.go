@@ -47,6 +47,7 @@ type Feedback struct {
 	CreatedAt    time.Time `json:"createdAt"`
 	Replies      int       `json:"replies"`
 	Removed      bool      `json:"removed"`
+	Author       int       `json:"author"`
 }
 
 type User struct {

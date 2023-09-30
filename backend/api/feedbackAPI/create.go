@@ -5,17 +5,28 @@ import (
 	"critboard-backend/database"
 	"critboard-backend/database/common"
 	"critboard-backend/database/query/queryFeedback"
+	"critboard-backend/database/query/queryUsers"
 	"encoding/json"
+	"github.com/alexedwards/scs/v2"
 	"log"
 	"net/http"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-func Create(db *pgxpool.Pool) http.HandlerFunc {
+func Create(db *pgxpool.Pool, sessionManager *scs.SessionManager) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var payload common.FeedbackPayload
 		var errors []string
+		var twitchID = sessionManager.GetString(r.Context(), "userID")
+
+		user, err := queryUsers.GetUserByTwitchID(r.Context(), db, twitchID)
+
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
+			return
+		}
 
 		log.Println("Received a request")
 
@@ -41,7 +52,7 @@ func Create(db *pgxpool.Pool) http.HandlerFunc {
 		}
 
 		// Add the feedback
-		feedback, err := queryFeedback.Create(r.Context(), db, payload.CommentID, payload.FeedbackText)
+		feedback, err := queryFeedback.Create(r.Context(), db, payload.CommentID, payload.FeedbackText, user.ID)
 		if err != nil {
 			errors = append(errors, "Error adding feedback")
 			log.Println("Error adding submission:", err)
