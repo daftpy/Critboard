@@ -4,16 +4,28 @@ import (
 	"critboard-backend/api/responsesAPI"
 	"critboard-backend/database/common"
 	"critboard-backend/database/query/querySubmissions"
+	"critboard-backend/database/query/queryUsers"
 	"encoding/json"
+	"github.com/alexedwards/scs/v2"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"log"
 	"net/http"
 )
 
-func CreateFile(db *pgxpool.Pool) http.HandlerFunc {
+func CreateFile(db *pgxpool.Pool, sessionManager *scs.SessionManager) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var payload common.SubmissionPayload
 		var errors []string
+
+		var twitchID = sessionManager.GetString(r.Context(), "userID")
+
+		user, err := queryUsers.GetUserByTwitchID(r.Context(), db, twitchID)
+
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
+			return
+		}
 
 		log.Println("Received a request")
 
@@ -38,7 +50,7 @@ func CreateFile(db *pgxpool.Pool) http.HandlerFunc {
 
 		if len(errors) == 0 {
 			submission, err := querySubmissions.CreateFile(
-				r.Context(), db, payload.Title, payload.Description, payload.Type, payload.UploadData,
+				r.Context(), db, payload.Title, payload.Description, payload.Type, payload.UploadData, user.ID,
 			)
 			if err != nil {
 				errors = append(errors, "Error adding submission")
