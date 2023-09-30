@@ -7,24 +7,22 @@ import (
 	"github.com/pkg/errors"
 )
 
-func CreateUser(db *pgxpool.Pool, twitchID string, username string, email string) (*common.UserData, error) {
-	var result common.UserData
+func CreateUser(db *pgxpool.Pool, twitchID string, username string, email string) (*common.User, error) {
+	var result common.User
 
 	err := db.QueryRow(
 		context.Background(),
 		`
         INSERT INTO users (twitch_id, username, email)
         VALUES ($1, $2, $3)
-        RETURNING id, twitch_id, username, email, created_at, updated_at
+        RETURNING id, twitch_id, username, email
         `,
 		twitchID, username, email,
 	).Scan(
-		&result.UserID,
+		&result.ID,
 		&result.TwitchID,
 		&result.Username,
 		&result.Email,
-		&result.CreatedAt,
-		&result.UpdatedAt,
 	)
 
 	if err != nil {

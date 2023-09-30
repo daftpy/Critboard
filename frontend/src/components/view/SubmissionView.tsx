@@ -47,7 +47,9 @@ export default function SubmissionView() {
             <div className={styles.submissionHeader}>
               <h1 className={styles.title}>{submissionData.title}</h1>
               <div className={styles.submissionMeta}>
-                <div className={styles.author}>Author</div>
+                <div className={styles.author}>
+                  {submissionData.author.username}
+                </div>
                 <div className={styles.created}>
                   Submitted{" "}
                   {formatDistanceToNow(new Date(submissionData.createdAt), {

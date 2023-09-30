@@ -122,7 +122,7 @@ export function useFeedbackManager(
       removeButton,
       replyButton,
       createdAt: feedback.createdAt,
-      author: "author",
+      author: feedback.author,
       removed: feedback.removed,
     };
   };

@@ -3,9 +3,10 @@ import DeleteButton, { DeleteButtonProps } from "./ui/DeleteButton.tsx";
 import ReplyButton, { ReplyButtonProps } from "./ui/ReplyButton.tsx";
 import styles from "../styles/FeedbackMeta.module.css";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
+import { User } from "../types/feedbackTypes.ts";
 
 export type FeedbackMetaProps = {
-  author: string;
+  author: User;
   createdAt: string;
   editButton: EditButtonProps;
   removeButton: DeleteButtonProps;
@@ -25,7 +26,7 @@ export default function FeedbackMeta(props: FeedbackMetaProps) {
         <div className={`${styles.collapsable} ${confirm && styles.collapse}`}>
           <div className={styles.collapseWrapper}>
             <div className={`${styles.author} ${styles.ellipsis}`}>
-              {author}
+              {author.username}
             </div>
 
             <div className={`${styles.createdAt} ${styles.ellipsis}`}>

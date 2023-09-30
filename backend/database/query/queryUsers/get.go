@@ -26,3 +26,25 @@ func GetUserByTwitchID(ctx context.Context, db *pgxpool.Pool, twitchID string) (
 
 	return user, nil
 }
+
+func GetUserByID(ctx context.Context, db *pgxpool.Pool, ID int) (common.User, error) {
+	var user common.User
+	println("ID ID ID:", ID)
+
+	err := db.QueryRow(ctx, `
+        SELECT id, twitch_id, username, email
+        FROM users
+        WHERE id = $1
+    `, ID).Scan(
+		&user.ID,
+		&user.TwitchID,
+		&user.Username,
+		&user.Email,
+	)
+
+	if err != nil {
+		return common.User{}, err
+	}
+
+	return user, nil
+}

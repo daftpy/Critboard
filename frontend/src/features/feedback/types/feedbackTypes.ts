@@ -5,6 +5,14 @@ export type FeedbackData = {
   replies: number;
   commentId: string;
   removed: boolean;
+  author: User;
+};
+
+export type User = {
+  id: number;
+  twitchId: number;
+  username: string;
+  email: string;
 };
 
 export type FeedbackFormData = {

@@ -52,7 +52,7 @@ type Feedback struct {
 
 type User struct {
 	ID       int    `json:"id"`
-	TwitchID string `json:"twitchId"`
+	TwitchID int    `json:"twitchId"`
 	Username string `json:"username"`
 	Email    string `json:"email"`
 }
@@ -64,13 +64,4 @@ type FeedbackPayload struct {
 
 type SubmissionsResponse struct {
 	Submissions []Submission `json:"submissions"`
-}
-
-type UserData struct {
-	UserID    int       `json:"userId"`
-	TwitchID  string    `json:"twitchId"`
-	Username  string    `json:"username"`
-	Email     string    `json:"email"`
-	CreatedAt time.Time `json:"createdAt"`
-	UpdatedAt time.Time `json:"updatedAt"`
 }
