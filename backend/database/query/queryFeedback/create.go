@@ -11,7 +11,7 @@ func Create(
 	ctx context.Context,
 	db *pgxpool.Pool, parentID string,
 	feedbackText string,
-	userID int,
+	user common.User,
 ) (common.Feedback, error) {
 	var feedback common.Feedback
 	var commentID string
@@ -31,11 +31,11 @@ func Create(
 		INSERT INTO feedback (commentable_id, parent_commentable_id, feedback_text, author)
 		VALUES ($1, $2, $3, $4)
 		RETURNING commentable_id, feedback_text, created_at
-	`, commentID, parentID, feedbackText, userID).Scan(
+	`, commentID, parentID, feedbackText, user.ID).Scan(
 		&feedback.CommentID, &feedback.FeedbackText, &feedback.CreatedAt,
 	)
 
-	feedback.Author = userID
+	feedback.Author = user
 
 	if err != nil {
 		return common.Feedback{}, err

@@ -48,9 +48,12 @@ func CreateFile(db *pgxpool.Pool, sessionManager *scs.SessionManager) http.Handl
 		/////////////////////////////////
 		println("PAYLOAD_DATA_LOOK_HERE:", payload.UploadData.UploadID, payload.UploadData.FileExt)
 
+		// Retrieve user object
+		user, err = queryUsers.GetUserByTwitchID(r.Context(), db, twitchID)
+
 		if len(errors) == 0 {
 			submission, err := querySubmissions.CreateFile(
-				r.Context(), db, payload.Title, payload.Description, payload.Type, payload.UploadData, user.ID,
+				r.Context(), db, payload.Title, payload.Description, payload.Type, payload.UploadData, user,
 			)
 			if err != nil {
 				errors = append(errors, "Error adding submission")

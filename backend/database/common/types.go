@@ -14,7 +14,7 @@ type Submission struct {
 	Title         string          `json:"title"`
 	Description   string          `json:"description"`
 	Type          SubmissionType  `json:"type"`
-	Author        int             `json:"author"`
+	Author        User            `json:"author"`
 	LinkDetail    *LinkSubmission `json:"linkDetail,omitempty"`
 	FileDetail    *UploadData     `json:"fileDetail,omitempty"`
 	CreatedAt     time.Time       `json:"createdAt"`
@@ -47,7 +47,7 @@ type Feedback struct {
 	CreatedAt    time.Time `json:"createdAt"`
 	Replies      int       `json:"replies"`
 	Removed      bool      `json:"removed"`
-	Author       int       `json:"author"`
+	Author       User      `json:"author"`
 }
 
 type User struct {

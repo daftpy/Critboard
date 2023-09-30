@@ -54,10 +54,12 @@ func CreateLink(db *pgxpool.Pool, sessionManager *scs.SessionManager) http.Handl
 			errors = append(errors, "Error parsing link")
 		}
 
+		user, err = queryUsers.GetUserByTwitchID(r.Context(), db, twitchID)
+
 		// After validating the payload, attempt to create the submission
 		if len(errors) == 0 {
 			submission, err := querySubmissions.CreateLink(
-				r.Context(), db, payload.Title, payload.Description, payload.Type, payload.Link, user.ID,
+				r.Context(), db, payload.Title, payload.Description, payload.Type, payload.Link, user,
 			)
 
 			if err != nil {

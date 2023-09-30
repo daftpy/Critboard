@@ -52,7 +52,7 @@ func Create(db *pgxpool.Pool, sessionManager *scs.SessionManager) http.HandlerFu
 		}
 
 		// Add the feedback
-		feedback, err := queryFeedback.Create(r.Context(), db, payload.CommentID, payload.FeedbackText, user.ID)
+		feedback, err := queryFeedback.Create(r.Context(), db, payload.CommentID, payload.FeedbackText, user)
 		if err != nil {
 			errors = append(errors, "Error adding feedback")
 			log.Println("Error adding submission:", err)
