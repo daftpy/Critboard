@@ -1,4 +1,5 @@
 import { UploadFileResponse } from "./serviceTypes.ts";
+import { User } from "../../feedback/types/feedbackTypes.ts";
 
 export type SubmissionData = {
   fileDetail?: FileDetails;
@@ -29,7 +30,7 @@ export type SubmissionFormData = {
 export type SubmissionPreviewData = {
   commentId: string;
   title: string;
-  author: string;
+  author: User;
   createdAt: string;
   description: string;
   type: "FILE" | "LINK";

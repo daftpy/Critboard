@@ -80,19 +80,24 @@ func GetRecentSubmissions(ctx context.Context, db *pgxpool.Pool, count int) ([]c
 	var submissions []common.Submission
 
 	query := `
-		SELECT s.commentable_id, s.title, s.description, s.type, s.created_at, s.updated_at, 
-		       l.link,
-		       u.id,
-		       u.file_path,
-		       u.file_name,
-		       u.file_extension,
-		       COUNT(fb.commentable_id) AS feedback_count
+		SELECT s.commentable_id, s.title, s.description, s.type, s.created_at, s.updated_at,
+				l.link,
+				u.id,
+				u.file_path,
+				u.file_name,
+				u.file_extension,
+				COUNT(fb.commentable_id) AS feedback_count,
+				a.id AS user_id,
+				a.twitch_id,
+				a.username,
+				a.email
 		FROM submissions s
 		LEFT JOIN link_submissions l ON s.commentable_id = l.id
 		LEFT JOIN file_submissions f ON s.commentable_id = f.id
 		LEFT JOIN file_uploads u ON f.data = u.id
 		LEFT JOIN feedback fb ON s.commentable_id = fb.parent_commentable_id
-		GROUP BY s.commentable_id,s.created_at, l.link, u.id
+		LEFT JOIN users a ON s.author = a.id
+		GROUP BY s.commentable_id,s.created_at, l.link, u.id, a.id
 		ORDER BY s.created_at DESC
 		LIMIT $1
     `
@@ -120,6 +125,10 @@ func GetRecentSubmissions(ctx context.Context, db *pgxpool.Pool, count int) ([]c
 			&uploadData.FileName,
 			&uploadData.FileExt,
 			&submission.FeedbackCount,
+			&submission.Author.ID,
+			&submission.Author.TwitchID,
+			&submission.Author.Username,
+			&submission.Author.Email,
 		)
 		if err != nil {
 			return nil, err

@@ -22,7 +22,7 @@ export function SubmissionPreview({ submission }: PreviewProps) {
               </Link>
             </h3>
             <div className={styles.meta}>
-              <div className={styles.author}>Author</div>
+              <div className={styles.author}>{submission.author.username}</div>
               <div>
                 {formatDistanceToNow(new Date(submission.createdAt), {
                   addSuffix: true,
