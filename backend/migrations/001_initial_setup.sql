@@ -34,7 +34,9 @@ CREATE TABLE IF NOT EXISTS submissions (
     type submission_type NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    FOREIGN KEY (commentable_id) REFERENCES commentables(id)
+    author INT NOT NULL,
+    FOREIGN KEY (commentable_id) REFERENCES commentables(id),
+    FOREIGN KEY (author) REFERENCES users(id)
 );
 
 -- Create link_submissions table if it doesn't exist
@@ -69,8 +71,10 @@ CREATE TABLE IF NOT EXISTS feedback (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     deleted BOOLEAN DEFAULT FALSE,
+    author INT NOT NULL,
     FOREIGN KEY (commentable_id) REFERENCES commentables(id),
-    FOREIGN KEY (parent_commentable_id) REFERENCES commentables(id)
+    FOREIGN KEY (parent_commentable_id) REFERENCES commentables(id),
+    FOREIGN KEY (author) REFERENCES users(id)
 );
 
 -- Create or replace the update_timestamp function

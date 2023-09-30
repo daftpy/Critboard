@@ -14,6 +14,7 @@ type Submission struct {
 	Title         string          `json:"title"`
 	Description   string          `json:"description"`
 	Type          SubmissionType  `json:"type"`
+	Author        int             `json:"author"`
 	LinkDetail    *LinkSubmission `json:"linkDetail,omitempty"`
 	FileDetail    *UploadData     `json:"fileDetail,omitempty"`
 	CreatedAt     time.Time       `json:"createdAt"`

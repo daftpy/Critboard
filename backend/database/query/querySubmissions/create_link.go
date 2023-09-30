@@ -14,6 +14,7 @@ func CreateLink(ctx context.Context,
 	description string,
 	submissionType common.SubmissionType,
 	link string,
+	userID int,
 ) (common.Submission, error) {
 	var commentableID string
 	var createdAt, updatedAt time.Time
@@ -29,10 +30,10 @@ func CreateLink(ctx context.Context,
 
 	// Create the submission
 	err = db.QueryRow(ctx, `
-			INSERT INTO submissions (title, description, type, commentable_id) 
-			VALUES ($1, $2, $3, $4)
+			INSERT INTO submissions (title, description, type, commentable_id, author) 
+			VALUES ($1, $2, $3, $4, $5)
 			RETURNING commentable_id, created_at, updated_at
-		`, title, description, submissionType, commentableID).Scan(&commentableID, &createdAt, &updatedAt)
+		`, title, description, submissionType, commentableID, userID).Scan(&commentableID, &createdAt, &updatedAt)
 	if err != nil {
 		return common.Submission{}, err
 	}
@@ -50,6 +51,7 @@ func CreateLink(ctx context.Context,
 		Title:       title,
 		Description: description,
 		Type:        submissionType,
+		Author:      userID,
 		LinkDetail:  &common.LinkSubmission{Link: link},
 		CreatedAt:   createdAt,
 		UpdatedAt:   updatedAt,

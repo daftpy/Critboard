@@ -24,6 +24,7 @@ func GetByID(ctx context.Context, db *pgxpool.Pool, submissionID string) (common
         SELECT s.commentable_id, s.title, s.description, s.type, s.created_at, s.updated_at,
                l.link,
                u.id, u.file_path, u.file_name, u.file_extension
+               
         FROM submissions s
         LEFT JOIN link_submissions l ON s.commentable_id = l.id
         LEFT JOIN file_submissions f ON s.commentable_id = f.id

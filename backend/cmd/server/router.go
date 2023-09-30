@@ -34,7 +34,7 @@ func InitializeRouter(db *pgxpool.Pool, mc *memcache.Client, sessionManager *scs
 
 	// Routes
 	r.Post("/uploads", uploadAPI.UploadFile(db))
-	r.With(authMiddleware).Post("/submissions/link/create", submissionsAPI.CreateLink(db))
+	r.With(authMiddleware).Post("/submissions/link/create", submissionsAPI.CreateLink(db, sessionManager))
 	r.Post("/submissions/file/create", submissionsAPI.CreateFile(db))
 	r.Get("/submissions/recent/{count}", submissionsAPI.GetRecent(db))
 	r.Get("/submissions/{id}", submissionsAPI.Get(db))
