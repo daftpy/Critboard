@@ -11,6 +11,7 @@ export function useSubmissionForm(
   navigate: NavigateFunction,
 ) {
   const [formData, setFormData] = useState<SubmissionFormData>(initialData);
+  const [formErrors, setFormErrors] = useState<string[]>([]);
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
@@ -83,6 +84,7 @@ export function useSubmissionForm(
       });
     } else {
       console.log(response.errors);
+      setFormErrors(response.errors);
     }
   };
 
@@ -90,6 +92,7 @@ export function useSubmissionForm(
     formData,
     setFormData,
     currentType,
+    formErrors,
     changeType,
     handleChange,
     handleSubmit,

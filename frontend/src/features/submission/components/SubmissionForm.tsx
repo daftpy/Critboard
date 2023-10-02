@@ -18,6 +18,7 @@ export default function SubmissionForm() {
 
   const {
     formData,
+    formErrors,
     currentType,
     changeType,
     handleChange,
@@ -29,7 +30,12 @@ export default function SubmissionForm() {
   const typeField =
     currentType === "LINK" ? (
       <>
-        <label>Link</label>
+        <label>
+          Link{" "}
+          {formErrors.includes("Error parsing link") && (
+            <span className={styles.error}>- error parsing</span>
+          )}
+        </label>
         <TextInput
           name="link"
           value={formData.link ? formData.link : ""}
@@ -54,7 +60,12 @@ export default function SubmissionForm() {
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
       <div className={styles.inputField}>
-        <label>Title</label>
+        <label>
+          Title{" "}
+          {formErrors.includes("Title too short") && (
+            <span className={styles.error}>- too short</span>
+          )}
+        </label>
         <TextInput
           name="title"
           value={formData.title}
@@ -63,7 +74,13 @@ export default function SubmissionForm() {
         />
       </div>
       <div className={styles.inputField}>
-        <label>Description</label>
+        <label>
+          Description{" "}
+          {formErrors.includes("Description too short") && (
+            <span className={styles.error}>- too short</span>
+          )}
+        </label>
+
         <textarea
           onChange={handleChange}
           className={styles.textArea}
