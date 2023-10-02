@@ -46,6 +46,7 @@ func (a *AuthHandler) TwitchCallbackHandler() http.HandlerFunc {
 		}
 		defer res.Body.Close()
 
+		// ID (twitchID) is returned as string
 		var userInfo struct {
 			Data []struct {
 				ID    string `json:"id"`
