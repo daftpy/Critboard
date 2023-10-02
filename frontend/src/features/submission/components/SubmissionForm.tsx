@@ -45,7 +45,13 @@ export default function SubmissionForm() {
       </>
     ) : (
       <>
-        <label>File</label>
+        <label>
+          File{" "}
+          {formErrors.includes("No file selected") && (
+            <span className={styles.error}>- none selected</span>
+          )}
+        </label>
+
         <input
           type="file"
           name="file"

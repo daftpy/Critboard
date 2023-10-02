@@ -65,7 +65,9 @@ export function useSubmissionForm(
         }));
       }
     } else {
-      console.error("No file selected.");
+      const newErrors = [...formErrors, "No file selected"];
+      setFormErrors(newErrors);
+      console.error("No file selected");
     }
   };
 
