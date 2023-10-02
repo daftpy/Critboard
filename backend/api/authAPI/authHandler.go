@@ -1,6 +1,7 @@
 package authAPI
 
 import (
+	"fmt"
 	"github.com/alexedwards/scs/v2"
 	"github.com/bradfitz/gomemcache/memcache"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -19,12 +20,16 @@ type AuthHandler struct {
 }
 
 func NewAuthHandler(db *pgxpool.Pool, mc *memcache.Client, sessionManager *scs.SessionManager) *AuthHandler {
+	// Set the callback url using the env variable.
+	serverDomain := os.Getenv("SERVER_DOMAIN")
+	redirectURL := fmt.Sprintf("%s/api/oauth/callback", serverDomain)
+
 	return &AuthHandler{
 		db: db,
 		oauthConfig: &oauth2.Config{
 			ClientID:     os.Getenv("TWITCH_CLIENT_ID"),
 			ClientSecret: os.Getenv("TWITCH_CLIENT_SECRET"),
-			RedirectURL:  "http://localhost:8080/api/oauth/callback",
+			RedirectURL:  redirectURL,
 			Scopes:       []string{"user:read:email"},
 			Endpoint:     twitch.Endpoint,
 		},

@@ -35,20 +35,10 @@ services:
       - "8080:80"
     depends_on:
       - backend
-#      - frontend
     volumes:
-#      - app-dist:/usr/share/nginx/html
       - uploads-volume:/usr/share/nginx/html/uploads
       - ./nginx.dev.conf:/etc/nginx/conf.d/default.conf
-
-#  frontend:
-#    build:
-#      context: .
-#      dockerfile: frontend/Dockerfile
-#    volumes:
-#      - app-dist:/app/dist
 
 volumes:
   pgdata:
   uploads-volume:
-#  app-dist:

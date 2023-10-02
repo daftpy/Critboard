@@ -9,6 +9,7 @@ import (
 	"critboard-backend/pkg/critMiddleware"
 	"github.com/alexedwards/scs/v2"
 	"github.com/bradfitz/gomemcache/memcache"
+	"os"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
@@ -19,11 +20,13 @@ import (
 func InitializeRouter(db *pgxpool.Pool, mc *memcache.Client, sessionManager *scs.SessionManager) *chi.Mux {
 	r := chi.NewRouter()
 
+	serverDomain := os.Getenv("SERVER_DOMAIN")
+
 	// Middleware
 	r.Use(middleware.Logger)
 	r.Use(sessionManager.LoadAndSave)
 	r.Use(cors.New(cors.Options{
-		AllowedOrigins:   []string{"http://localhost:8080"},
+		AllowedOrigins:   []string{serverDomain},
 		AllowCredentials: true,
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "PATCH"},
 		Debug:            true,

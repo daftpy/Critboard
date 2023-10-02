@@ -7,6 +7,7 @@ import (
 	"golang.org/x/oauth2"
 	"log"
 	"net/http"
+	"os"
 )
 
 func (a *AuthHandler) TwitchAuthHandler() http.HandlerFunc {
@@ -82,21 +83,11 @@ func (a *AuthHandler) TwitchCallbackHandler() http.HandlerFunc {
 		println(userData)
 
 		// Create a user session, store it in the database, and send a session ID to the client
-		// ...
 		a.sessionManager.Put(r.Context(), "userID", userInfo.Data[0].ID)
 
-		//response := map[string]interface{}{
-		//	"message": "Successfully authenticated",
-		//	// ... other response data
-		//}
-		//w.Header().Set("Content-Type", "application/json")
-		//w.WriteHeader(http.StatusOK)
-		//if err := json.NewEncoder(w).Encode(response); err != nil {
-		//	log.Println("Failed to encode response:", err)
-		//	http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		//}
 		log.Println("Successfully authenticated and session created")
 
-		http.Redirect(w, r, "http://localhost:8080", http.StatusSeeOther)
+		redirectURL := os.Getenv("SERVER_DOMAIN")
+		http.Redirect(w, r, redirectURL, http.StatusSeeOther)
 	}
 }
