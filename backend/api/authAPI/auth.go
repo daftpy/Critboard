@@ -8,7 +8,15 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 )
+
+type Token struct {
+	AccessToken  string
+	TokenType    string
+	RefreshToken string
+	Expiry       time.Time
+}
 
 func (a *AuthHandler) TwitchAuthHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -27,6 +35,10 @@ func (a *AuthHandler) TwitchCallbackHandler() http.HandlerFunc {
 			http.Error(w, "Unauthorized", http.StatusUnauthorized)
 			return
 		}
+		log.Println("Access Token:", token.AccessToken)
+		log.Println("Refresh Token:", token.RefreshToken)
+		log.Println("Token Type:", token.TokenType)
+		log.Println("Expiry:", token.Expiry)
 
 		client := &http.Client{}
 		req, err := http.NewRequest("GET", "https://api.twitch.tv/helix/users", nil)
@@ -67,12 +79,14 @@ func (a *AuthHandler) TwitchCallbackHandler() http.HandlerFunc {
 			return
 		}
 
-		err = auth.StoreOAuthTokens(a.memcacheClient, userInfo.Data[0].ID, token.AccessToken, token.RefreshToken)
+		err = auth.StoreOAuthTokens(a.memcacheClient, userInfo.Data[0].ID, token.AccessToken, token.RefreshToken, token.Expiry)
 		if err != nil {
 			log.Println("Error storing OAuth tokens:", err)
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			return
 		}
+
+		log.Println(auth.GetOAuthTokens(a.memcacheClient, userInfo.Data[0].ID))
 
 		userData, err := queryUsers.CreateUser(a.db, userInfo.Data[0].ID, userInfo.Data[0].Login, userInfo.Data[0].Email)
 		if err != nil {
