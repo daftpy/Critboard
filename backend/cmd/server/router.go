@@ -36,7 +36,8 @@ func InitializeRouter(db *pgxpool.Pool, mc *memcache.Client, sessionManager *scs
 	authMiddleware := critMiddleware.AuthMiddleware(sessionManager)
 
 	// Routes
-	r.Post("/uploads", uploadAPI.UploadFile(db))
+	r.With(authMiddleware).Post("/uploads", uploadAPI.UploadFile(db))
+
 	r.With(authMiddleware).Post("/submissions/link/create", submissionsAPI.CreateLink(db, sessionManager))
 	r.With(authMiddleware).Post("/submissions/file/create", submissionsAPI.CreateFile(db, sessionManager))
 	r.Get("/submissions/recent/{count}", submissionsAPI.GetRecent(db))
@@ -44,8 +45,8 @@ func InitializeRouter(db *pgxpool.Pool, mc *memcache.Client, sessionManager *scs
 	r.Get("/submissions/{id}/feedback", feedbackAPI.Get(db))
 	r.With(authMiddleware).Post("/submissions/{id}/feedback", feedbackAPI.Create(db, sessionManager))
 
-	r.Patch("/feedback/{id}", feedbackAPI.Update(db))
-	r.Patch("/feedback/{id}/remove", feedbackAPI.Remove(db))
+	r.With(authMiddleware).Patch("/feedback/{id}", feedbackAPI.Update(db))
+	r.With(authMiddleware).Patch("/feedback/{id}/remove", feedbackAPI.Remove(db))
 	r.Get("/feedback/{id}/replies", feedbackAPI.Get(db))
 	r.With(authMiddleware).Post("/feedback/{id}/replies", feedbackAPI.Create(db, sessionManager))
 
