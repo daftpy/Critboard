@@ -7,13 +7,13 @@ import (
 	"time"
 )
 
-func StoreOAuthTokens(mc *memcache.Client, userID, accessToken, refreshToken string, expiry time.Time) error {
+func StoreOAuthTokens(mc *memcache.Client, userID string, accessToken []byte, refreshToken []byte, expiry time.Time) error {
 	// Convert the expiration time
 	expirationStr := expiry.Format(time.RFC3339)
 
 	err := mc.Set(&memcache.Item{
 		Key:   "access_token:" + userID,
-		Value: []byte(accessToken),
+		Value: accessToken,
 	})
 	if err != nil {
 		return err
@@ -21,7 +21,7 @@ func StoreOAuthTokens(mc *memcache.Client, userID, accessToken, refreshToken str
 
 	err = mc.Set(&memcache.Item{
 		Key:   "refresh_token:" + userID,
-		Value: []byte(refreshToken),
+		Value: refreshToken,
 	})
 	if err != nil {
 		return err
@@ -54,7 +54,7 @@ func IsTokenExpired(mc *memcache.Client, userID string) (bool, error) {
 	return time.Now().After(expirationTime), nil
 }
 
-func GetOAuthTokens(mc *memcache.Client, userID string) (string, string, error) {
+func GetOAuthTokens(mc *memcache.Client, userID string, encryptionKey []byte) (string, string, error) {
 	expired, err := IsTokenExpired(mc, userID)
 
 	if err != nil {
@@ -65,15 +65,29 @@ func GetOAuthTokens(mc *memcache.Client, userID string) (string, string, error) 
 		// Handle refresh
 	}
 
+	// Retrieve the access token
 	accessTokenItem, err := mc.Get("access_token:" + userID)
 	if err != nil {
 		return "", "", err
 	}
 
+	// Retrieve the refresh token
 	refreshTokenItem, err := mc.Get("refresh_token:" + userID)
 	if err != nil {
 		return "", "", err
 	}
 
-	return string(accessTokenItem.Value), string(refreshTokenItem.Value), nil
+	// Decrypt the access token
+	accessToken, err := Decrypt(accessTokenItem.Value, encryptionKey)
+	if err != nil {
+		return "", "", err
+	}
+
+	// Decrypt the refresh token
+	refreshToken, err := Decrypt(refreshTokenItem.Value, encryptionKey)
+	if err != nil {
+		return "", "", err
+	}
+
+	return string(accessToken), string(refreshToken), nil
 }

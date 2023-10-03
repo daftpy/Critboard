@@ -17,7 +17,7 @@ import (
 	"github.com/rs/cors"
 )
 
-func InitializeRouter(db *pgxpool.Pool, mc *memcache.Client, sessionManager *scs.SessionManager) *chi.Mux {
+func InitializeRouter(db *pgxpool.Pool, mc *memcache.Client, sessionManager *scs.SessionManager, encryptionKey []byte) *chi.Mux {
 	r := chi.NewRouter()
 
 	serverDomain := os.Getenv("SERVER_DOMAIN")
@@ -32,7 +32,7 @@ func InitializeRouter(db *pgxpool.Pool, mc *memcache.Client, sessionManager *scs
 		Debug:            true,
 	}).Handler)
 
-	authHandler := authAPI.NewAuthHandler(db, mc, sessionManager)
+	authHandler := authAPI.NewAuthHandler(db, mc, sessionManager, encryptionKey)
 	authMiddleware := critMiddleware.AuthMiddleware(sessionManager)
 
 	// Routes

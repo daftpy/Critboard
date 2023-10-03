@@ -17,9 +17,10 @@ type AuthHandler struct {
 	httpClient     *http.Client
 	memcacheClient *memcache.Client
 	sessionManager *scs.SessionManager
+	encryptionKey  []byte
 }
 
-func NewAuthHandler(db *pgxpool.Pool, mc *memcache.Client, sessionManager *scs.SessionManager) *AuthHandler {
+func NewAuthHandler(db *pgxpool.Pool, mc *memcache.Client, sessionManager *scs.SessionManager, encryptionKey []byte) *AuthHandler {
 	// Set the callback url using the env variable.
 	serverDomain := os.Getenv("SERVER_DOMAIN")
 	redirectURL := fmt.Sprintf("%s/api/oauth/callback", serverDomain)
@@ -36,5 +37,6 @@ func NewAuthHandler(db *pgxpool.Pool, mc *memcache.Client, sessionManager *scs.S
 		httpClient:     &http.Client{},
 		memcacheClient: mc,
 		sessionManager: sessionManager,
+		encryptionKey:  encryptionKey,
 	}
 }

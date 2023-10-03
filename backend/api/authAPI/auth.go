@@ -35,10 +35,6 @@ func (a *AuthHandler) TwitchCallbackHandler() http.HandlerFunc {
 			http.Error(w, "Unauthorized", http.StatusUnauthorized)
 			return
 		}
-		log.Println("Access Token:", token.AccessToken)
-		log.Println("Refresh Token:", token.RefreshToken)
-		log.Println("Token Type:", token.TokenType)
-		log.Println("Expiry:", token.Expiry)
 
 		client := &http.Client{}
 		req, err := http.NewRequest("GET", "https://api.twitch.tv/helix/users", nil)
@@ -79,23 +75,34 @@ func (a *AuthHandler) TwitchCallbackHandler() http.HandlerFunc {
 			return
 		}
 
-		err = auth.StoreOAuthTokens(a.memcacheClient, userInfo.Data[0].ID, token.AccessToken, token.RefreshToken, token.Expiry)
+		// Encrypt the access token
+		encryptedAccess, err := auth.Encrypt([]byte(token.AccessToken), a.encryptionKey)
+		if err != nil {
+			http.Error(w, "Internal server Error", http.StatusInternalServerError)
+			return
+		}
+
+		// Encrypt the refresh token
+		encryptedRefresh, err := auth.Encrypt([]byte(token.RefreshToken), a.encryptionKey)
+		if err != nil {
+			http.Error(w, "Internal server Error", http.StatusInternalServerError)
+			return
+		}
+
+		// Store the access and refresh tokens in memcache
+		err = auth.StoreOAuthTokens(a.memcacheClient, userInfo.Data[0].ID, encryptedAccess, encryptedRefresh, token.Expiry)
 		if err != nil {
 			log.Println("Error storing OAuth tokens:", err)
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			return
 		}
 
-		log.Println(auth.GetOAuthTokens(a.memcacheClient, userInfo.Data[0].ID))
-
-		userData, err := queryUsers.CreateUser(a.db, userInfo.Data[0].ID, userInfo.Data[0].Login, userInfo.Data[0].Email)
+		_, err = queryUsers.CreateUser(a.db, userInfo.Data[0].ID, userInfo.Data[0].Login, userInfo.Data[0].Email)
 		if err != nil {
 			log.Println("Error creating user:", err)
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			return
 		}
-
-		println(userData)
 
 		// Create a user session, store it in the database, and send a session ID to the client
 		a.sessionManager.Put(r.Context(), "userID", userInfo.Data[0].ID)

@@ -4,6 +4,7 @@ import (
 	"context"
 	"critboard-backend/database"
 	"critboard-backend/migrations"
+	"critboard-backend/pkg/auth"
 	"github.com/alexedwards/scs/v2"
 	"github.com/bradfitz/gomemcache/memcache"
 	"log"
@@ -22,13 +23,16 @@ func main() {
 	sessionManager.Cookie.SameSite = http.SameSiteNoneMode
 	sessionManager.Cookie.Secure = false
 
-	router := initializeServer(ctx, sessionManager)
+	router, err := initializeServer(ctx, sessionManager)
+	if err != nil {
+		return
+	}
 
 	http.ListenAndServe(":3000", router)
 	log.Println("Server status: Running")
 }
 
-func initializeServer(ctx context.Context, sessionManager *scs.SessionManager) *chi.Mux {
+func initializeServer(ctx context.Context, sessionManager *scs.SessionManager) (*chi.Mux, error) {
 	db := database.InitializeDB(ctx)
 	database.TestConn(ctx, db)
 
@@ -36,7 +40,31 @@ func initializeServer(ctx context.Context, sessionManager *scs.SessionManager) *
 
 	migrations.RunInitialMigrations(ctx, db)
 
-	r := InitializeRouter(db, mc, sessionManager)
+	key, err := generateKey()
 
-	return r
+	if err != nil {
+		return nil, err
+	}
+
+	r := InitializeRouter(db, mc, sessionManager, key)
+
+	return r, nil
+}
+
+func generateKey() ([]byte, error) {
+	salt, err := auth.GenerateSalt()
+
+	if err != nil {
+		log.Println("Error generating salt:", err)
+		return nil, err
+	}
+
+	var seed = auth.DeriveSeed()
+
+	iterations := 4096
+	keyLen := 32
+
+	key := auth.DeriveKey(seed, salt, iterations, keyLen)
+
+	return key, nil
 }
