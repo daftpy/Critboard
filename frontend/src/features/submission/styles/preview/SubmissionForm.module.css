@@ -36,4 +36,7 @@
 
 .error {
   color: #d03131;
+  font-weight: 700;
+  font-size: 12px;
+  padding-left: 0.5em;
 }

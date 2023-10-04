@@ -51,6 +51,15 @@ func Create(db *pgxpool.Pool, sessionManager *scs.SessionManager) http.HandlerFu
 			errors = append(errors, "Feedback too short")
 		}
 
+		if len(errors) > 0 {
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusBadRequest)
+			if err := json.NewEncoder(w).Encode(map[string]interface{}{"errors": errors}); err != nil {
+				log.Println("Failed to encode error response:", err)
+			}
+			return
+		}
+
 		// Add the feedback
 		feedback, err := queryFeedback.Create(r.Context(), db, payload.CommentID, payload.FeedbackText, user)
 		if err != nil {
@@ -67,14 +76,6 @@ func Create(db *pgxpool.Pool, sessionManager *scs.SessionManager) http.HandlerFu
 			if err := json.NewEncoder(w).Encode(response); err != nil {
 				errors = append(errors, "Failed to encode response")
 				log.Println("Failed to encode response:", err)
-			}
-		}
-
-		if len(errors) > 0 {
-			w.Header().Set("Content-Type", "application/json")
-			w.WriteHeader(http.StatusBadRequest)
-			if err := json.NewEncoder(w).Encode(map[string]interface{}{"errors": errors}); err != nil {
-				log.Println("Failed to encode error response:", err)
 			}
 		}
 	}

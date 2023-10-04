@@ -19,6 +19,7 @@ export function useFeedbackForm({
   actionType = "POST",
 }: Props) {
   const [formData, setFormData] = useState<FeedbackFormData>(initialData);
+  const [formErrors, setFormErrors] = useState<string[]>([]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
@@ -37,6 +38,7 @@ export function useFeedbackForm({
     let response;
 
     if (actionType === "POST") {
+      // If reply form, hit the reply endpoint, if not hit the feedback endpoint
       response = replyForm
         ? await createReply(formData)
         : await createFeedback(formData);
@@ -54,11 +56,13 @@ export function useFeedbackForm({
       }));
     } else {
       console.log(response.errors);
+      setFormErrors(response.errors);
     }
   };
 
   return {
     formData,
+    formErrors,
     setFormData,
     handleChange,
     handleSubmit,

@@ -28,9 +28,13 @@ export default function FeedbackForm({
     commentId: commentId,
   };
 
-  const { formData, setFormData, handleChange, handleSubmit } = useFeedbackForm(
-    { initialData, onSubmit, replyForm, actionType },
-  );
+  const { formData, setFormData, formErrors, handleChange, handleSubmit } =
+    useFeedbackForm({
+      initialData,
+      onSubmit,
+      replyForm,
+      actionType,
+    });
 
   useEffect(() => {
     setFormData((prevData) => ({
@@ -45,13 +49,18 @@ export default function FeedbackForm({
       className={styles.feedbackForm}
       onSubmit={handleSubmit}
     >
+      {formErrors.includes("Feedback too short") && (
+        <label className={styles.error}>Feedback too short</label>
+      )}
       <textarea
         className={`${styles.textArea}`}
         name="feedbackText"
         value={formData.feedbackText}
         onChange={handleChange}
       />
-      <Button message={buttonText ? buttonText : "Submit"} />
+      <div className={styles.buttonWrapper}>
+        <Button message={buttonText ? buttonText : "Submit"} />
+      </div>
     </form>
   );
 }

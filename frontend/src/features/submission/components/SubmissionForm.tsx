@@ -33,7 +33,7 @@ export default function SubmissionForm() {
         <label>
           Link{" "}
           {formErrors.includes("Error parsing link") && (
-            <span className={styles.error}>- error parsing</span>
+            <span className={styles.error}> error parsing</span>
           )}
         </label>
         <TextInput
@@ -48,7 +48,7 @@ export default function SubmissionForm() {
         <label>
           File{" "}
           {formErrors.includes("No file selected") && (
-            <span className={styles.error}>- none selected</span>
+            <span className={styles.error}> none selected</span>
           )}
         </label>
 
@@ -69,7 +69,7 @@ export default function SubmissionForm() {
         <label>
           Title{" "}
           {formErrors.includes("Title too short") && (
-            <span className={styles.error}>- too short</span>
+            <span className={styles.error}> too short</span>
           )}
         </label>
         <TextInput
@@ -83,7 +83,7 @@ export default function SubmissionForm() {
         <label>
           Description{" "}
           {formErrors.includes("Description too short") && (
-            <span className={styles.error}>- too short</span>
+            <span className={styles.error}> too short</span>
           )}
         </label>
 

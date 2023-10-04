@@ -1,7 +1,6 @@
 .feedbackForm {
   display: flex;
   flex-direction: column;
-  gap: 1em;
 }
 
 .textArea {
@@ -16,4 +15,16 @@
   outline: 3px #c0c0c0 solid;
   border: 0;
   outline-offset: -3px;
+}
+
+.error {
+  color: #d03131;
+  font-size: 12px;
+  font-weight: 700;
+  padding-bottom: 0.5em;
+}
+
+.buttonWrapper {
+  margin-top: 1em;
+  width: 100%;
 }
