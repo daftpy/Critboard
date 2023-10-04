@@ -12,7 +12,7 @@ export const UserProvider = ({ children }: Props) => {
   useEffect(() => {
     const fetchUsers = async () => {
       const res = await getUsers();
-      setUsername(res.user.username);
+      res.user && setUsername(res.user.username);
     };
 
     fetchUsers();

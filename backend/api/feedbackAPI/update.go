@@ -5,19 +5,31 @@ import (
 	"critboard-backend/database"
 	"critboard-backend/database/common"
 	"critboard-backend/database/query/queryFeedback"
+	"critboard-backend/database/query/queryUsers"
 	"encoding/json"
+	"github.com/alexedwards/scs/v2"
 	"log"
 	"net/http"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-func Update(db *pgxpool.Pool) http.HandlerFunc {
+func Update(db *pgxpool.Pool, sessionManager *scs.SessionManager) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var payload common.FeedbackPayload
 		var errors []string
 
 		log.Println("Received an update request")
+
+		// Get the userID
+		var twitchID = sessionManager.GetString(r.Context(), "userID")
+		user, err := queryUsers.GetUserByTwitchID(r.Context(), db, twitchID)
+
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
+			return
+		}
 
 		// Decode payload
 		if err := json.NewDecoder(r.Body).Decode(&payload); err != nil {
@@ -41,7 +53,7 @@ func Update(db *pgxpool.Pool) http.HandlerFunc {
 		}
 
 		// Update the feedback
-		feedback, err := queryFeedback.Update(r.Context(), db, payload.CommentID, payload.FeedbackText)
+		feedback, err := queryFeedback.Update(r.Context(), db, payload.CommentID, payload.FeedbackText, user)
 		if err != nil {
 			errors = append(errors, "Error updating feedback")
 			log.Println("Error updating feedback:", err)

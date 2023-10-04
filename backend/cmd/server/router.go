@@ -45,7 +45,7 @@ func InitializeRouter(db *pgxpool.Pool, mc *memcache.Client, sessionManager *scs
 	r.Get("/submissions/{id}/feedback", feedbackAPI.Get(db))
 	r.With(authMiddleware).Post("/submissions/{id}/feedback", feedbackAPI.Create(db, sessionManager))
 
-	r.With(authMiddleware).Patch("/feedback/{id}", feedbackAPI.Update(db))
+	r.With(authMiddleware).Patch("/feedback/{id}", feedbackAPI.Update(db, sessionManager))
 	r.With(authMiddleware).Patch("/feedback/{id}/remove", feedbackAPI.Remove(db))
 	r.Get("/feedback/{id}/replies", feedbackAPI.Get(db))
 	r.With(authMiddleware).Post("/feedback/{id}/replies", feedbackAPI.Create(db, sessionManager))
